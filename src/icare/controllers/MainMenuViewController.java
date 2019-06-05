@@ -41,7 +41,9 @@ public class MainMenuViewController implements Initializable {
         // TODO
     }    
     
-    
+    /**
+     * Passes data when a new instance of class is created.
+     */
     public void initData(Storage storage, User currentUser){
         this.storage = storage;
         this.currentUser = currentUser;
@@ -50,10 +52,16 @@ public class MainMenuViewController implements Initializable {
         this.fnameLabel.setText(fname);
     }
     
+    /**
+     * Handles the Quit button onclick event.
+     */
     public void quitButtonClicked(ActionEvent event){
         System.exit(0);
     }
     
+    /**
+     * Handles the Logout button onclick event.
+     */
     public void logoutButtonClicked(ActionEvent event) throws IOException{
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/icare/views/LoginView.fxml"));

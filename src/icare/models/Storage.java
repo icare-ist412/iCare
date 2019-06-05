@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package icare.models;
 
 import java.io.BufferedReader;
@@ -19,6 +14,10 @@ public class Storage {
     
     private ArrayList<User> userList;
     
+    /**
+     * Default constructor for this class. 
+     * @throws java.io.FileNotFoundException
+     */
     public Storage() throws FileNotFoundException{
         
         this.userList = fetchUsersFromFile();
@@ -28,22 +27,19 @@ public class Storage {
         
     }
     
-    private void displayLoginsForTesting(){
-        System.out.println("---------- Logins for testing ----------");
-        for(User u : this.userList){
-            System.out.println("Role: "+ u.getRoleType());
-            System.out.println("User ID: "+ u.getUserID());
-            System.out.println("Password: "+ u.getCredential().getPassword());
-            System.out.println();
-        }
-        System.out.println("----------------------------------------");
-        
-    }
-
+    /**
+     * Returns the User List 
+     * @return An ArrayList of User types
+     */
     public ArrayList<User> getUserList() {
         return userList;
     }
     
+    /**
+     * Determines if a User exists using the ID parameter. 
+     * @param id Used to compare to User's ID to determine if User exists.
+     * @return A boolean determining if User exists in UserList
+     */
     public boolean doesUserExist(String id){
         for(User u : this.userList){
             if(u.getUserID().equals(id)){
@@ -55,6 +51,11 @@ public class Storage {
         
     }
     
+    /**
+     * Gets the User whose ID matches the ID passed in. 
+     * @param id Used to identify User to fetch.
+     * @return The User matching the ID passed
+     */
     public User getUser(String id){
         
         User foundUser = null;
@@ -69,10 +70,24 @@ public class Storage {
         
     }
     
-    public void addToUserList(User u){
-        this.userList.add(u);
+    /**
+     * Adds the User to the UserList. 
+     * @param newUser User object to be added to the UserList
+     */
+    public void addToUserList(User newUser){
+        this.userList.add(newUser);
     }
     
+    private void displayLoginsForTesting(){
+        System.out.println("---------- Logins for testing ----------");
+        for(User u : this.userList){
+            System.out.println("Role: "+ u.getRoleType());
+            System.out.println("User ID: "+ u.getUserID());
+            System.out.println("Password: "+ u.getCredential().getPassword());
+            System.out.println();
+        }
+        System.out.println("----------------------------------------");
+    }
     
     private static ArrayList<User> fetchUsersFromFile() throws FileNotFoundException{
         String fileName = "users.txt";

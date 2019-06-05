@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package icare.models;
 
 /**
@@ -11,30 +6,41 @@ package icare.models;
  */
 public class User implements UserInterface {
     
-    
     private String firstName;
     private String lastName;
     private Credential credential;
 
     /**
-     *
+     * Default constructor for this class
      * @param firstName
      * @param lastName
-     * @param credential
      */
     public User(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
     }
 
+    /**
+     * Gets the role of the current User
+     * @return A String representing the User's role
+     */
     public String getRoleType(){
         String className = this.getClass().getSimpleName();
         return className;
     }
     
+    /**
+     * Gets the Credential of the current User
+     * @return This User's Credential object
+     */
     public Credential getCredential(){
         return this.credential;
     }
+    
+    /**
+     * Sets the Credential for the current User
+     * @param credential Credential to be set to this User's Credential object.
+     */
     public void setCredential(Credential credential) {
         this.credential = credential;
     }
