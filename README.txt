@@ -1,4 +1,3 @@
-# iCare
 Source code for iCare project
 
 ---------- Logins for testing ----------
