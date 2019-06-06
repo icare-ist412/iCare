@@ -1,5 +1,9 @@
 package icare.models;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 /**
  *
  * @author David Ortiz
@@ -9,15 +13,18 @@ public class User implements UserInterface {
     private String firstName;
     private String lastName;
     private Credential credential;
+    private LocalDate birthdate;
 
     /**
      * Default constructor for this class
-     * @param firstName
-     * @param lastName
      */
-    public User(String firstName, String lastName) {
+    public User(String firstName, String lastName, String dobString) {
         this.firstName = firstName;
         this.lastName = lastName;
+        
+        DateTimeFormatter formatter =  DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        birthdate = LocalDate.parse(dobString, formatter);
+        
     }
 
     /**
@@ -35,6 +42,14 @@ public class User implements UserInterface {
      */
     public Credential getCredential(){
         return this.credential;
+    }
+
+    /**
+     * Gets the User's birthdate
+     * @return A LocalDate representing this User's birthdate
+     */
+    public LocalDate getBirthdate() {
+        return birthdate;
     }
     
     /**

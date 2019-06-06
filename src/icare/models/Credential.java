@@ -18,7 +18,10 @@ class Credential {
      * Default constructor for class.
      */
     public Credential(String firstName, String lastName, String newPassword) {
-
+        String temp = lastName +  firstName.substring(0, 2);
+        
+                
+                
         userID = lastName +  firstName.substring(0, 2);
         password = newPassword;
     }

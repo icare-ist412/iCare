@@ -22,7 +22,6 @@ public class Storage {
         
         this.userList = fetchUsersFromFile();
         
-        
         displayLoginsForTesting();
         
     }
@@ -84,12 +83,13 @@ public class Storage {
             System.out.println("Role: "+ u.getRoleType());
             System.out.println("User ID: "+ u.getUserID());
             System.out.println("Password: "+ u.getCredential().getPassword());
+            System.out.println("Birthdate: "+ u.getBirthdate());
             System.out.println();
         }
         System.out.println("----------------------------------------");
     }
     
-    private static ArrayList<User> fetchUsersFromFile() throws FileNotFoundException{
+    private ArrayList<User> fetchUsersFromFile() throws FileNotFoundException{
         String fileName = "users.txt";
         
         ArrayList<User> users = new ArrayList<>();
@@ -108,35 +108,36 @@ public class Storage {
                 if(line != ""){
                     String[] type = line.split("~");
                     
-                    if(type[0].equals("patient")){
-                        
-                        
-                        String[] words = type[1].split(";");
-                        String fname = words[0];
-                        String lname = words[1];
-                        String password = words[2];
-                        
-                        Patient tempPatient = new Patient(fname, lname);
-                        tempPatient.setCredential(password);
-                        users.add(tempPatient);
-                        
-                        
-                    } else if(type[0].equals("staff")){
-                        
-                        String[] words = type[1].split(";");
-                        String fname = words[0];
-                        String lname = words[1];
-                        String password = words[2];
-                        
-                        Staff tempStaff = new Staff(fname, lname);
-                        tempStaff.setCredential(password);
-                        
-                        users.add(tempStaff);
-                        
-                        
-                    } else {
-                        
-                        System.out.println("Invalid user");
+                    switch (type[0]) {
+                        case "patient":
+                            {
+                                String[] words = type[1].split(";");
+                                String fname = words[0];
+                                String lname = words[1];
+                                String password = words[2];
+                                long insuranceID = Long.parseLong(words[3]);
+                                String dob = words[4];
+                                Patient tempPatient = new Patient(fname, lname, insuranceID, dob);
+                                tempPatient.setCredential(password);
+                                users.add(tempPatient);
+                                break;
+                            }
+                        case "staff":
+                            {
+                                String[] words = type[1].split(";");
+                                String fname = words[0];
+                                String lname = words[1];
+                                String password = words[2];
+                                String dept = words[3];
+                                String dob = words[4];
+                                Staff tempStaff = new Staff(fname, lname, dept, dob);
+                                tempStaff.setCredential(password);
+                                users.add(tempStaff);
+                                break;
+                            }
+                        default:
+                            System.out.println("Invalid user");
+                            break;
                     }
                     
                     index++;
