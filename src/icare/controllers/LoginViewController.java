@@ -67,6 +67,7 @@ public class LoginViewController implements Initializable {
             passwordField.setText("");
         } else {
             
+            
             if(storage.doesUserExist(userID)){
                 
                 this.currentUser = storage.getUser(userID);
@@ -75,7 +76,6 @@ public class LoginViewController implements Initializable {
 
                     resetScreen();
                     goToMainMenu(event);
-                    System.out.println("success");
 
                 } else {
                     statusLabel.setText("Login failed, incorrect password.");
