@@ -52,11 +52,16 @@ public class LoginViewController implements Initializable {
         loginButton.setDisable(true);
     }    
     
+    /**
+     * Passes data when a new instance of class is created.
+     */
     public void initData(Storage storage){
         this.storage = storage;
     }
     
-    @FXML
+    /**
+     * Handles the Logout button onclick event.
+     */
     public void loginBtnClicked(ActionEvent event) throws IOException {
 
         userID = userIdField.getText();
@@ -112,7 +117,6 @@ public class LoginViewController implements Initializable {
         
     }
     
-    
     private void resetScreen() {
         statusLabel.setText("");
         userIdField.setText("");
@@ -120,13 +124,16 @@ public class LoginViewController implements Initializable {
 
     }
     
-    @FXML
+    /**
+     * Handles the Quit button onclick event.
+     */
     public void quitBtnClicked(ActionEvent event) throws IOException {
         System.exit(0);
-
-
     }
     
+    /**
+     * Handles the KeyTyped event for the username and password fields.
+     */
     public void keyTyped(KeyEvent event) {
         if(!this.userIdField.getText().equals("") && !this.passwordField.getText().equals("")){
             this.loginButton.setDisable(false);
