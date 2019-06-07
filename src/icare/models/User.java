@@ -8,7 +8,7 @@ import java.time.format.DateTimeFormatter;
  *
  * @author David Ortiz
  */
-public class User implements UserInterface {
+public class User  {
     
     private String firstName;
     private String lastName;
@@ -17,6 +17,9 @@ public class User implements UserInterface {
 
     /**
      * Default constructor for this class
+     * @param firstName Sets the User's first name
+     * @param lastName Sets the User's last name
+     * @param dobString Sets the User's date of birth
      */
     public User(String firstName, String lastName, String dobString) {
         this.firstName = firstName;
@@ -60,32 +63,52 @@ public class User implements UserInterface {
         this.credential = credential;
     }
 
-    @Override
+    /**
+     * Method gets the User's first name.
+     * @return Should be configured to return a String representing the first name.
+     */
     public String getFirstName() {
         return this.firstName;
     }
 
-    @Override
+    /**
+     * Method gets the User's last name.
+     * @return A String representing the last name.
+     */
     public String getLastName() {
         return this.lastName;   
     }
 
-    @Override
+    /**
+     * Method gets the User's full name.
+     * @return A String representing the full name.
+     */
     public String getFullName() {
         return this.firstName +" "+ this.lastName;
     }
 
-    @Override
+    /**
+     * Method sets the User's Credential.
+     * @param password Will be used to set the Credential's password.
+     */
     public void setCredential(String password) {
         credential = new Credential(this.firstName, this.lastName, password); 
     }
 
-    @Override
+    /**
+     * Method authenticates the User's credentials. .
+     * @param userID Used to compare to the User's password.
+     * @param password Used to compare to the User's ID.
+     * @return A boolean representing success or failure.
+     */
     public boolean authenticate(String userID, String password) {
        return getCredential().verifyLogin(userID, password);  
     }
 
-    @Override
+    /**
+     * Method gets the User's User ID.
+     * @return A String representing the user ID.
+     */
     public String getUserID() {
         return this.getCredential().getUserID();
     }
