@@ -6,8 +6,6 @@ package icare.models;
  */
 public class Patient extends User {
     
-    private String firstName;
-    private String lastName;
     private long insuranceID;
 
     /**
