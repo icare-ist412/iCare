@@ -118,7 +118,7 @@ public class Storage {
                                 long insuranceID = Long.parseLong(words[3]);
                                 String dob = words[4];
                                 Patient tempPatient = new Patient(fname, lname, insuranceID, dob);
-                                tempPatient.setCredential(password);
+                                tempPatient.updateCredential(password);
                                 users.add(tempPatient);
                                 break;
                             }
@@ -131,7 +131,7 @@ public class Storage {
                                 String dept = words[3];
                                 String dob = words[4];
                                 Staff tempStaff = new Staff(fname, lname, dept, dob);
-                                tempStaff.setCredential(password);
+                                tempStaff.updateCredential(password);
                                 users.add(tempStaff);
                                 break;
                             }
