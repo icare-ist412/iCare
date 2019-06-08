@@ -56,14 +56,6 @@ public class User  {
     }
     
     /**
-     * Sets the Credential for the current User
-     * @param credential Credential to be set to this User's Credential object.
-     */
-    public void setCredential(Credential credential) {
-        this.credential = credential;
-    }
-
-    /**
      * Method gets the User's first name.
      * @return Should be configured to return a String representing the first name.
      */
@@ -88,10 +80,10 @@ public class User  {
     }
 
     /**
-     * Method sets the User's Credential.
+     * Method updates the User's Credential with a new password
      * @param password Will be used to set the Credential's password.
      */
-    public void setCredential(String password) {
+    public void updateCredential(String password) {
         credential = new Credential(this.firstName, this.lastName, password); 
     }
 
