@@ -10,6 +10,7 @@ import java.time.format.DateTimeFormatter;
 public class Appointment {
     
     LocalDateTime date;
+    Address address;
     
     /**
     * Default constructor for this class
@@ -81,5 +82,22 @@ public class Appointment {
         return Integer.toString(this.date.getYear());
     }
     
-    
+    /**
+    * Returns this Appointment's address
+     * @return An Address object representing the location of this Appointment
+    */
+    public Address getAddress() {
+        return address;
+    }
+
+    /**
+    * Sets this Appointment's address using Strings for street, city, state, and an int for zip.
+     *  @param String streetAddress
+     *  @param String city
+     *  @param String state
+     *  @param int zipCode
+    */
+    public void setAddress(String streetAddress, String city, String state, int zipCode) {
+        address = new Address(streetAddress, city, state, zipCode);
+    }
 }
