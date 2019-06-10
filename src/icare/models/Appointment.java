@@ -92,10 +92,17 @@ public class Appointment {
 
     /**
     * Sets this Appointment's address using Strings for street, city, state, and an int for zip.
+<<<<<<< HEAD
+     *  @param streetAddress sets the city
+     *  @param city sets the city
+     *  @param state sets the state
+     *  @param zipCode sets the zip code
+=======
      *  @param String streetAddress
      *  @param String city
      *  @param String state
      *  @param int zipCode
+>>>>>>> master
     */
     public void setAddress(String streetAddress, String city, String state, int zipCode) {
         address = new Address(streetAddress, city, state, zipCode);

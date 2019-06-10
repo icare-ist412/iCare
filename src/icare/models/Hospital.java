@@ -19,8 +19,13 @@ public class Hospital {
     
     /**
     * Hospital constructor with address and staff list parameters
+<<<<<<< HEAD
+     * @param address Stores the address of the hospital
+     * @param staffList Stores an arraylist of hospital staff members
+=======
      * @param Address Stores the address of the hospital
      * @param ArrayList Stores an arraylist of hospital staff members
+>>>>>>> master
     */
     public Hospital(Address address, ArrayList<Staff> staffList) {
         this.address = address;
@@ -29,7 +34,11 @@ public class Hospital {
     
     /**
     * Hospital constructor with address parameter
+<<<<<<< HEAD
+     * @param address Stores the address of the hospital
+=======
      * @param Address Stores the address of the hospital
+>>>>>>> master
      * Creates an empty arrayList to store staff members;
     */
     public Hospital(Address address){
@@ -47,10 +56,17 @@ public class Hospital {
 
     /**
     * Sets this Appointment's address using Strings for street, city, state, and an int for zip.
+<<<<<<< HEAD
+     *  @param streetAddress sets the street
+     *  @param city sets the city
+     *  @param state sets the state
+     *  @param zipCode sets the zip code
+=======
      *  @param String streetAddress
      *  @param String city
      *  @param String state
      *  @param int zipCode
+>>>>>>> master
     */
     public void setAddress(String streetAddress, String city, String state, int zipCode) {
         this.address = new Address(streetAddress, city, state, zipCode);
@@ -66,7 +82,11 @@ public class Hospital {
 
     /**
     * Sets the staff list for the hospital
+<<<<<<< HEAD
+     *  @param staffList sets the staff list
+=======
      *  @param ArrayList streetAddress
+>>>>>>> master
     */
     public void setStaffList(ArrayList<Staff> staffList) {
         this.staffList = staffList;
