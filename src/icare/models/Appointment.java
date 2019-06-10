@@ -100,4 +100,12 @@ public class Appointment {
     public void setAddress(String streetAddress, String city, String state, int zipCode) {
         address = new Address(streetAddress, city, state, zipCode);
     }
+    
+    /**
+    * Returns an String that stores the data for the Appointment alert.
+     * @return String appointmentAlertText
+    */
+    public String sendAppointmentAlert(){
+        return "Hello, this is a reminder that you have an appointment at " + date + "at " + address;
+    }
 }

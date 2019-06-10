@@ -7,18 +7,21 @@ package icare.models;
 public class Treatment {
     String instructions;
     String medication;
+    String prescribingDoctor;
     int numberOfWeeks;
 
     /**
     * Treatment constructor with instructions, medication, and numberOfWeeks parameters
      * @param String Treatment Instructions
+     * @param String Prescribing Doctor
      * @param String Medication Name
      * @param int Treatment duration (in weeks)
     */
-    public Treatment(String instructions, String medication, int numberOfWeeks) {
+    public Treatment(String instructions, String medication, int numberOfWeeks, String prescribingDoctor) {
         this.instructions = instructions;
         this.medication = medication;
         this.numberOfWeeks = numberOfWeeks;
+        this.prescribingDoctor = prescribingDoctor;
     }
 
     /**
@@ -46,11 +49,27 @@ public class Treatment {
     }
     
     /**
-    * Sets this treatments's medication name as a string.
+    * Sets this treatment's medication name as a string.
      *  @param String medication
     */
     public void setMedication(String medication) {
         this.medication = medication;
+    }
+    
+    /**
+    * Returns this treatment's prescribing doctor as a string
+     * @return String storing prescribing doctor's name
+    */
+    public String getPrescribingDoctor() {
+        return prescribingDoctor;
+    }
+    
+    /**
+    * Sets this treatment's medication name as a string.
+     *  @param String medication
+    */
+    public void setPrescribingDoctor(String prescribingDoctor) {
+        this.prescribingDoctor = prescribingDoctor;
     }
 
     /**
