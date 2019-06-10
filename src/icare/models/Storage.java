@@ -16,7 +16,7 @@ public class Storage {
     
     /**
      * Default constructor for this class. 
-     * @throws java.io.FileNotFoundException
+     * @throws java.io.FileNotFoundException Thrown when the user's text file is not found
      */
     public Storage() throws FileNotFoundException{
         
