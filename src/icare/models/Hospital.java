@@ -71,4 +71,20 @@ public class Hospital {
     public void setStaffList(ArrayList<Staff> staffList) {
         this.staffList = staffList;
     }
+    
+    /**
+    * Adds a staff member to the staff list for the hospital
+     *  @param Staff staffMember
+    */
+    public void addStaff(Staff staffMember) {
+        staffList.add(staffMember);
+    }
+    
+    /**
+    * Removes a staff member to the staff list for the hospital
+     *  @param Staff staffMember
+    */
+    public void removeStaff(Staff staffMember) {
+        staffList.remove(staffMember);
+    }
 }
