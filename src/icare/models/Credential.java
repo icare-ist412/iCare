@@ -28,11 +28,7 @@ class Credential {
      * @param _password Used to compare with the Credential's password
      */
     public boolean verifyLogin(String _userID, String _password) {
-        if(this.userID.toLowerCase().equals(_userID) && this.password.equals(_password)){
-            return true;
-        }
-        
-        return false;      
+        return this.userID.toLowerCase().equals(_userID) && this.password.equals(_password);      
     }
     
     /**
@@ -58,5 +54,9 @@ class Credential {
     public void setPassword(String password) {
         this.password = password;
     }
-    
+   
+    @Override
+    public String toString(){
+        return this.userID + " - " + this.password;
+    }
 }
