@@ -105,4 +105,9 @@ public class User  {
         return this.getCredential().getUserID();
     }
     
+    @Override
+    public String toString(){
+    return "Name: " + getFullName() + ", dob: " + getBirthdate() + ", role: " + getRoleType(); 
+    }
+    
 }

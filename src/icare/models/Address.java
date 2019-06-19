@@ -119,5 +119,10 @@ public class Address {
         this.zipCode = zipCode;
     }
     
+    @Override
+    public String toString(){
+        return getStreetAddress() + " " + getCity() + " "+ getState() + " " + getZipCode();
+    }
+    
     
 }

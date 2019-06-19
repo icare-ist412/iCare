@@ -133,6 +133,7 @@ public class LoginViewController implements Initializable {
     
     /**
      * Handles the KeyTyped event for the username and password fields.
+     * @param event
      */
     public void keyTyped(KeyEvent event) {
         if(!this.userIdField.getText().equals("") && !this.passwordField.getText().equals("")){

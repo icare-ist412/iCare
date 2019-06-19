@@ -28,5 +28,8 @@ public class Staff extends User {
         return department;
     }
 
-    
+    @Override
+    public String toString(){
+        return "Name: " + getFullName() + ", dob: " + getBirthdate() + ", role: " + getRoleType() + ", department: " + getDepartment();
+    }
 }
