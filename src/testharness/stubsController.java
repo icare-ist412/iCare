@@ -1,16 +1,20 @@
 package testharness;
 
 import icare.controllers.LoginViewController;
+import icare.controllers.MainMenuViewController;
 import icare.models.Address;
 import icare.models.Appointment;
+import icare.models.Hospital;
 import icare.models.Patient;
 import icare.models.Staff;
+import icare.models.Treatment;
 import icare.models.User;
 import icare.models.Bill;
 import icare.models.Insurance;
 import icare.models.Immunization;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
@@ -40,7 +44,10 @@ public class stubsController {
         InsuranceTest();
         immunizationTest();
         loginViewControllerTest();
-
+        mainMenuViewControllerTest();
+        hospitalTest();
+        storageTest();
+        treatmentTest();
     }
 
     private static void print(Object text) {
@@ -157,6 +164,7 @@ public class stubsController {
         print(FOOTER);
     }
 
+//<<<<<<< HEAD
     private static void InsuranceTest(){
         print(HEADER + "Insurance");
         
@@ -187,4 +195,50 @@ public class stubsController {
         print(testImmunization.isIsFollowUpRequired());
         print(FOOTER);
     }
+
+    private static void hospitalTest() {
+        print(HEADER + "Hospital");
+        
+        Hospital hospital = new Hospital();
+        hospital.setAddress("500 University DR", "Hershey", "PA", 17033);
+        ArrayList<Staff> staffList = new ArrayList<>();
+        staffList.add(new Staff("Jake", "Benedick", "Oncology", "01-01-1900"));
+        hospital.setStaffList(staffList);
+        
+        print(hospital.getAddress().toString());
+        print(hospital.getStaffList().toString());
+        
+        print(FOOTER);
+    }
+
+    private static void storageTest() {
+        print(HEADER + "Storage");
+        
+        print(FOOTER);
+    }
+
+    private static void treatmentTest() {
+        print(HEADER + "Treatment");
+        
+        Treatment treatment = new Treatment("Instructions", "Medication", 6);
+        print(treatment.getInstructions());
+        print(treatment.getMedication());
+        print(treatment.getNumberOfWeeks());
+        
+        print(FOOTER);
+    }
+
+    private static void mainMenuViewControllerTest() {
+       print(HEADER + "Main Menu View Controller");
+       
+       MainMenuViewController mainMenuViewController = new MainMenuViewController();
+       KeyEvent key = new KeyEvent(KeyEvent.KEY_TYPED, "Z", "Z", KeyCode.Z, false, false, false, false);
+       
+       
+       // the other methods of LoginViewController pertain to GUI and can't be test using this approach for testing
+       
+       print(FOOTER);
+    }
+
+//>>>>>>> Added mainMenuViewControllerTest, hospitalTest, storageTest, treatmentTest methods to the stubsController.
 }
