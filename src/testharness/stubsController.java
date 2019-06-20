@@ -1,16 +1,24 @@
 package testharness;
 
 import icare.controllers.LoginViewController;
+import icare.controllers.MainMenuViewController;
 import icare.models.Address;
 import icare.models.Appointment;
+import icare.models.Hospital;
 import icare.models.Patient;
 import icare.models.Staff;
+import icare.models.Storage;
+import icare.models.Treatment;
 import icare.models.User;
 import icare.models.Bill;
 import icare.models.Insurance;
 import icare.models.Immunization;
+import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
@@ -31,6 +39,10 @@ public class stubsController {
     public static void main(String[] args) {
 
         //Stubs calls
+        mainMenuViewControllerTest();
+        hospitalTest();
+        storageTest();
+        treatmentTest();
         userStub();
         staffStub();
         patientStub();
@@ -40,7 +52,6 @@ public class stubsController {
         InsuranceTest();
         immunizationTest();
         loginViewControllerTest();
-
     }
 
     private static void print(Object text) {
@@ -155,6 +166,56 @@ public class stubsController {
         print(testBill.getBillPatientID());
         print(testBill.getBillPostedDate());
         print(FOOTER);
+    }
+
+    private static void hospitalTest() {
+        print(HEADER + "Hospital");
+        
+        Hospital hospital = new Hospital();
+        hospital.setAddress("500 University DR", "Hershey", "PA", 17033);
+        ArrayList<Staff> staffList = new ArrayList<>();
+        staffList.add(new Staff("Jake", "Benedick", "Oncology", "1900-01-01"));
+        hospital.setStaffList(staffList);
+        
+        print(hospital.getAddress().toString());
+        print("StaffList: " + hospital.getStaffList().toString());
+        
+        print(FOOTER);
+    }
+
+    private static void storageTest() {
+        print(HEADER + "Storage");
+        
+        try {
+            Storage storage = new Storage();
+        } catch (FileNotFoundException ex) {
+            print("Failed to read from file");
+        }
+        
+        print(FOOTER);
+    }
+
+    private static void treatmentTest() {
+        print(HEADER + "Treatment");
+        
+        Treatment treatment = new Treatment("Instructions", "Medication", 6);
+        print(treatment.getInstructions());
+        print(treatment.getMedication());
+        print(treatment.getNumberOfWeeks());
+        
+        print(FOOTER);
+    }
+
+    private static void mainMenuViewControllerTest() {
+       print(HEADER + "Main Menu View Controller");
+       
+       MainMenuViewController mainMenuViewController = new MainMenuViewController();
+       User user = new User("David", "Ortiz", "1995-08-03");       
+       
+       // the other methods of MainMenuViewController pertain to GUI and can't be test using this approach for testing
+       
+       print("Successfully initialized mainMenuViewController with user information");
+       print(FOOTER);
     }
 
     private static void InsuranceTest(){
