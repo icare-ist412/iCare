@@ -53,6 +53,13 @@ public class MainMenuViewController implements Initializable {
     }
     
     /**
+     * Passes data when a new instance of class is created.
+     */
+    public void initData(User currentUser){
+        this.currentUser = currentUser;
+    }
+    
+    /**
      * Handles the Quit button onclick event.
      */
     public void quitButtonClicked(ActionEvent event){
