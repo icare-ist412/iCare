@@ -10,13 +10,18 @@ import icare.models.Staff;
 import icare.models.Storage;
 import icare.models.Treatment;
 import icare.models.User;
+import icare.models.Bill;
+import icare.models.Insurance;
+import icare.models.Immunization;
 import java.io.FileNotFoundException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+
 
 /**
  *
@@ -43,6 +48,9 @@ public class stubsController {
         patientStub();
         addressTest();
         appointmentTest();
+        billTest();
+        InsuranceTest();
+        immunizationTest();
         loginViewControllerTest();
     }
 
@@ -135,6 +143,30 @@ public class stubsController {
        
        print(FOOTER);
     }
+    
+    private static void billTest(){
+        print(HEADER + "Bill");
+        Bill testBill = new Bill();
+        testBill.setBillID(123456);
+        testBill.postBillToPatient("12457-890", 250);
+        print(testBill.getBillID());
+        print(testBill.getBillAmount());
+        print(testBill.getBillPatientID());
+        print(testBill.getBillPostedDate());
+        
+        print("Second test");
+        Bill testBill2 = new Bill();
+        testBill2.setBillPostedDate(LocalDate.now());
+        testBill2.setBillpatientID("123457-774");
+        testBill2.setBillAmount(150);
+        testBill2.setBillID(85412575);
+        
+        print(testBill.getBillID());
+        print(testBill.getBillAmount());
+        print(testBill.getBillPatientID());
+        print(testBill.getBillPostedDate());
+        print(FOOTER);
+    }
 
     private static void hospitalTest() {
         print(HEADER + "Hospital");
@@ -186,4 +218,34 @@ public class stubsController {
        print(FOOTER);
     }
 
+    private static void InsuranceTest(){
+        print(HEADER + "Insurance");
+        
+        Insurance testInsurance = new Insurance();
+        testInsurance.setCompanyName("Allsafe");
+        testInsurance.setCompanyPhone("800-321-1234");
+        testInsurance.setCompanyAddress("12 Healthy Way, HealthyCity, MD, 29001");
+        testInsurance.setPolicyNumber("4569874-869");
+        testInsurance.setDeductible(500);
+        
+        print(testInsurance.getCompanyName());
+        print(testInsurance.getCompanyAddress());
+        print(testInsurance.getCompanyPhone());
+        print(testInsurance.getPolicyNumber());
+        print(testInsurance.getDeductible());
+        print(FOOTER);
+    }
+    
+    private static void immunizationTest(){
+        print(HEADER + "Immunization");
+        Immunization testImmunization = new Immunization("FLU SHOT","FS");
+        testImmunization.setDateAdministered(LocalDate.now());
+        testImmunization.setIsFollowUpRequired(false);
+        
+        print(testImmunization.getDateAdministered());
+        print(testImmunization.getImmunization());
+        print(testImmunization.getImmunizationAbbreviation());
+        print(testImmunization.isIsFollowUpRequired());
+        print(FOOTER);
+    }
 }
