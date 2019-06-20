@@ -7,14 +7,21 @@ import icare.models.Appointment;
 import icare.models.Hospital;
 import icare.models.Patient;
 import icare.models.Staff;
+import icare.models.Storage;
 import icare.models.Treatment;
 import icare.models.User;
+//<<<<<<< HEAD
 import icare.models.Bill;
 import icare.models.Insurance;
 import icare.models.Immunization;
 import java.time.LocalDate;
+//=======
+import java.io.FileNotFoundException;
+//>>>>>>> Added mainMenuViewControllerTest, hospitalTest, storageTest, treatmentTest methods to the stubsController.
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
@@ -35,6 +42,10 @@ public class stubsController {
     public static void main(String[] args) {
 
         //Stubs calls
+        mainMenuViewControllerTest();
+        hospitalTest();
+        storageTest();
+        treatmentTest();
         userStub();
         staffStub();
         patientStub();
@@ -44,10 +55,6 @@ public class stubsController {
         InsuranceTest();
         immunizationTest();
         loginViewControllerTest();
-        mainMenuViewControllerTest();
-        hospitalTest();
-        storageTest();
-        treatmentTest();
     }
 
     private static void print(Object text) {
@@ -202,17 +209,23 @@ public class stubsController {
         Hospital hospital = new Hospital();
         hospital.setAddress("500 University DR", "Hershey", "PA", 17033);
         ArrayList<Staff> staffList = new ArrayList<>();
-        staffList.add(new Staff("Jake", "Benedick", "Oncology", "01-01-1900"));
+        staffList.add(new Staff("Jake", "Benedick", "Oncology", "1900-01-01"));
         hospital.setStaffList(staffList);
         
         print(hospital.getAddress().toString());
-        print(hospital.getStaffList().toString());
+        print("StaffList: " + hospital.getStaffList().toString());
         
         print(FOOTER);
     }
 
     private static void storageTest() {
         print(HEADER + "Storage");
+        
+        try {
+            Storage storage = new Storage();
+        } catch (FileNotFoundException ex) {
+            print("Failed to read from file");
+        }
         
         print(FOOTER);
     }
@@ -232,11 +245,11 @@ public class stubsController {
        print(HEADER + "Main Menu View Controller");
        
        MainMenuViewController mainMenuViewController = new MainMenuViewController();
-       KeyEvent key = new KeyEvent(KeyEvent.KEY_TYPED, "Z", "Z", KeyCode.Z, false, false, false, false);
+       User user = new User("David", "Ortiz", "1995-08-03");       
        
+       // the other methods of MainMenuViewController pertain to GUI and can't be test using this approach for testing
        
-       // the other methods of LoginViewController pertain to GUI and can't be test using this approach for testing
-       
+       print("Successfully initialized mainMenuViewController with user information");
        print(FOOTER);
     }
 
