@@ -14,9 +14,7 @@ class Credential {
      */
     public Credential(String firstName, String lastName, String newPassword) {
         String temp = lastName +  firstName.substring(0, 2);
-        
-                
-                
+           
         userID = lastName +  firstName.substring(0, 2);
         password = newPassword;
     }
@@ -28,7 +26,7 @@ class Credential {
      * @param _password Used to compare with the Credential's password
      */
     public boolean verifyLogin(String _userID, String _password) {
-        return this.userID.toLowerCase().equals(_userID) && this.password.equals(_password);      
+        return this.userID.equals(_userID) && this.password.equals(_password);      
     }
     
     /**
