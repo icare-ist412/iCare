@@ -1,6 +1,5 @@
 package testharness;
 
-import icare.controllers.LoginViewController;
 import icare.controllers.MainMenuViewController;
 import icare.models.Address;
 import icare.models.Appointment;
@@ -16,16 +15,13 @@ import icare.models.Immunization;
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 
 
 /**
  *
- * @author David Ortiz
+ * @author Group One
  */
 public class stubsController {
 
@@ -43,22 +39,34 @@ public class stubsController {
         hospitalTest();
         storageTest();
         treatmentTest();
-        userStub();
-        staffStub();
-        patientStub();
+        userTest();
+        staffTest();
+        patientTest();
         addressTest();
         appointmentTest();
         billTest();
         InsuranceTest();
         immunizationTest();
-        loginViewControllerTest();
     }
 
     private static void print(Object text) {
         System.out.println(text);
     }
+    
+    private static void test(String testName, Object item, Object shouldEqual){
+        
+        //uncomment for debugging:
+        //print(item + " == " +shouldEqual);
+        
+        if(item.equals(shouldEqual)){
+            print(testName + ": passed");
+        } else {
+            print(testName + ": failed");
+        }
+        
+    }
 
-    private static void patientStub() {
+    private static void patientTest() {
 
         print(HEADER + "Patient");
 
@@ -66,21 +74,29 @@ public class stubsController {
         print(patient.getInsuranceID());
         patient.setInsuranceID(987654321);
         print(patient.getInsuranceID());
+        
+        test("Patient.getRoleType test", patient.getRoleType(), "Patient");
+        test("Patient.getInsurance test", patient.getInsuranceID(), new Long(987654321));
+        test("Patient.getFullName test", patient.getFullName(), "David Ortiz");
+
 
         print(FOOTER);
     }
 
-    private static void staffStub() {
+    private static void staffTest() {
 
         print(HEADER + "Staff");
 
         Staff staff = new Staff("David", "Ortiz", "IT", "1995-08-03");
         print(staff.getDepartment());
 
+        test("Staff.getRoleType test", staff.getRoleType(), "Staff");
+        test("Staff.getDepartment test", staff.getDepartment(), "IT");
+            
         print(FOOTER);
     }
 
-    private static void userStub() {
+    private static void userTest() {
 
         print(HEADER + "User");
 
@@ -99,6 +115,12 @@ public class stubsController {
         print(user.getUserID());
 
         print(user.authenticate(user.getUserID(), "test"));
+        
+        test("User.getRoleType test", user.getRoleType(), "User");
+        test("User.getBirthdate test", user.getBirthdate(), LocalDate.parse("1995-08-03", DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        test("User.getFullName test", user.getFullName(), "David Ortiz");
+        test("User.getUserID test", user.getUserID(), "OrtizDa");
+        test("User.authenticate test", user.authenticate(user.getUserID(), "test"), true);
 
         print(FOOTER);
 
@@ -132,18 +154,6 @@ public class stubsController {
         
     }
 
-    private static void loginViewControllerTest() {
-       print(HEADER + "LoginViewController");
-       
-       LoginViewController loginViewController = new LoginViewController();
-       KeyEvent key = new KeyEvent(KeyEvent.KEY_TYPED, "Z", "Z", KeyCode.Z, false, false, false, false);
-       loginViewController.keyTyped(key);
-       
-       // the other methods of LoginViewController pertain to GUI and can't be test using this approach for testing
-       
-       print(FOOTER);
-    }
-    
     private static void billTest(){
         print(HEADER + "Bill");
         Bill testBill = new Bill();
