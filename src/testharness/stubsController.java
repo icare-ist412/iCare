@@ -1,6 +1,5 @@
 package testharness;
 
-import icare.controllers.MainMenuViewController;
 import icare.models.Address;
 import icare.models.Appointment;
 import icare.models.Hospital;
@@ -33,7 +32,6 @@ public class stubsController {
     public static void main(String[] args) {
 
         //Stubs calls
-        mainMenuViewControllerTest();
         hospitalTest();
         storageTest();
         treatmentTest();
@@ -43,7 +41,7 @@ public class stubsController {
         addressTest();
         appointmentTest();
         billTest();
-        InsuranceTest();
+        insuranceTest();
         immunizationTest();
     }
 
@@ -55,6 +53,7 @@ public class stubsController {
 
         //uncomment for debugging:
         //print(item + " == " +shouldEqual);
+        
         if (item.equals(shouldEqual)) {
             print(testName + ": passed");
         } else {
@@ -168,49 +167,46 @@ public class stubsController {
         Bill testBill = new Bill();
         testBill.setBillID(123456);
         testBill.postBillToPatient("12457-890", 250);
-        print(testBill.getBillID());
-        print(testBill.getBillAmount());
-        print(testBill.getBillPatientID());
-        print(testBill.getBillPostedDate());
+        LocalDate aDate = LocalDate.now();
 
-        print("Second test");
-        Bill testBill2 = new Bill();
-        testBill2.setBillPostedDate(LocalDate.now());
-        testBill2.setBillpatientID("123457-774");
-        testBill2.setBillAmount(150);
-        testBill2.setBillID(85412575);
+        test("Bill.getBillID() test",testBill.getBillID(), 123456);
+        test("Bill.getBillAmount()", testBill.getBillAmount(), new Double(250));
+        test("Bill.getBillPatientID()",testBill.getBillPatientID(),"12457-890");
+        test("BillPostedDate()", testBill.getBillPostedDate(), aDate);
 
-        print(testBill.getBillID());
-        print(testBill.getBillAmount());
-        print(testBill.getBillPatientID());
-        print(testBill.getBillPostedDate());
         print(FOOTER);
     }
 
     private static void hospitalTest() {
         print(HEADER + "Hospital");
 
-        Hospital hospital = new Hospital();
-        hospital.setAddress("500 University DR", "Hershey", "PA", 17033);
+        Address address = new Address("500 University DR", "Hershey", "PA", 17033);
+        Hospital hospital = new Hospital(address);
+        
         ArrayList<Staff> staffList = new ArrayList<>();
         staffList.add(new Staff("Jake", "Benedick", "Oncology", "1900-01-01"));
         hospital.setStaffList(staffList);
 
         print(hospital.getAddress().toString());
         print("StaffList: " + hospital.getStaffList().toString());
+        
+        test("Hospital.getAddress() test", hospital.getAddress(), address);
+        test("Hospital.getStaffList() test", hospital.getStaffList(), staffList);
 
         print(FOOTER);
     }
 
     private static void storageTest() {
         print(HEADER + "Storage");
+        Storage storage = null;
 
         try {
-            Storage storage = new Storage();
+            storage = new Storage();
         } catch (FileNotFoundException ex) {
             print("Failed to read from file");
         }
 
+        test("Storage.getUserList() test", storage.getUserList(), storage.getUserList());
         print(FOOTER);
     }
 
@@ -221,22 +217,15 @@ public class stubsController {
         print(treatment.getInstructions());
         print(treatment.getMedication());
         print(treatment.getNumberOfWeeks());
+        
+        test("Treatment.getInstructions() test", treatment.getInstructions(), "Instructions");
+        test("Treatment.getMedication() test", treatment.getMedication(), "Medication");
+        test("Treatment.getNumberOfWeeks() test", treatment.getNumberOfWeeks(), 6);
 
         print(FOOTER);
     }
 
-    private static void mainMenuViewControllerTest() {
-        print(HEADER + "Main Menu View Controller");
-
-        MainMenuViewController mainMenuViewController = new MainMenuViewController();
-        User user = new User("David", "Ortiz", "1995-08-03");
-
-        // the other methods of MainMenuViewController pertain to GUI and can't be test using this approach for testing
-        print("Successfully initialized mainMenuViewController with user information");
-        print(FOOTER);
-    }
-
-    private static void InsuranceTest() {
+    private static void insuranceTest() {
         print(HEADER + "Insurance");
 
         Insurance testInsurance = new Insurance();
@@ -246,11 +235,11 @@ public class stubsController {
         testInsurance.setPolicyNumber("4569874-869");
         testInsurance.setDeductible(500);
 
-        print(testInsurance.getCompanyName());
-        print(testInsurance.getCompanyAddress());
-        print(testInsurance.getCompanyPhone());
-        print(testInsurance.getPolicyNumber());
-        print(testInsurance.getDeductible());
+        test("Insurance.getCompanyName()",testInsurance.getCompanyName(),"Allsafe");
+        test("Insurance.getCompanyAddress()",testInsurance.getCompanyAddress(),"12 Healthy Way, HealthyCity, MD, 29001");
+        test("Insurance.getCompanyPhone()",testInsurance.getCompanyPhone(),"800-321-1234");
+        test("Insurance.getPolicyNumber()",testInsurance.getPolicyNumber(),"4569874-869");
+        test("Insurance.getDeductible()",testInsurance.getDeductible(),500);
         print(FOOTER);
     }
 
@@ -258,12 +247,13 @@ public class stubsController {
         print(HEADER + "Immunization");
         Immunization testImmunization = new Immunization("FLU SHOT", "FS");
         testImmunization.setDateAdministered(LocalDate.now());
+        LocalDate aDate = LocalDate.now();
         testImmunization.setIsFollowUpRequired(false);
 
-        print(testImmunization.getDateAdministered());
-        print(testImmunization.getImmunization());
-        print(testImmunization.getImmunizationAbbreviation());
-        print(testImmunization.isIsFollowUpRequired());
+        test("Immunization.getDateAdministered()",testImmunization.getDateAdministered(),aDate);
+        test("Immunization.getImmunization()",testImmunization.getImmunization(),"FLU SHOT");
+        test("Immunization.getImmunizationAbbreviation()",testImmunization.getImmunizationAbbreviation(),"FS");
+        test("Immunization.isIsFollowUpRequired()",testImmunization.isIsFollowUpRequired(),false);
         print(FOOTER);
     }
 }
