@@ -1,7 +1,6 @@
 package icare.models;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
@@ -103,6 +102,11 @@ public class User  {
      */
     public String getUserID() {
         return this.getCredential().getUserID();
+    }
+    
+    @Override
+    public String toString(){
+    return "Name: " + getFullName() + ", dob: " + getBirthdate() + ", role: " + getRoleType(); 
     }
     
 }

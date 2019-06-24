@@ -23,7 +23,7 @@ public class Bill {
     public void postBillToPatient(String patientID, double postedAmount){
         this.amount = postedAmount;
         this.patientID = patientID;
-        this.billPostedDate = LocalDate.now();
+        this.setBillPostedDate(LocalDate.now());
     } 
     
    /**
@@ -67,5 +67,27 @@ public class Bill {
     public int getBillID()
     {
         return this.billID;
+    }
+    
+    /**
+     * Sets the billID from the bill
+     */
+    public void setBillID(int billID){
+        this.billID = billID;
+        
+    }
+
+    /**
+     * @return the billPostedDate
+     */
+    public LocalDate getBillPostedDate() {
+        return billPostedDate;
+    }
+
+    /**
+     * @param billPostedDate the billPostedDate to set
+     */
+    public void setBillPostedDate(LocalDate billPostedDate) {
+        this.billPostedDate = billPostedDate;
     }
 }

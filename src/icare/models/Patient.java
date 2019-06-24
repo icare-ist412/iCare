@@ -8,6 +8,7 @@ public class Patient extends User {
     
     private long insuranceID;
 
+
     /**
      * Default constructor for this class. 
      * @param firstName Sets the User's first name
@@ -34,6 +35,11 @@ public class Patient extends User {
      */
     public void setInsuranceID(long insuranceID) {
         this.insuranceID = insuranceID;
+    }
+    
+    @Override
+    public String toString(){
+        return "Name: " + getFullName() + ", dob: " + getBirthdate() + ",role: " + getRoleType() + ", InsuranceID: " + getInsuranceID();
     }
     
 
