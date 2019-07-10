@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="481.0" prefWidth="499.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="icare.controllers.AddUserViewController">
+   <children>
+      <Pane layoutX="30.0" layoutY="24.0" prefHeight="82.0" prefWidth="469.0">
+         <children>
+            <Label layoutX="36.0" layoutY="14.0" prefHeight="44.0" prefWidth="276.0" text="New User">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <VBox layoutX="86.0" layoutY="180.0" prefHeight="229.0" prefWidth="328.0">
+         <children>
+            <HBox prefHeight="33.0" prefWidth="240.0">
+               <children>
+                  <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="27.0" prefWidth="118.0" text="First Name" />
+                  <TextField fx:id="fnameLbl" onKeyReleased="#fnameEntered">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </TextField>
+               </children>
+            </HBox>
+            <HBox layoutX="10.0" layoutY="10.0" prefHeight="33.0" prefWidth="240.0">
+               <children>
+                  <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="27.0" prefWidth="118.0" text="Last Name" />
+                  <TextField fx:id="lnameLbl" onKeyReleased="#lnameEntered">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </TextField>
+               </children>
+            </HBox>
+            <HBox prefHeight="33.0" prefWidth="240.0">
+               <children>
+                  <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="27.0" prefWidth="118.0" text="Generated User ID" />
+                  <TextField fx:id="userIDLbl" editable="false">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </TextField>
+               </children>
+            </HBox>
+            <HBox prefHeight="33.0" prefWidth="240.0">
+               <children>
+                  <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="27.0" prefWidth="118.0" text="Auto Password" />
+                  <TextField fx:id="passwordLbl" prefHeight="27.0" prefWidth="123.0">
+                     <HBox.margin>
+                        <Insets left="20.0" top="2.0" />
+                     </HBox.margin>
+                  </TextField>
+                  <Button mnemonicParsing="false" onAction="#generatePassword" prefHeight="10.0" prefWidth="41.0">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../icons/refreshIcon.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+            <HBox layoutX="10.0" layoutY="43.0" prefHeight="33.0" prefWidth="240.0">
+               <children>
+                  <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="27.0" prefWidth="118.0" text="Birthdate" />
+                  <DatePicker fx:id="dobPicker" prefHeight="27.0" prefWidth="167.0">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </DatePicker>
+               </children>
+            </HBox>
+            <HBox fx:id="insuranceBox" layoutX="10.0" layoutY="43.0" prefHeight="33.0" prefWidth="240.0">
+               <children>
+                  <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="27.0" prefWidth="118.0" text="Insurance ID" />
+                  <TextField fx:id="insuranceLbl">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </TextField>
+               </children>
+            </HBox>
+            <HBox fx:id="departmentBox" layoutX="10.0" layoutY="175.0" prefHeight="33.0" prefWidth="240.0">
+               <children>
+                  <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="27.0" prefWidth="118.0" text="Department" />
+                  <TextField fx:id="departmentLbl">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </TextField>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <Pane layoutX="29.0" layoutY="399.0" prefHeight="82.0" prefWidth="441.0">
+         <children>
+            <Button layoutX="274.0" layoutY="38.0" mnemonicParsing="false" onAction="#goToMainMenu" prefWidth="70.0" text="Cancel" />
+            <Button layoutX="355.0" layoutY="38.0" mnemonicParsing="false" onAction="#saveBtnClicked" prefWidth="70.0" text="Save" />
+            <Label fx:id="warningLbl" alignment="CENTER" layoutX="12.0" layoutY="10.0" prefHeight="17.0" prefWidth="416.0" textFill="#ff0202" />
+         </children>
+      </Pane>
+      <VBox layoutX="154.0" layoutY="97.0">
+         <children>
+            <Label text="Select a user type">
+               <VBox.margin>
+                  <Insets bottom="8.0" />
+               </VBox.margin>
+            </Label>
+            <RadioButton layoutX="165.0" layoutY="106.0" mnemonicParsing="false" onAction="#userTypeSelected" selected="true" text="Patient">
+               <toggleGroup>
+                  <ToggleGroup fx:id="userType" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton mnemonicParsing="false" onAction="#userTypeSelected" text="Staff" toggleGroup="$userType">
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </RadioButton>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

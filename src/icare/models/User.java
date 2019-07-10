@@ -1,5 +1,6 @@
 package icare.models;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -7,7 +8,7 @@ import java.time.format.DateTimeFormatter;
  *
  * @author David Ortiz
  */
-public class User  {
+public class User implements Serializable{
     
     private String firstName;
     private String lastName;

@@ -6,9 +6,8 @@
             <file>file:/Users/david/Documents/Repos/iCare/src/icare/controllers/MainMenuViewController.java</file>
             <file>file:/Users/david/Documents/Repos/iCare/src/icare/controllers/LoginViewController.java</file>
             <file>file:/Users/david/Documents/Repos/iCare/src/icare/controllers/AddPatientViewController.java</file>
-            <file>file:/Users/david/Documents/Repos/iCare/src/icare/models/Patient.java</file>
             <file>file:/Users/david/Documents/Repos/iCare/src/icare/models/User.java</file>
-            <file>file:/Users/david/Documents/Repos/iCare/src/icare/views/AddPatientView.fxml</file>
+            <file>file:/Users/david/Documents/Repos/iCare/src/icare/models/Storage.java</file>
         </group>
     </open-files>
 </project-private>

@@ -20,6 +20,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
@@ -34,6 +35,9 @@ public class MainMenuViewController implements Initializable {
     
     @FXML 
     private Button addPatientBtn;
+    
+    @FXML
+    private Pane addUserPane;
     
     private Storage storage;
     private User currentUser;
@@ -59,6 +63,7 @@ public class MainMenuViewController implements Initializable {
             this.addPatientBtn.setDisable(false);
         } else {
             this.addPatientBtn.setDisable(true);
+            Tooltip.install(addUserPane, new Tooltip("This feature is only available to Staff users."));
         }
         
         String fname = this.currentUser.getFirstName().substring(0, 1).toUpperCase() + this.currentUser.getFirstName().substring(1);
@@ -100,15 +105,15 @@ public class MainMenuViewController implements Initializable {
         window.show();
     }
     
-    public void addPatientBtnClicked(ActionEvent event) throws IOException{
+    public void addUserBtnClicked(ActionEvent event) throws IOException{
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/icare/views/AddPatientView.fxml"));
+        loader.setLocation(getClass().getResource("/icare/views/AddUserView.fxml"));
         Parent root = loader.load();
         
         Scene scene = new Scene(root);
         
         //access the controller and call a method
-        AddPatientViewController controller = loader.getController();        
+        AddUserViewController controller = loader.getController();        
         controller.initData(this.storage, this.currentUser);
         
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
