@@ -96,10 +96,11 @@
             </HBox>
          </children>
       </VBox>
-      <Pane layoutX="29.0" layoutY="343.0" prefHeight="70.0" prefWidth="441.0">
+      <Pane layoutX="29.0" layoutY="331.0" prefHeight="82.0" prefWidth="441.0">
          <children>
-            <Button layoutX="274.0" layoutY="22.0" mnemonicParsing="false" onAction="#goToMainMenu" prefWidth="70.0" text="Cancel" />
-            <Button layoutX="355.0" layoutY="22.0" mnemonicParsing="false" prefWidth="70.0" text="Save" />
+            <Button layoutX="274.0" layoutY="38.0" mnemonicParsing="false" onAction="#goToMainMenu" prefWidth="70.0" text="Cancel" />
+            <Button layoutX="355.0" layoutY="38.0" mnemonicParsing="false" onAction="#saveBtnClicked" prefWidth="70.0" text="Save" />
+            <Label fx:id="warningLbl" alignment="CENTER" layoutX="12.0" layoutY="10.0" prefHeight="17.0" prefWidth="416.0" textFill="#ff0202" />
          </children>
       </Pane>
    </children>

@@ -10,6 +10,8 @@ import icare.models.Storage;
 import icare.models.User;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -20,6 +22,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
@@ -53,6 +56,9 @@ public class AddPatientViewController implements Initializable {
     @FXML
     private TextField insuranceLbl;
     
+    @FXML 
+    private Label warningLbl;
+    
     
     /**
      * Initializes the controller class.
@@ -65,6 +71,7 @@ public class AddPatientViewController implements Initializable {
     public void initData(Storage storage, User currentUser){
         this.storage = storage;
         this.currentUser = currentUser;
+        this.warningLbl.setText("");
     }
     
     public void goToMainMenu(ActionEvent event) throws IOException{
@@ -102,24 +109,56 @@ public class AddPatientViewController implements Initializable {
             lastNameTwoChars = this.fnameLbl.getText().substring(0, 2);
         }
         
-        this.userIDLbl.setText(this.lnameLbl.getText() + lastNameTwoChars);
+        this.userIDLbl.setText((this.lnameLbl.getText() + lastNameTwoChars).toLowerCase());
         
     }
     
     public void generatePassword(ActionEvent event){
         String randomChars = "";
         Random random = new Random();
-        for(int i = 0; i < 1; i++)
+        int wordSize = 8;
+        
+        char[] word = new char[wordSize]; 
+        for(int i = 0; i < word.length; i++)
         {
-            char[] word = new char[8]; // words of length 3 through 10. (1 and 2 letter words are boring.)
-            for(int j = 0; j < word.length; j++)
-            {
-                word[j] = (char)('a' + random.nextInt(26));
-            }
-            randomChars = new String(word);
+            word[i] = (char)('a' + random.nextInt(26));
         }
+        randomChars = new String(word);
+        
         passwordLbl.setText(randomChars);
     }
     
+    public void saveBtnClicked(ActionEvent event) throws IOException{
+        
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        if(fnameLbl.getText().isEmpty() || lnameLbl.getText().isEmpty() || insuranceLbl.getText().isEmpty() || dobPicker.getValue() == null || passwordLbl.getText().isEmpty()){
+            this.warningLbl.setText("Please fill out all fields.");
+        } else {
+            
+            if(insuranceLbl.getText().matches("\\d*")){
+                
+                if(dobPicker.getValue().isBefore(LocalDate.now())){
+                    
+                    //**** all entered data is valid *****
+                    this.warningLbl.setText("");
+                    newPatient = new Patient(fnameLbl.getText(), lnameLbl.getText(), Long.parseLong(insuranceLbl.getText()), dateTimeFormatter.format(dobPicker.getValue()));
+                    newPatient.updateCredential(passwordLbl.getText());
+                    
+                    this.storage.addToUserList(newPatient);
+                    
+                    
+                    goToMainMenu(event);
+
+                } else {
+                    this.warningLbl.setText("Please select a date in the past.");
+                }
+            } else {
+                this.warningLbl.setText("Insurance IDs should only include integers.");
+            }
+            
+        }
+       
+    }
     
 }
