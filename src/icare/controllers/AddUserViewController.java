@@ -229,7 +229,7 @@ public class AddUserViewController implements Initializable {
             case "Staff":
 
                 this.warningLbl.setText("");
-                Staff newStaff = new Staff(fnameLbl.getText(), lnameLbl.getText(), departmentLbl.getText(), dateTimeFormatter.format(dobPicker.getValue()));
+                Staff newStaff = new Staff(fnameLbl.getText().toLowerCase(), lnameLbl.getText().toLowerCase(), departmentLbl.getText(), dateTimeFormatter.format(dobPicker.getValue()));
                 newStaff.updateCredential(passwordLbl.getText());
 
                 this.storage.addToUserList(newStaff);
@@ -240,7 +240,7 @@ public class AddUserViewController implements Initializable {
             case "Patient":
 
                 this.warningLbl.setText("");
-                Patient newPatient = new Patient(fnameLbl.getText(), lnameLbl.getText(), Long.parseLong(insuranceLbl.getText()), dateTimeFormatter.format(dobPicker.getValue()));
+                Patient newPatient = new Patient(fnameLbl.getText().toLowerCase(), lnameLbl.getText().toLowerCase(), Long.parseLong(insuranceLbl.getText()), dateTimeFormatter.format(dobPicker.getValue()));
                 newPatient.updateCredential(passwordLbl.getText());
 
                 this.storage.addToUserList(newPatient);
