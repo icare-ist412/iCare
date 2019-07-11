@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Random;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,14 +23,15 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
@@ -63,7 +65,7 @@ public class AddUserViewController implements Initializable {
     private TextField insuranceLbl;
     
     @FXML 
-    private TextField departmentLbl;
+    private ChoiceBox departmentLbl;
     
     @FXML 
     private Label warningLbl;
@@ -91,6 +93,15 @@ public class AddUserViewController implements Initializable {
         this.warningLbl.setText("");
         this.departmentBox.setVisible(false);
         this.selectedUserType = ((RadioButton)userType.getSelectedToggle()).getText();
+        this.departmentLbl.setItems(FXCollections.observableArrayList(
+            "Radiology"
+            ,"Nursing"
+            ,"Patient Care" 
+            ,"Customer Service"
+            ,"Billing"
+            ,"IT"
+            ,"Emergency")
+        );
     }
     
     public void goToMainMenu(ActionEvent event) throws IOException{
@@ -178,7 +189,7 @@ public class AddUserViewController implements Initializable {
                 switch (this.selectedUserType) {
                     case "Staff":
                         
-                        if(!departmentLbl.getText().isEmpty()){
+                        if(departmentLbl.getValue()!=(null)){
                             //**** all entered data is valid *****
                             saveNewUser();
                             goToMainMenu(event);
@@ -229,7 +240,7 @@ public class AddUserViewController implements Initializable {
             case "Staff":
 
                 this.warningLbl.setText("");
-                Staff newStaff = new Staff(fnameLbl.getText().toLowerCase(), lnameLbl.getText().toLowerCase(), departmentLbl.getText(), dateTimeFormatter.format(dobPicker.getValue()));
+                Staff newStaff = new Staff(fnameLbl.getText().toLowerCase(), lnameLbl.getText().toLowerCase(), (String)departmentLbl.getValue(), dateTimeFormatter.format(dobPicker.getValue()));
                 newStaff.updateCredential(passwordLbl.getText());
 
                 this.storage.addToUserList(newStaff);

@@ -97,11 +97,11 @@
             <HBox fx:id="departmentBox" layoutX="10.0" layoutY="175.0" prefHeight="33.0" prefWidth="240.0">
                <children>
                   <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="27.0" prefWidth="118.0" text="Department" />
-                  <TextField fx:id="departmentLbl">
+                  <ChoiceBox fx:id="departmentLbl" prefHeight="27.0" prefWidth="167.0">
                      <HBox.margin>
                         <Insets left="20.0" />
                      </HBox.margin>
-                  </TextField>
+                  </ChoiceBox>
                </children>
             </HBox>
          </children>
