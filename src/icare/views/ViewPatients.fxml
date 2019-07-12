@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="585.0" prefWidth="900.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.151" fx:controller="icare.controllers.ViewPatientsController">
+   <children>
+      
+      <Label layoutX="37.0" layoutY="22.0" text="List of patients">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <TextField fx:id="searchField" onKeyReleased="#performSearch" layoutX="40.0" layoutY="76.0" prefHeight="25.0" prefWidth="676.0" promptText="Search patients..."/>
+      <Button layoutX="725.0" layoutY="76.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="155.0" text="Search" />
+      <ComboBox fx:id="byFnameCB" onAction="#applyFilter" layoutX="37.0" layoutY="121.0" prefHeight="25.0" prefWidth="155.0" />
+      <ComboBox fx:id="byLnameCB" onAction="#applyFilter" layoutX="200.0" layoutY="121.0" prefHeight="25.0" prefWidth="194.0" />
+      <ComboBox fx:id="byDobCB" onAction="#applyFilter" layoutX="400.0" layoutY="121.0" prefHeight="25.0" prefWidth="97.0" />
+      <ComboBox fx:id="byGenderCB" onAction="#applyFilter" layoutX="504.0" layoutY="121.0" prefHeight="25.0" prefWidth="65.0" />
+      <ComboBox fx:id="byLastVisitCB" onAction="#applyFilter" layoutX="578.0" layoutY="121.0" prefHeight="25.0" prefWidth="138.0" />
+      <ComboBox fx:id="byNextVisitCB" onAction="#applyFilter" layoutX="725.0" layoutY="121.0" prefHeight="25.0" prefWidth="155.0" />
+      
+      <TableView fx:id="tableView" accessibleRole="IMAGE_VIEW" layoutX="37.0" layoutY="153.0" prefHeight="370.0" prefWidth="844.0">
+        <columns>
+          <TableColumn fx:id="firstNameCol" prefWidth="159.0" text="First name" />
+          <TableColumn fx:id="lastNameCol" prefWidth="201.0" text="Last Name" />
+          <TableColumn fx:id="dobCol" prefWidth="105.0" text="DoB" />
+          <TableColumn fx:id="genderCol" prefWidth="71.0" text="Gender" />
+          <TableColumn fx:id="lastVisitCol" prefWidth="147.0" text="Last visit" />
+          <TableColumn fx:id="nextVisitCol" prefWidth="160.0" text="Next visit" />
+        </columns>
+      </TableView>
+      
+      <Button fx:id="backButton" onAction="#goToMainMenu" layoutX="791.0" layoutY="543.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="89.0" text="Back" />
+      
+   </children>
+</AnchorPane>

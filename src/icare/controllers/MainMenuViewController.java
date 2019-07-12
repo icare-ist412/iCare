@@ -37,6 +37,9 @@ public class MainMenuViewController implements Initializable {
     private Button addPatientBtn;
     
     @FXML
+    private Button viewPatientsBtn;
+    
+    @FXML
     private Pane addUserPane;
     
     private Storage storage;
@@ -61,8 +64,10 @@ public class MainMenuViewController implements Initializable {
         
         if(this.currentUser.getRoleType().equals("Staff")){
             this.addPatientBtn.setDisable(false);
+            this.viewPatientsBtn.setDisable(false);
         } else {
             this.addPatientBtn.setDisable(true);
+            this.viewPatientsBtn.setDisable(true);
             Tooltip.install(addUserPane, new Tooltip("This feature is only available to Staff users."));
         }
         
@@ -122,5 +127,25 @@ public class MainMenuViewController implements Initializable {
         window.show();
         
     }
+    
+        public void viewPatientsBtnClicked(ActionEvent event) throws IOException{
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/icare/views/ViewPatients.fxml"));
+        Parent root = loader.load();
+        
+        Scene scene = new Scene(root);
+        
+        //access the controller and call a method
+        ViewPatientsController controller = loader.getController();        
+        controller.initData(this.storage, this.currentUser);
+        
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        window.setScene(scene);
+        window.show();
+        
+    }
+    
+    
     
 }
