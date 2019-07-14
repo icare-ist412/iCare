@@ -9,7 +9,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -18,7 +20,9 @@ import java.util.ArrayList;
 public class Storage implements Serializable {
     
     private ArrayList<User> userList = new ArrayList<>();
+    private List<Immunization> immunizationList = new ArrayList<>();
     private String userFile = "Users.ser";
+    private String immunizationFile = "Immunizations.ser";
     
     /**
      * Default constructor for this class. 
@@ -35,7 +39,17 @@ public class Storage implements Serializable {
         }
         
         displayLoginsForTesting();
+        immunizationList.add(new Immunization("Flu Shot", "FS", LocalDate.of(2017, 1, 13), "Michael", "Scott"));
+        immunizationList.add(new Immunization("Rabies Shot", "RAB", LocalDate.of(2007, 9, 27), "Meredith", "Palmer"));
+        immunizationList.add(new Immunization("Measles, Mumps, Rubella", "MMR", LocalDate.of(2012, 2, 23), "Jim", "Halpert"));
+        immunizationList.add(new Immunization("Smallpox", "SP", LocalDate.of(2018, 9, 3), "Pam", "Beasley"));
+        immunizationList.add(new Immunization("Chickenpox", "CP", LocalDate.of(2009, 12, 18), "Kevin", "Malone"));
         
+        immunizationList.add(new Immunization("Flu Shot", "FS", LocalDate.of(2017, 1, 13), "Stanley", "Hudson"));
+        immunizationList.add(new Immunization("Rabies Shot", "RAB", LocalDate.of(2007, 7, 27), "Dwight", "Schrute"));
+        immunizationList.add(new Immunization("Measles, Mumps, Rubella", "MMR", LocalDate.of(2012, 2, 23), "Phyllis", "Vance"));
+        immunizationList.add(new Immunization("Smallpox", "SP", LocalDate.of(2018, 9, 3), "Creed", "Bratton"));
+        immunizationList.add(new Immunization("Chickenpox", "CP", LocalDate.of(2009, 12, 18), "Ryan", "Howard"));
     }
     
     public void readUserListFile(){
@@ -201,5 +215,11 @@ public class Storage implements Serializable {
          
     } // end fetchUsersFromFile()
     
-    
+    public List<Immunization> getImmunizationList(){
+        return immunizationList;
+    }
+
+    public void setImmunizationList(List<Immunization> immunizationList) {
+        this.immunizationList = immunizationList;
+    }
 }
