@@ -116,5 +116,9 @@ public class Immunization {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-    
+
+    @Override
+    public String toString() {
+        return "Immunization{" + "immunization=" + immunization + ", dateAdministered=" + dateAdministered + ", isFollowUpRequired=" + isFollowUpRequired + ", immunizationAbbreviation=" + immunizationAbbreviation + ", firstName=" + firstName + ", lastName=" + lastName + '}';
+    }
 }
