@@ -11,15 +11,9 @@ public class Treatment {
 
     /**
     * Treatment constructor with instructions, medication, and numberOfWeeks parameters
-<<<<<<< HEAD
      * @param instructions Treatment Instructions
      * @param medication Medication Name
      * @param numberOfWeeks Treatment duration (in weeks)
-=======
-     * @param String Treatment Instructions
-     * @param String Medication Name
-     * @param int Treatment duration (in weeks)
->>>>>>> master
     */
     public Treatment(String instructions, String medication, int numberOfWeeks) {
         this.instructions = instructions;
@@ -37,11 +31,7 @@ public class Treatment {
 
     /**
     * Sets this treatment's instructions as a String
-<<<<<<< HEAD
      *  @param instructions sets the instructions
-=======
-     *  @param String instructions
->>>>>>> master
     */
     public void setInstructions(String instructions) {
         this.instructions = instructions;
@@ -57,11 +47,7 @@ public class Treatment {
     
     /**
     * Sets this treatments's medication name as a string.
-<<<<<<< HEAD
      *  @param medication sets this treatment's medication
-=======
-     *  @param String medication
->>>>>>> master
     */
     public void setMedication(String medication) {
         this.medication = medication;
@@ -77,11 +63,7 @@ public class Treatment {
 
     /**
     * Sets this treatment's duration in weeks as an int.
-<<<<<<< HEAD
      *  @param numberOfWeeks sets the number of weeks neccessary for this medication
-=======
-     *  @param int numberOfWeeks
->>>>>>> master
     */
     public void setNumberOfWeeks(int numberOfWeeks) {
         this.numberOfWeeks = numberOfWeeks;
