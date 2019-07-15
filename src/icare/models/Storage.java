@@ -1,18 +1,24 @@
 package icare.models;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author David Ortiz
  */
-public class Storage {
+public class Storage implements Serializable {
     
-    private ArrayList<User> userList;
+    private ArrayList<User> userList = new ArrayList<>();
+    private String userFile = "Users.ser";
     
     /**
      * Default constructor for this class. 
@@ -20,10 +26,48 @@ public class Storage {
      */
     public Storage() throws FileNotFoundException{
         
-        this.userList = fetchUsersFromFile();
+        this.readUserListFile();
+        if(userList.isEmpty() || userList == null){
+            this.userList = fetchUsersFromFile();
+            
+            this.writeUserListFile();
+            this.readUserListFile();
+        }
         
         displayLoginsForTesting();
         
+    }
+    
+    public void readUserListFile(){
+        FileInputStream fis = null;
+        ObjectInputStream in = null;
+        try {
+            fis = new FileInputStream(userFile);
+            in = new ObjectInputStream(fis);
+            userList = (ArrayList)in.readObject();
+            in.close();
+        }
+        catch(IOException ex){
+            System.out.println(userFile + " not found, creating.");
+        }
+        catch(ClassNotFoundException ex){
+            ex.printStackTrace();
+        }
+        
+    }
+    
+    public void writeUserListFile(){
+        FileOutputStream fos = null;
+        ObjectOutputStream out = null;
+        try {
+            fos = new FileOutputStream(userFile);
+            out = new ObjectOutputStream(fos);
+            out.writeObject(userList);
+            out.close();
+        }
+        catch(IOException ex){
+            ex.printStackTrace();
+        }
     }
     
     /**
@@ -75,6 +119,7 @@ public class Storage {
      */
     public void addToUserList(User newUser){
         this.userList.add(newUser);
+        this.writeUserListFile(); //update serialized file
     }
     
     private void displayLoginsForTesting(){

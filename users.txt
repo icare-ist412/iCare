@@ -1,5 +1,5 @@
 patient~steve;gates;password;135511;1978-08-03
 patient~jim;halpert;paper;423907;1962-12-07
-staff~bill;jobs;pass123;IT Department;1984-09-21
-staff~john;smith;hello;Receptionist;1971-04-12
-staff~jane;smith;world;Doctor;1998-08-04
+staff~bill;jobs;pass123;IT;1984-09-21
+staff~john;smith;hello;Emergency;1971-04-12
+staff~jane;smith;world;Nursing;1998-08-04
