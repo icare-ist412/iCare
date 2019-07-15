@@ -36,6 +36,9 @@ public class MainMenuViewController implements Initializable {
     @FXML 
     private Button addPatientBtn;
     
+    @FXML 
+    private Button immunizationsButton;
+    
     @FXML
     private Pane addUserPane;
     
@@ -61,8 +64,10 @@ public class MainMenuViewController implements Initializable {
         
         if(this.currentUser.getRoleType().equals("Staff")){
             this.addPatientBtn.setDisable(false);
+            this.immunizationsButton.setDisable(false);
         } else {
             this.addPatientBtn.setDisable(true);
+            this.immunizationsButton.setDisable(true);
             Tooltip.install(addUserPane, new Tooltip("This feature is only available to Staff users."));
         }
         
@@ -114,6 +119,24 @@ public class MainMenuViewController implements Initializable {
         
         //access the controller and call a method
         AddUserViewController controller = loader.getController();        
+        controller.initData(this.storage, this.currentUser);
+        
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        window.setScene(scene);
+        window.show();
+        
+    }
+    
+    public void immunizationsBtnClicked(ActionEvent event) throws IOException{
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/icare/views/ImmunizationView.fxml"));
+        Parent root = loader.load();
+        
+        Scene scene = new Scene(root);
+        
+        //access the controller and call a method
+        ImmunizationController controller = loader.getController();        
         controller.initData(this.storage, this.currentUser);
         
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
