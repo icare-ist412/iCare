@@ -90,52 +90,29 @@ public class ViewPatientsController implements Initializable {
 //            System.out.println("User name " + u.getFirstName() + " " + u.getLastName());
 //        }
         tableView.getItems().setAll(users);
-
-        byFnameCB.getItems().setAll(users.stream()
-                .map(User::getFirstName)
-                .collect(Collectors.toSet())
-                .stream()
-                .sorted()
-                .collect(Collectors.toList())
-        );
-
-        byLnameCB.getItems().setAll(users.stream()
-                .map(User::getLastName)
-                .collect(Collectors.toSet())
-                .stream()
-                .sorted()
-                .collect(Collectors.toList())
-        );
-        byDobCB.getItems().setAll(users.stream()
-                .map(User::getDob)
-                .collect(Collectors.toSet())
-                .stream()
-                .sorted()
-                .collect(Collectors.toList())
-        );
-        byGenderCB.getItems().setAll(users.stream()
-                .map(User::getGender)
-                .collect(Collectors.toSet())
-                .stream()
-                .sorted()
-                .collect(Collectors.toList())
-        );
-        byLastVisitCB.getItems().setAll(users.stream()
-                .map(User::getLastVisit)
-                .collect(Collectors.toSet())
-                .stream()
-                .sorted()
-                .collect(Collectors.toList())
-        );
-        byNextVisitCB.getItems().setAll(users.stream()
-                .map(User::getNextVisit)
-                .collect(Collectors.toSet())
-                .stream()
-                .sorted()
-                .collect(Collectors.toList()));
+        byFnameCB.getItems().setAll(toSortedList(users.stream()
+                .map(User::getFirstName)));
+        byLnameCB.getItems().setAll(toSortedList(users.stream()
+                .map(User::getLastName)));
+        byDobCB.getItems().setAll(toSortedList(users.stream()
+                .map(User::getDob)));
+        byGenderCB.getItems().setAll(toSortedList(users.stream()
+                .map(User::getGender)));
+        byLastVisitCB.getItems().setAll(toSortedList(users.stream()
+                .map(User::getLastVisit)));
+        byNextVisitCB.getItems().setAll(toSortedList(users.stream()
+                .map(User::getNextVisit)));
 
     }
 
+    private List<String> toSortedList(Stream<String> input){ 
+        return input.collect(Collectors.toSet())
+                .stream()
+                .sorted()
+                .collect(Collectors.toList());
+} 
+    
+    
     public void goToMainMenu(ActionEvent event) throws IOException {
 
         FXMLLoader loader = new FXMLLoader();
