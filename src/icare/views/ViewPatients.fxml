@@ -18,8 +18,9 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <TextField fx:id="searchField" onKeyReleased="#performSearch" layoutX="40.0" layoutY="76.0" prefHeight="25.0" prefWidth="676.0" promptText="Search patients..."/>
-      <Button layoutX="725.0" layoutY="76.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="155.0" text="Search" />
+<!--      onKeyReleased="#performSearch"-->
+      <TextField fx:id="searchField" layoutX="40.0" layoutY="76.0" prefHeight="25.0" prefWidth="676.0" promptText="Search patients..."/>
+      <Button onAction="#performSearch" layoutX="725.0" layoutY="76.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="155.0" text="Search" />
       <ComboBox fx:id="byFnameCB" onAction="#applyFilter" layoutX="37.0" layoutY="121.0" prefHeight="25.0" prefWidth="155.0" />
       <ComboBox fx:id="byLnameCB" onAction="#applyFilter" layoutX="200.0" layoutY="121.0" prefHeight="25.0" prefWidth="194.0" />
       <ComboBox fx:id="byDobCB" onAction="#applyFilter" layoutX="400.0" layoutY="121.0" prefHeight="25.0" prefWidth="97.0" />

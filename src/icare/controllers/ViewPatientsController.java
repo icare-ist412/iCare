@@ -5,10 +5,13 @@ import icare.models.Storage;
 import icare.models.User;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,6 +22,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
@@ -31,6 +35,9 @@ public class ViewPatientsController implements Initializable {
     private Storage storage;
     private User currentUser;
     private List<User> users;
+
+    @FXML
+    private TextField searchField;
 
     @FXML
     private ComboBox byFnameCB;
@@ -63,12 +70,12 @@ public class ViewPatientsController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        firstNameCol.setCellValueFactory(new PropertyValueFactory<Patient, String>("firstName"));
-        lastNameCol.setCellValueFactory(new PropertyValueFactory<Patient, String>("lastName"));
-        dobCol.setCellValueFactory(new PropertyValueFactory<Patient, String>("dob"));
-        genderCol.setCellValueFactory(new PropertyValueFactory<Patient, String>("gender"));
-        lastVisitCol.setCellValueFactory(new PropertyValueFactory<Patient, String>("lastVisit"));
-        nextVisitCol.setCellValueFactory(new PropertyValueFactory<Patient, String>("nextVisit"));
+        firstNameCol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+        lastNameCol.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        dobCol.setCellValueFactory(new PropertyValueFactory<>("dob"));
+        genderCol.setCellValueFactory(new PropertyValueFactory<>("gender"));
+        lastVisitCol.setCellValueFactory(new PropertyValueFactory<>("lastVisit"));
+        nextVisitCol.setCellValueFactory(new PropertyValueFactory<>("nextVisit"));
 
     }
 
@@ -76,6 +83,7 @@ public class ViewPatientsController implements Initializable {
         this.storage = storage;
         this.currentUser = currentUser;
         this.users = storage.getUserList();
+        Stream<List> reset = Stream.of(Arrays.asList("(reset)"));
 
 //        List<User> users = storage.getUserList();
 //        for(User u: users){
@@ -85,28 +93,46 @@ public class ViewPatientsController implements Initializable {
 
         byFnameCB.getItems().setAll(users.stream()
                 .map(User::getFirstName)
+                .collect(Collectors.toSet())
+                .stream()
                 .sorted()
-                .collect(Collectors.toSet()));
+                .collect(Collectors.toList())
+        );
+
         byLnameCB.getItems().setAll(users.stream()
                 .map(User::getLastName)
+                .collect(Collectors.toSet())
+                .stream()
                 .sorted()
-                .collect(Collectors.toSet()));
+                .collect(Collectors.toList())
+        );
         byDobCB.getItems().setAll(users.stream()
                 .map(User::getDob)
+                .collect(Collectors.toSet())
+                .stream()
                 .sorted()
-                .collect(Collectors.toSet()));
+                .collect(Collectors.toList())
+        );
         byGenderCB.getItems().setAll(users.stream()
                 .map(User::getGender)
+                .collect(Collectors.toSet())
+                .stream()
                 .sorted()
-                .collect(Collectors.toSet()));
+                .collect(Collectors.toList())
+        );
         byLastVisitCB.getItems().setAll(users.stream()
                 .map(User::getLastVisit)
+                .collect(Collectors.toSet())
+                .stream()
                 .sorted()
-                .collect(Collectors.toSet()));
+                .collect(Collectors.toList())
+        );
         byNextVisitCB.getItems().setAll(users.stream()
                 .map(User::getNextVisit)
+                .collect(Collectors.toSet())
+                .stream()
                 .sorted()
-                .collect(Collectors.toSet()));
+                .collect(Collectors.toList()));
 
     }
 
@@ -130,11 +156,38 @@ public class ViewPatientsController implements Initializable {
     }
 
     public void performSearch(ActionEvent event) {
-
-        //TODO search patients
+        String s = searchField.getText();
+        
+        if (s.isEmpty()){
+        byFnameCB.setValue(null);
+        byLnameCB.setValue(null);
+        byDobCB.setValue(null);
+        byGenderCB.setValue(null);
+        byLastVisitCB.setValue(null);
+        byNextVisitCB.setValue(null);
+               
+        }
+        
+        
+        if (s != null) {
+            tableView.getItems().setAll(users
+                    .stream()
+                    .filter(Objects::nonNull)
+                    .filter(u -> ((u.getFullName().contains(s))
+                    || (u.getDob().contains(s))
+                    || (u.getGender().contains(s))
+                    || (u.getLastVisit().contains(s))
+                    || (u.getNextVisit().contains(s))))
+                    .collect(Collectors.toList())
+            );
+        }
     }
 
     public void applyFilter(ActionEvent event) {
+
+        if (byFnameCB.getValue() != null && byFnameCB.getValue().equals("(reset)")) {
+            byFnameCB.setValue(null);
+        }
 
         tableView.getItems().setAll(users
                 .stream()
