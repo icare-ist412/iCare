@@ -17,7 +17,6 @@ public class User implements Serializable {
     private String gender;
     private LocalDate lastVisit;
     private LocalDate nextVisit;
-    private DateTimeFormatter dateTimeFormatter;
 
     /**
      * Default constructor for this class
@@ -25,16 +24,17 @@ public class User implements Serializable {
      * @param firstName Sets the User's first name
      * @param lastName Sets the User's last name
      * @param dobString Sets the User's date of birth
+     * @param gender Sets the User's gender
      */
-    public User(String firstName, String lastName, String dobString) {
+    public User(String firstName, String lastName, String dobString, String gender) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.gender = gender;
 
-        dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         birthdate = LocalDate.parse(dobString, dateTimeFormatter);
         
         //ToDo replace with actual values
-        this.gender = "M";
         this.lastVisit = LocalDate.parse("2019-01-01", dateTimeFormatter);
         this.nextVisit = LocalDate.parse("2019-12-31", dateTimeFormatter);
 
@@ -69,6 +69,7 @@ public class User implements Serializable {
     }
 
     public String getDob() { 
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return dateTimeFormatter.format(birthdate);
     }
     
@@ -77,10 +78,12 @@ public class User implements Serializable {
     }
     
     public String getLastVisit() { 
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return dateTimeFormatter.format(lastVisit);
     }
     
     public String getNextVisit() { 
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return dateTimeFormatter.format(nextVisit);
     }
     

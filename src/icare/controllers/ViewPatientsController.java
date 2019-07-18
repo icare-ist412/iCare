@@ -5,7 +5,6 @@ import icare.models.Storage;
 import icare.models.User;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -19,11 +18,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
@@ -35,6 +36,7 @@ public class ViewPatientsController implements Initializable {
     private Storage storage;
     private User currentUser;
     private List<User> users;
+    private Patient patientSelectedFromTable;
 
     @FXML
     private TextField searchField;
@@ -51,6 +53,9 @@ public class ViewPatientsController implements Initializable {
     private ComboBox byLastVisitCB;
     @FXML
     private ComboBox byNextVisitCB;
+    
+    @FXML
+    private Button viewMedicalBtn;
 
     @FXML
     private TableView tableView;
@@ -82,7 +87,7 @@ public class ViewPatientsController implements Initializable {
     public void initData(Storage storage, User currentUser) {
         this.storage = storage;
         this.currentUser = currentUser;
-        this.users = storage.getUserList();
+        this.users = storage.getPatients();
         Stream<List> reset = Stream.of(Arrays.asList("(reset)"));
 
 //        List<User> users = storage.getUserList();
@@ -112,7 +117,6 @@ public class ViewPatientsController implements Initializable {
                 .collect(Collectors.toList());
 } 
     
-    
     public void goToMainMenu(ActionEvent event) throws IOException {
 
         FXMLLoader loader = new FXMLLoader();
@@ -136,15 +140,13 @@ public class ViewPatientsController implements Initializable {
         String s = searchField.getText();
         
         if (s.isEmpty()){
-        byFnameCB.setValue(null);
-        byLnameCB.setValue(null);
-        byDobCB.setValue(null);
-        byGenderCB.setValue(null);
-        byLastVisitCB.setValue(null);
-        byNextVisitCB.setValue(null);
-               
+            byFnameCB.setValue(null);
+            byLnameCB.setValue(null);
+            byDobCB.setValue(null);
+            byGenderCB.setValue(null);
+            byLastVisitCB.setValue(null);
+            byNextVisitCB.setValue(null);
         }
-        
         
         if (s != null) {
             tableView.getItems().setAll(users
@@ -177,6 +179,38 @@ public class ViewPatientsController implements Initializable {
                 && (byNextVisitCB.getValue() == null || u.getNextVisit().equalsIgnoreCase(byNextVisitCB.getValue().toString())))
                 .collect(Collectors.toList()));
 
+    }
+        
+    public void medicalBtnClicked(ActionEvent event) throws IOException {
+        
+        System.out.println("View Medical Record: "+this.patientSelectedFromTable.getFullName());
+        
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/icare/views/ViewEditView.fxml"));
+        Parent root = loader.load();
+
+        ViewEditController controller = loader.getController();        
+        controller.initData(this.currentUser, this.patientSelectedFromTable);
+        
+        // Set the scene:
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setScene(new Scene(root));
+        stage.setTitle(this.patientSelectedFromTable.getFirstName() + "'s Medical Record");
+        stage.resizableProperty().setValue(false);
+        stage.showAndWait();
+    }
+    
+    public void userClickedTable(){
+        viewMedicalBtn.setDisable(false);
+        
+        try{
+            this.patientSelectedFromTable = (Patient)tableView.getSelectionModel().getSelectedItem();
+            
+        } catch(NullPointerException e){
+            System.out.println("No user selected!");
+        }
+        
     }
 
 }

@@ -1,5 +1,6 @@
-patient~steve;gates;password;135511;1978-08-03
-patient~jim;halpert;paper;423907;1962-12-07
-staff~bill;jobs;pass123;IT;1984-09-21
-staff~john;smith;hello;Emergency;1971-04-12
-staff~jane;smith;world;Nursing;1998-08-04
+patient~steve;gates;password;135511;1978-08-03;Male
+patient~jim;halpert;paper;423907;1962-12-07;Male
+patient~stacy;milford;mil;432123;1985-12-17;Female
+staff~bill;jobs;pass123;IT;1984-09-21;Male
+staff~john;smith;hello;Emergency;1971-04-12;Male
+staff~jane;smith;world;Nursing;1998-08-04;Female

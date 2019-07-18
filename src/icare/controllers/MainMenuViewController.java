@@ -5,6 +5,7 @@
  */
 package icare.controllers;
 
+import icare.models.Patient;
 import icare.models.Storage;
 import icare.models.User;
 import java.io.IOException;
@@ -73,6 +74,7 @@ public class MainMenuViewController implements Initializable {
         
         String fname = this.currentUser.getFirstName().substring(0, 1).toUpperCase() + this.currentUser.getFirstName().substring(1);
         this.fnameLabel.setText(fname);
+        
         
     }
     

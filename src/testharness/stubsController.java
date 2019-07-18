@@ -70,7 +70,7 @@ public class stubsController {
 
         print(HEADER + "Patient");
 
-        Patient patient = new Patient("David", "Ortiz", 123456789, "1995-08-03");
+        Patient patient = new Patient("David", "Ortiz", 123456789, "1995-08-03", "M");
         print(patient.getInsuranceID());
         patient.setInsuranceID(987654321);
         print(patient.getInsuranceID());
@@ -87,7 +87,7 @@ public class stubsController {
 
         print(HEADER + "Staff");
 
-        Staff staff = new Staff("David", "Ortiz", "IT", "1995-08-03");
+        Staff staff = new Staff("David", "Ortiz", "IT", "1995-08-03", "M");
         print(staff.getDepartment());
 
         test("Staff.getRoleType test", staff.getRoleType(), "Staff");
@@ -100,7 +100,7 @@ public class stubsController {
 
         print(HEADER + "User");
 
-        User user = new User("David", "Ortiz", "1995-08-03");
+        User user = new User("David", "Ortiz", "1995-08-03", "M");
 
         print(user.getRoleType());
         print(user.getBirthdate());
@@ -139,8 +139,8 @@ public class stubsController {
     private static void appointmentTest() {
         print(HEADER + "Appointment");
         Appointment appointment = new Appointment();
-        Patient patient = new Patient("David", "Ortiz", 123456789, "1995-08-03");
-        Staff staff = new Staff("David", "Ortiz", "IT", "1995-08-03");
+        Patient patient = new Patient("David", "Ortiz", 123456789, "1995-08-03", "M");
+        Staff staff = new Staff("David", "Ortiz", "IT", "1995-08-03", "M");
         LocalDateTime aDate = LocalDateTime.now().plusDays(3).withHour(15).withMinute(15);
         appointment.setAddress(new Address("767 5th Ave","New York", "NY", 10153));
         appointment.setDate(aDate);
@@ -184,7 +184,7 @@ public class stubsController {
         Hospital hospital = new Hospital();
         hospital.setAddress("500 University DR", "Hershey", "PA", 17033);
         ArrayList<Staff> staffList = new ArrayList<>();
-        staffList.add(new Staff("Jake", "Benedick", "Oncology", "1900-01-01"));
+        staffList.add(new Staff("Jake", "Benedick", "Oncology", "1900-01-01", "M"));
         hospital.setStaffList(staffList);
         
         print(hospital.getAddress().toString());
@@ -220,7 +220,7 @@ public class stubsController {
        print(HEADER + "Main Menu View Controller");
        
        MainMenuViewController mainMenuViewController = new MainMenuViewController();
-       User user = new User("David", "Ortiz", "1995-08-03");       
+       User user = new User("David", "Ortiz", "1995-08-03", "M");       
        
        // the other methods of MainMenuViewController pertain to GUI and can't be test using this approach for testing
        

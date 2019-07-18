@@ -26,7 +26,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.KeyEvent;
@@ -66,6 +65,9 @@ public class AddUserViewController implements Initializable {
     
     @FXML 
     private ChoiceBox departmentLbl;
+    
+    @FXML 
+    private ToggleGroup gender;
     
     @FXML 
     private Label warningLbl;
@@ -180,7 +182,7 @@ public class AddUserViewController implements Initializable {
     public void saveBtnClicked(ActionEvent event) throws IOException{
         
 
-        if(fnameLbl.getText().isEmpty() || lnameLbl.getText().isEmpty() ||  dobPicker.getValue() == null || passwordLbl.getText().isEmpty()){
+        if(fnameLbl.getText().isEmpty() || lnameLbl.getText().isEmpty() ||  dobPicker.getValue() == null || gender.getSelectedToggle()==null || passwordLbl.getText().isEmpty()){
             this.warningLbl.setText("Please fill out all fields.");
         } else {
             //selectedUserType
@@ -241,7 +243,8 @@ public class AddUserViewController implements Initializable {
                 dateTimeFormatter.format(dobPicker.getValue()),
                 passwordLbl.getText(),
                 (String)departmentLbl.getValue(),
-                Long.parseLong(insuranceLbl.getText()));
+                Long.parseLong(insuranceLbl.getText()),
+                ((RadioButton)gender.getSelectedToggle()).getText());
                
         this.storage.addToUserList(newUser);
        

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="613.0" prefWidth="542.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="icare.controllers.ViewEditController">
+   <children>
+      <Label layoutX="206.0" layoutY="29.0" prefHeight="42.0" prefWidth="272.0" text="'s Medical Record">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="userTitleLbl" alignment="CENTER_RIGHT" layoutX="14.0" layoutY="29.0" prefHeight="42.0" prefWidth="192.0" text="[user]">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Pane layoutX="36.0" layoutY="97.0" prefHeight="235.0" prefWidth="471.0">
+         <children>
+            <ListView fx:id="listView" layoutX="42.0" layoutY="35.0" prefHeight="200.0" prefWidth="307.0" />
+            <Label layoutX="168.0" layoutY="6.0" text="Diseases" />
+            <Button layoutX="363.0" layoutY="73.0" mnemonicParsing="false" onAction="#addDiseaseClicked" prefHeight="27.0" prefWidth="110.0" text="Add Disease" />
+            <Button layoutX="363.0" layoutY="118.0" mnemonicParsing="false" text="Delete Disease" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
