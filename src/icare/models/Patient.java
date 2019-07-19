@@ -35,6 +35,9 @@ public class Patient extends User {
     public ArrayList<Treatment> getTreatments(){
         return this.treatments;
     }
+    public void removeTreatment(Treatment treatment){
+        this.treatments.remove(treatment);
+    }
     
     public void addDisease(String disease){
         if(this.diseases == null){
@@ -44,6 +47,9 @@ public class Patient extends User {
     }
     public ArrayList<String> getDiseases(){
         return this.diseases;
+    }
+    public void removeDisease(String disease){
+        this.diseases.remove(disease);
     }
     
     /**
