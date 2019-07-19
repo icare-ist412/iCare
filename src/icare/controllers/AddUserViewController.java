@@ -84,7 +84,6 @@ public class AddUserViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
     }    
     
     public void initData(Storage storage, User currentUser){
@@ -141,7 +140,6 @@ public class AddUserViewController implements Initializable {
         
     }
     
-    
     public void fnameEntered(KeyEvent keyEvent){
         generateUserID();
     }
@@ -178,58 +176,54 @@ public class AddUserViewController implements Initializable {
     
     public void saveBtnClicked(ActionEvent event) throws IOException{
         
-
-        if(fnameLbl.getText().isEmpty() || lnameLbl.getText().isEmpty() ||  dobPicker.getValue() == null || passwordLbl.getText().isEmpty()){
-            this.warningLbl.setText("Please fill out all fields.");
+        String validateResult = validateUserInput();
+        
+        if(validateResult.equals("valid")){
+            saveNewUser();
+            goToMainMenu(event);
         } else {
-            //selectedUserType
-            if(dobPicker.getValue().isBefore(LocalDate.now())){
-                
-                
+            this.warningLbl.setText(validateResult);
+        }
+
+    }
+    
+    private String validateUserInput(){
+        String result = "";
+        
+        if(fnameLbl.getText().isEmpty() 
+            || lnameLbl.getText().isEmpty() 
+            || dobPicker.getValue() == null 
+            || passwordLbl.getText().isEmpty())
+        {
+            result = "Please fill out all fields.";
+        } 
+        else 
+        {
+            if(!dobPicker.getValue().isBefore(LocalDate.now())){
+                result = "Please select a date in the past.";
+            } else {
                 switch (this.selectedUserType) {
                     case "Staff":
-                        
                         if(departmentLbl.getValue()!=(null)){
-                            //**** all entered data is valid *****
-                            saveNewUser();
-                            goToMainMenu(event);
+                            result = "valid";
                         } else {
-                            this.warningLbl.setText("Please fill out all fields.");
+                            result = "Please fill out all fields.";
                         }
-                        
-                        
-                        
                         break;
                     case "Patient":
-                        
                         if(!insuranceLbl.getText().isEmpty() && insuranceLbl.getText().matches("\\d*")){
-                    
-                            //**** all entered data is valid *****
-                            saveNewUser();
-                            goToMainMenu(event);
-
+                            result = "valid";
                         } else {
-                            this.warningLbl.setText("Insurance IDs should only include integers.");
+                            result = "Insurance IDs should only include integers.";
                         }
-                        
-                        
-                        
                         break;
                     default:
                         break;
-                }
-                
-                
-                
-                
-                
-                
-            } else {
-                this.warningLbl.setText("Please select a date in the past.");
-            }
-            
-        }
-       
+                } // end switch
+            } // end nested ifelse 
+        } // end ifelse
+        
+        return result;
     }
     
     private void saveNewUser(){
@@ -244,8 +238,6 @@ public class AddUserViewController implements Initializable {
                 newStaff.updateCredential(passwordLbl.getText());
 
                 this.storage.addToUserList(newStaff);
-
-
 
                 break;
             case "Patient":
