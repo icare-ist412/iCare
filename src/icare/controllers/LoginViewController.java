@@ -72,30 +72,40 @@ public class LoginViewController implements Initializable {
             passwordField.setText("");
         } else {
             
-            
-            if(storage.doesUserExist(userID)){
-                
-                this.currentUser = storage.getUser(userID);
-                
-                if (this.currentUser.authenticate(userID, password)) {
-
-                    resetScreen();
-                    goToMainMenu(event);
-
-                } else {
-                    statusLabel.setText("Login failed, incorrect password.");
-                    passwordField.setText("");
-                }
-                
-                
+            //authentication
+            String authResult = performAuth(userID, password);
+            if(authResult.equals("valid")){
+                resetScreen();
+                goToMainMenu(event);
             } else {
-                statusLabel.setText("User does not exist");
+                statusLabel.setText(authResult);
                 passwordField.setText("");
             }
-            
-           
+
         }
 
+    }
+    
+    private String performAuth(String userID, String password){
+        String result;
+        
+        if(storage.doesUserExist(userID)){
+                
+            this.currentUser = storage.getUser(userID);
+
+            if (this.currentUser.authenticate(userID, password)) {
+
+                result = "valid";
+
+            } else {
+                result = "Login failed, incorrect password.";
+            }
+
+        } else {
+            result = "Login failed, user does not exist";
+        }
+        return result;
+        
     }
     
     private void goToMainMenu(ActionEvent event) throws IOException{
