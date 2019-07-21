@@ -192,11 +192,13 @@ public class ViewPatientsController implements Initializable {
         ViewEditController controller = loader.getController();        
         controller.initData(this.currentUser, this.patientSelectedFromTable);
         
+        String fname = this.patientSelectedFromTable.getFirstName().substring(0, 1).toUpperCase() + this.patientSelectedFromTable.getFirstName().substring(1);
+
         // Set the scene:
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(new Scene(root));
-        stage.setTitle(this.patientSelectedFromTable.getFirstName() + "'s Medical Record");
+        stage.setTitle(fname + "'s Medical Record");
         stage.resizableProperty().setValue(false);
         stage.showAndWait();
     }

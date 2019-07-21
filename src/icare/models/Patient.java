@@ -29,7 +29,10 @@ public class Patient extends User {
        
     }
 
-    public void addTreatments(String instructions, String medication, int numOfWeeks){
+    public void addTreatment(Treatment treatment){
+        this.treatments.add(treatment);
+    }
+    public void addTreatment(String instructions, String medication, int numOfWeeks){
         this.treatments.add(new Treatment(instructions, medication, numOfWeeks));
     }
     public ArrayList<Treatment> getTreatments(){

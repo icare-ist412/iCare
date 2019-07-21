@@ -11,6 +11,7 @@ import icare.models.User;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
@@ -18,12 +19,17 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.VBox;
 
 /**
  * FXML Controller class
@@ -39,6 +45,9 @@ public class ViewEditController implements Initializable {
     protected ListProperty<String> listProperty = new SimpleListProperty<>();
     @FXML
     private Label userTitleLbl;
+    
+    @FXML
+    private Label warningLbl;
    
     @FXML
     private ListView listView;
@@ -73,8 +82,6 @@ public class ViewEditController implements Initializable {
         this.selectedUser = selectedUser;
         listView.itemsProperty().bind(listProperty);
         
-        //this.selectedUser.addTreatments("test", "medicationTest", 2);
-        //System.out.println(this.selectedUser.getTreatments().size());
         if(this.selectedUser.getTreatments() != null){
             tableView.getItems().setAll(this.selectedUser.getTreatments());
         }
@@ -90,6 +97,10 @@ public class ViewEditController implements Initializable {
        
     private void updateDiseaseList(){
         listProperty.set(FXCollections.observableArrayList(this.selectedUser.getDiseases()));
+    }
+    
+    private void updateTreatmentList(){
+        tableView.getItems().setAll(this.selectedUser.getTreatments());
     }
     
     //for testing
@@ -117,17 +128,57 @@ public class ViewEditController implements Initializable {
     }
     
     public void addTreatmentClicked(ActionEvent event) {
-        TextInputDialog dialog = new TextInputDialog();
+        Dialog<Treatment> dialog = new Dialog<>();
+        dialog.setTitle("New Treatment");
+        dialog.setHeaderText("Please specify…");
+        DialogPane dialogPane = dialog.getDialogPane();
+        dialogPane.getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+        TextField instrField = new TextField();
+        TextField medField = new TextField();
+        TextField weeksField = new TextField();
         
-        dialog.setTitle("New Treatment Entry");
-        dialog.setHeaderText("Enter treatment information");
-        dialog.setGraphic(null);
-
-        Optional<String> result = dialog.showAndWait();
-        if (result.isPresent() && !result.get().equals("")) {
-            this.selectedUser.addDisease(result.get());
-            updateDiseaseList();
-        }  
+        instrField.setPromptText("Instructions");
+        medField.setPromptText("Medication");
+        weeksField.setPromptText("# of weeks");
+                
+        dialogPane.setContent(new VBox(8, instrField, medField, weeksField));
+        
+        Platform.runLater(instrField::requestFocus);
+        
+        Treatment treatment;
+        dialog.setResultConverter((ButtonType button) -> {
+            if (button == ButtonType.OK) {
+                if( !instrField.getText().equals("") &&  !medField.getText().equals("") && !weeksField.getText().equals("") ){
+                    if(weeksField.getText().matches("\\d*")){
+                        return new Treatment( instrField.getText(), medField.getText(), Integer.parseInt(weeksField.getText()) );
+                    }
+                }
+            }
+            return null;
+        });
+        Optional<Treatment> optionalResult = dialog.showAndWait();
+        
+        
+        //TODO: add error message or alert if invalid data entered
+        optionalResult.ifPresent(
+            (Treatment treatmnt) -> {
+                System.out.println(treatmnt.getInstructions() + " " + treatmnt.getMedication() + " " + treatmnt.getNumberOfWeeks());
+                this.selectedUser.addTreatment(treatmnt);
+                updateTreatmentList();
+            }
+        );
+        
+//        if (optionalResult.isPresent() && !optionalResult.get().equals("")) {
+//            
+//            this.selectedUser.addTreatment(optionalResult.get());
+//            updateDiseaseList();
+//        } 
+        
+//             this.warningLbl.setText("");
+//        } else {
+//            this.warningLbl.setText("Error adding treatment: Enter valid data.");
+//            
+//        } 
     }
             
     public void addDiseaseClicked(ActionEvent event) {
@@ -141,7 +192,7 @@ public class ViewEditController implements Initializable {
         if (result.isPresent() && !result.get().equals("")) {
             this.selectedUser.addDisease(result.get());
             updateDiseaseList();
-        }  
+        } 
     }
     
     public void userClickedListView(){
