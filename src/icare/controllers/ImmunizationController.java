@@ -1,13 +1,12 @@
 package icare.controllers;
 
 import icare.models.Immunization;
+import icare.models.Patient;
 import icare.models.Storage;
 import icare.models.User;
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDate;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -30,23 +29,17 @@ public class ImmunizationController implements Initializable {
 
     private Storage storage;
     private User currentUser;
-    //private Patient newPatient;
-    private String selectedUserType;
+    private Patient selectedPatient;
     
     @FXML
     private TableView<Immunization> immunizationTable;
     
     @FXML
-    private TableColumn firstName;
-    
-    @FXML
-    private TableColumn lastName;
+    private TableColumn immunization;
     
     @FXML
     private TableColumn date;
     
-    @FXML
-    private TableColumn details;
     
     /**
      * Initializes the controller class.
@@ -56,16 +49,15 @@ public class ImmunizationController implements Initializable {
         
     }    
     
-    public void initData(Storage storage, User currentUser){
+    public void initData(Storage storage, User currentUser, Patient selectedPatient){
         this.storage = storage;
         this.currentUser = currentUser;
+        this.selectedPatient = selectedPatient;
         
-        firstName.setCellValueFactory(new PropertyValueFactory<Immunization, String>("firstName"));
-        lastName.setCellValueFactory(new PropertyValueFactory<Immunization, String>("lastName"));
         date.setCellValueFactory(new PropertyValueFactory<Immunization, Date>("dateAdministered"));
-        details.setCellValueFactory(new PropertyValueFactory<Immunization, String>("immunization"));
-        
-        immunizationTable.getItems().setAll(storage.getImmunizationList());
+        immunization.setCellValueFactory(new PropertyValueFactory<Immunization, String>("immunization"));
+       
+        immunizationTable.getItems().setAll(selectedPatient.getImmunizations());
     }
     
     public void goToMainMenu(ActionEvent event) throws IOException{
@@ -89,27 +81,9 @@ public class ImmunizationController implements Initializable {
     
     public void deleteButtonPressed(ActionEvent event) throws IOException{
         Immunization selected = immunizationTable.getSelectionModel().getSelectedItem();
-        
-        removeImmunizationRecord(selected.getImmunization(), selected.getDateAdministered(), selected.getFirstName(), selected.getLastName());
-        
-        immunizationTable.getItems().setAll(storage.getImmunizationList());
+        this.selectedPatient.removeImmunization(selected);
+        immunizationTable.getItems().setAll(selectedPatient.getImmunizations());
     }
     
-    public void removeImmunizationRecord(String immunization, LocalDate dateAdministered, String firstName, String lastName){
-        Iterator<Immunization> iterator = storage.getImmunizationList().iterator();
-        Immunization temp;
-        
-        while(iterator.hasNext()){
-            temp  = iterator.next();
-            
-            if(temp.getFirstName().equals(firstName) 
-                && temp.getLastName().equals(lastName) 
-                && temp.getDateAdministered().equals(dateAdministered) 
-                && temp.getImmunization().equals(immunization)){
-                
-                iterator.remove();
-                System.out.println("Removed: " + temp.toString());
-            }
-        }
-    }
+
 }

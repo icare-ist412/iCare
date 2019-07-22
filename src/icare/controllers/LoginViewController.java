@@ -77,6 +77,7 @@ public class LoginViewController implements Initializable {
                 
                 this.currentUser = storage.getUser(userID);
                 
+                
                 if (this.currentUser.authenticate(userID, password)) {
 
                     resetScreen();

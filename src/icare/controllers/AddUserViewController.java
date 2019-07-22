@@ -5,10 +5,9 @@
  */
 package icare.controllers;
 
-import icare.models.Patient;
-import icare.models.Staff;
 import icare.models.Storage;
 import icare.models.User;
+import icare.models.UserFactory;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
@@ -27,7 +26,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.KeyEvent;
@@ -43,6 +41,7 @@ public class AddUserViewController implements Initializable {
 
     private Storage storage;
     private User currentUser;
+    private UserFactory userFactory;
     //private Patient newPatient;
     private String selectedUserType;
     
@@ -68,6 +67,9 @@ public class AddUserViewController implements Initializable {
     private ChoiceBox departmentLbl;
     
     @FXML 
+    private ToggleGroup gender;
+    
+    @FXML 
     private Label warningLbl;
     
     @FXML
@@ -90,6 +92,7 @@ public class AddUserViewController implements Initializable {
     public void initData(Storage storage, User currentUser){
         this.storage = storage;
         this.currentUser = currentUser;
+        this.userFactory = new UserFactory();
         this.warningLbl.setText("");
         this.departmentBox.setVisible(false);
         this.selectedUserType = ((RadioButton)userType.getSelectedToggle()).getText();
@@ -179,7 +182,7 @@ public class AddUserViewController implements Initializable {
     public void saveBtnClicked(ActionEvent event) throws IOException{
         
 
-        if(fnameLbl.getText().isEmpty() || lnameLbl.getText().isEmpty() ||  dobPicker.getValue() == null || passwordLbl.getText().isEmpty()){
+        if(fnameLbl.getText().isEmpty() || lnameLbl.getText().isEmpty() ||  dobPicker.getValue() == null || gender.getSelectedToggle()==null || passwordLbl.getText().isEmpty()){
             this.warningLbl.setText("Please fill out all fields.");
         } else {
             //selectedUserType
@@ -220,9 +223,7 @@ public class AddUserViewController implements Initializable {
                 }
                 
                 
-                
-                
-                
+                             
                 
             } else {
                 this.warningLbl.setText("Please select a date in the past.");
@@ -235,32 +236,17 @@ public class AddUserViewController implements Initializable {
     private void saveNewUser(){
         
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-        switch (this.selectedUserType) {
-            case "Staff":
-
-                this.warningLbl.setText("");
-                Staff newStaff = new Staff(fnameLbl.getText().toLowerCase(), lnameLbl.getText().toLowerCase(), (String)departmentLbl.getValue(), dateTimeFormatter.format(dobPicker.getValue()));
-                newStaff.updateCredential(passwordLbl.getText());
-
-                this.storage.addToUserList(newStaff);
-
-
-
-                break;
-            case "Patient":
-
-                this.warningLbl.setText("");
-                Patient newPatient = new Patient(fnameLbl.getText().toLowerCase(), lnameLbl.getText().toLowerCase(), Long.parseLong(insuranceLbl.getText()), dateTimeFormatter.format(dobPicker.getValue()));
-                newPatient.updateCredential(passwordLbl.getText());
-
-                this.storage.addToUserList(newPatient);
-
-                break;
-            default:
-                break;
-        }
-        
+        User newUser = userFactory.createNewUser(
+                this.selectedUserType,
+                fnameLbl.getText().toLowerCase(),
+                lnameLbl.getText().toLowerCase(),
+                dateTimeFormatter.format(dobPicker.getValue()),
+                passwordLbl.getText(),
+                (String)departmentLbl.getValue(),
+                Long.parseLong(insuranceLbl.getText()),
+                ((RadioButton)gender.getSelectedToggle()).getText());
+               
+        this.storage.addToUserList(newUser);
        
     }
     

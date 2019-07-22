@@ -36,8 +36,8 @@ public class MainMenuViewController implements Initializable {
     @FXML 
     private Button addPatientBtn;
     
-    @FXML 
-    private Button immunizationsButton;
+    @FXML
+    private Button viewPatientsBtn;
     
     @FXML
     private Pane addUserPane;
@@ -64,15 +64,16 @@ public class MainMenuViewController implements Initializable {
         
         if(this.currentUser.getRoleType().equals("Staff")){
             this.addPatientBtn.setDisable(false);
-            this.immunizationsButton.setDisable(false);
+            this.viewPatientsBtn.setDisable(false);
         } else {
             this.addPatientBtn.setDisable(true);
-            this.immunizationsButton.setDisable(true);
+            this.viewPatientsBtn.setDisable(true);
             Tooltip.install(addUserPane, new Tooltip("This feature is only available to Staff users."));
         }
         
         String fname = this.currentUser.getFirstName().substring(0, 1).toUpperCase() + this.currentUser.getFirstName().substring(1);
         this.fnameLabel.setText(fname);
+        
         
     }
     
@@ -128,15 +129,15 @@ public class MainMenuViewController implements Initializable {
         
     }
     
-    public void immunizationsBtnClicked(ActionEvent event) throws IOException{
+        public void viewPatientsBtnClicked(ActionEvent event) throws IOException{
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/icare/views/ImmunizationView.fxml"));
+        loader.setLocation(getClass().getResource("/icare/views/ViewPatients.fxml"));
         Parent root = loader.load();
         
         Scene scene = new Scene(root);
         
         //access the controller and call a method
-        ImmunizationController controller = loader.getController();        
+        ViewPatientsController controller = loader.getController();        
         controller.initData(this.storage, this.currentUser);
         
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -145,5 +146,7 @@ public class MainMenuViewController implements Initializable {
         window.show();
         
     }
+    
+    
     
 }
