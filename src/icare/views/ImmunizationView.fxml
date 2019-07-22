@@ -26,8 +26,7 @@
     </Pane>
     <Pane layoutX="16.0" layoutY="400.0" prefHeight="70.0" prefWidth="469.0">
       <children>
-        <Button layoutX="274.0" layoutY="38.0" mnemonicParsing="false" onAction="#goToMainMenu" prefWidth="70.0" text="Back" />
-        <Button layoutX="355.0" layoutY="38.0" mnemonicParsing="false" onAction="#deleteButtonPressed" prefWidth="70.0" style="-fx-background-color: red;" text="Delete" />
+        <Button layoutX="14.0" layoutY="38.0" mnemonicParsing="false" onAction="#goToMainMenu" prefWidth="70.0" text="Back" />
       </children>
     </Pane>
     <VBox layoutX="154.0" layoutY="97.0" />
@@ -37,5 +36,7 @@
         <TableColumn fx:id="date" prefWidth="100.0" text="Date" />
       </columns>
     </TableView>
+  <Button fx:id="deleteButton" disable="true" layoutX="403.0" layoutY="184.0" mnemonicParsing="false" onAction="#deleteButtonPressed" prefWidth="70.0" text="Delete" />
+      <Button fx:id="addButton" layoutX="403.0" layoutY="227.0" mnemonicParsing="false" onAction="#addButtonPressed" prefWidth="70.0" text="Add" />
   </children>
 </AnchorPane>

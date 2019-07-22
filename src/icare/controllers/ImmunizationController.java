@@ -15,6 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -40,6 +41,11 @@ public class ImmunizationController implements Initializable {
     @FXML
     private TableColumn date;
     
+    @FXML
+    private Button addButton;
+    
+    @FXML
+    private Button deleteButton;
     
     /**
      * Initializes the controller class.
@@ -83,6 +89,10 @@ public class ImmunizationController implements Initializable {
         Immunization selected = immunizationTable.getSelectionModel().getSelectedItem();
         this.selectedPatient.removeImmunization(selected);
         immunizationTable.getItems().setAll(selectedPatient.getImmunizations());
+    }
+    
+    public void addButtonPressed(ActionEvent event) throws IOException{
+        System.out.println("Add feature under development");
     }
     
 
