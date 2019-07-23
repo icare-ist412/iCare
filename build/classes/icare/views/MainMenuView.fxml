@@ -10,7 +10,7 @@
 <?import javafx.scene.text.*?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="489.0" prefWidth="685.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="icare.controllers.MainMenuViewController">
+<AnchorPane id="AnchorPane" prefHeight="489.0" prefWidth="685.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="icare.controllers.MainMenuViewController">
   <children>
     <Label layoutX="26.0" layoutY="24.0" prefHeight="38.0" prefWidth="170.0" text="iCare">
       <font>
@@ -36,8 +36,7 @@
     </Pane>
     <Pane layoutX="26.0" layoutY="71.0">
       <children>
-        <Label text="Welcome," />
-        <Label fx:id="fnameLabel" layoutX="63.0" prefHeight="17.0" prefWidth="258.0" text="[first name]" />
+        <Label fx:id="fnameLabel" layoutX="0.0" layoutY="0.0" prefHeight="17.0" prefWidth="321.0" text="Welcome, [first name]" />
       </children>
     </Pane>
     <Pane layoutX="579.0" layoutY="396.0">

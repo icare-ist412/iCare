@@ -16,6 +16,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -47,6 +48,9 @@ public class ImmunizationController implements Initializable {
     @FXML
     private Button deleteButton;
     
+    @FXML
+    private Label userNameLbl;
+    
     /**
      * Initializes the controller class.
      */
@@ -60,22 +64,24 @@ public class ImmunizationController implements Initializable {
         this.currentUser = currentUser;
         this.selectedPatient = selectedPatient;
         
+        String fname = this.selectedPatient.getFirstName().substring(0, 1).toUpperCase() + this.selectedPatient.getFirstName().substring(1);
+
+        userNameLbl.setText(fname+"'s Immunizations");
         date.setCellValueFactory(new PropertyValueFactory<Immunization, Date>("dateAdministered"));
         immunization.setCellValueFactory(new PropertyValueFactory<Immunization, String>("immunization"));
        
         immunizationTable.getItems().setAll(selectedPatient.getImmunizations());
     }
     
-    public void goToMainMenu(ActionEvent event) throws IOException{
-        
+    public void backBtnClicked(ActionEvent event) throws IOException{
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/icare/views/MainMenuView.fxml"));
+        loader.setLocation(getClass().getResource("/icare/views/ViewPatients.fxml"));
         Parent root = loader.load();
         
         Scene scene = new Scene(root);
         
         //access the controller and call a method
-        MainMenuViewController controller = loader.getController();        
+        ViewPatientsController controller = loader.getController();        
         controller.initData(this.storage, this.currentUser);
         
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();

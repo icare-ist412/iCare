@@ -72,18 +72,10 @@ public class MainMenuViewController implements Initializable {
         }
         
         String fname = this.currentUser.getFirstName().substring(0, 1).toUpperCase() + this.currentUser.getFirstName().substring(1);
-        this.fnameLabel.setText(fname);
-        
+        this.fnameLabel.setText("Welcome, " + fname);
         
     }
-    
-    /**
-     * Passes data when a new instance of class is created.
-     */
-    public void initData(User currentUser){
-        this.currentUser = currentUser;
-    }
-    
+   
     /**
      * Handles the Quit button onclick event.
      */
@@ -129,7 +121,7 @@ public class MainMenuViewController implements Initializable {
         
     }
     
-        public void viewPatientsBtnClicked(ActionEvent event) throws IOException{
+    public void viewPatientsBtnClicked(ActionEvent event) throws IOException{
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/icare/views/ViewPatients.fxml"));
         Parent root = loader.load();
