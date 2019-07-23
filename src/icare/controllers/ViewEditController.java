@@ -42,6 +42,10 @@ public class ViewEditController implements Initializable {
     private Patient selectedUser;
     private String selectedDisease;
     
+    private Treatment selectedTreatment;
+    @FXML
+    private Button deleteTreatmentBtn;
+    
     protected ListProperty<String> listProperty = new SimpleListProperty<>();
     @FXML
     private Label userTitleLbl;
@@ -110,24 +114,30 @@ public class ViewEditController implements Initializable {
         }    
     }
     
+    public void saveBtnClicked(ActionEvent event){
+        System.out.println("TODO - add serialization persistance");
+    }
+    
+    public void cancelBtnClicked(ActionEvent event){
+        System.out.println("TODO - add no changes will be saved");
+    }
+    
     public void deleteDiseaseBtnClicked(ActionEvent event){
         this.selectedUser.removeDisease(this.selectedDisease);
         updateDiseaseList();
-        if(this.selectedUser.getDiseases().isEmpty()){
-            deleteDiseaseBtn.setDisable(true);
-        }
+        deleteDiseaseBtn.setDisable(true);
         
     }
     
     public void deleteTreatmentBtnClicked(ActionEvent event){
-//        this.selectedUser.removeTreatment(this.selectedDisease);
-//        updateDiseaseList();
-//        if(this.selectedUser.getDiseases().isEmpty()){
-//            deleteDiseaseBtn.setDisable(true);
-//        } 
+        this.selectedUser.removeTreatment(this.selectedTreatment);
+        updateTreatmentList();
+        this.deleteTreatmentBtn.setDisable(true);
     }
     
     public void addTreatmentClicked(ActionEvent event) {
+        warningLbl.setText("");
+        
         Dialog<Treatment> dialog = new Dialog<>();
         dialog.setTitle("New Treatment");
         dialog.setHeaderText("Please specify…");
@@ -145,40 +155,32 @@ public class ViewEditController implements Initializable {
         
         Platform.runLater(instrField::requestFocus);
         
-        Treatment treatment;
         dialog.setResultConverter((ButtonType button) -> {
             if (button == ButtonType.OK) {
                 if( !instrField.getText().equals("") &&  !medField.getText().equals("") && !weeksField.getText().equals("") ){
                     if(weeksField.getText().matches("\\d*")){
+                        warningLbl.setText("");
                         return new Treatment( instrField.getText(), medField.getText(), Integer.parseInt(weeksField.getText()) );
+                    } else {
+                        warningLbl.setText("Error adding treatment: number of weeks can only be a number.");
                     }
+                } else {
+                    warningLbl.setText("Error adding treatment: please fill out all fields.");
                 }
             }
+            
             return null;
         });
+        
         Optional<Treatment> optionalResult = dialog.showAndWait();
-        
-        
-        //TODO: add error message or alert if invalid data entered
         optionalResult.ifPresent(
             (Treatment treatmnt) -> {
-                System.out.println(treatmnt.getInstructions() + " " + treatmnt.getMedication() + " " + treatmnt.getNumberOfWeeks());
                 this.selectedUser.addTreatment(treatmnt);
                 updateTreatmentList();
             }
         );
         
-//        if (optionalResult.isPresent() && !optionalResult.get().equals("")) {
-//            
-//            this.selectedUser.addTreatment(optionalResult.get());
-//            updateDiseaseList();
-//        } 
-        
-//             this.warningLbl.setText("");
-//        } else {
-//            this.warningLbl.setText("Error adding treatment: Enter valid data.");
-//            
-//        } 
+
     }
             
     public void addDiseaseClicked(ActionEvent event) {
@@ -199,6 +201,7 @@ public class ViewEditController implements Initializable {
         
         try{
             this.selectedDisease = listView.getSelectionModel().getSelectedItem().toString();
+            
             if(!selectedDisease.isEmpty()){
                 deleteDiseaseBtn.setDisable(false);
             }
@@ -208,6 +211,23 @@ public class ViewEditController implements Initializable {
         }
         
     }
+    
+    public void userClickedTableView(){
+        
+        try{
+            this.selectedTreatment = (Treatment)tableView.getSelectionModel().getSelectedItem();
+            
+            if(selectedTreatment != null){
+                this.deleteTreatmentBtn.setDisable(false);
+            }
+            
+        } catch(NullPointerException e){
+            System.out.println("No treatment selected!");
+        }
+        
+    }
+    
+    
     
     
 }
