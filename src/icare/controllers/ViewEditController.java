@@ -11,6 +11,7 @@ import icare.models.User;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
@@ -18,12 +19,17 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.VBox;
 
 /**
  * FXML Controller class
@@ -36,9 +42,16 @@ public class ViewEditController implements Initializable {
     private Patient selectedUser;
     private String selectedDisease;
     
+    private Treatment selectedTreatment;
+    @FXML
+    private Button deleteTreatmentBtn;
+    
     protected ListProperty<String> listProperty = new SimpleListProperty<>();
     @FXML
     private Label userTitleLbl;
+    
+    @FXML
+    private Label warningLbl;
    
     @FXML
     private ListView listView;
@@ -73,8 +86,6 @@ public class ViewEditController implements Initializable {
         this.selectedUser = selectedUser;
         listView.itemsProperty().bind(listProperty);
         
-        //this.selectedUser.addTreatments("test", "medicationTest", 2);
-        //System.out.println(this.selectedUser.getTreatments().size());
         if(this.selectedUser.getTreatments() != null){
             tableView.getItems().setAll(this.selectedUser.getTreatments());
         }
@@ -92,6 +103,10 @@ public class ViewEditController implements Initializable {
         listProperty.set(FXCollections.observableArrayList(this.selectedUser.getDiseases()));
     }
     
+    private void updateTreatmentList(){
+        tableView.getItems().setAll(this.selectedUser.getTreatments());
+    }
+    
     //for testing
     private void printDiseases(){
         for(String d : this.selectedUser.getDiseases()){
@@ -99,35 +114,73 @@ public class ViewEditController implements Initializable {
         }    
     }
     
+    public void saveBtnClicked(ActionEvent event){
+        System.out.println("TODO - add serialization persistance");
+    }
+    
+    public void cancelBtnClicked(ActionEvent event){
+        System.out.println("TODO - add no changes will be saved");
+    }
+    
     public void deleteDiseaseBtnClicked(ActionEvent event){
         this.selectedUser.removeDisease(this.selectedDisease);
         updateDiseaseList();
-        if(this.selectedUser.getDiseases().isEmpty()){
-            deleteDiseaseBtn.setDisable(true);
-        }
+        deleteDiseaseBtn.setDisable(true);
         
     }
     
     public void deleteTreatmentBtnClicked(ActionEvent event){
-//        this.selectedUser.removeTreatment(this.selectedDisease);
-//        updateDiseaseList();
-//        if(this.selectedUser.getDiseases().isEmpty()){
-//            deleteDiseaseBtn.setDisable(true);
-//        } 
+        this.selectedUser.removeTreatment(this.selectedTreatment);
+        updateTreatmentList();
+        this.deleteTreatmentBtn.setDisable(true);
     }
     
     public void addTreatmentClicked(ActionEvent event) {
-        TextInputDialog dialog = new TextInputDialog();
+        warningLbl.setText("");
         
-        dialog.setTitle("New Treatment Entry");
-        dialog.setHeaderText("Enter treatment information");
-        dialog.setGraphic(null);
+        Dialog<Treatment> dialog = new Dialog<>();
+        dialog.setTitle("New Treatment");
+        dialog.setHeaderText("Please specify…");
+        DialogPane dialogPane = dialog.getDialogPane();
+        dialogPane.getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+        TextField instrField = new TextField();
+        TextField medField = new TextField();
+        TextField weeksField = new TextField();
+        
+        instrField.setPromptText("Instructions");
+        medField.setPromptText("Medication");
+        weeksField.setPromptText("# of weeks");
+                
+        dialogPane.setContent(new VBox(8, instrField, medField, weeksField));
+        
+        Platform.runLater(instrField::requestFocus);
+        
+        dialog.setResultConverter((ButtonType button) -> {
+            if (button == ButtonType.OK) {
+                if( !instrField.getText().equals("") &&  !medField.getText().equals("") && !weeksField.getText().equals("") ){
+                    if(weeksField.getText().matches("\\d*")){
+                        warningLbl.setText("");
+                        return new Treatment( instrField.getText(), medField.getText(), Integer.parseInt(weeksField.getText()) );
+                    } else {
+                        warningLbl.setText("Error adding treatment: number of weeks can only be a number.");
+                    }
+                } else {
+                    warningLbl.setText("Error adding treatment: please fill out all fields.");
+                }
+            }
+            
+            return null;
+        });
+        
+        Optional<Treatment> optionalResult = dialog.showAndWait();
+        optionalResult.ifPresent(
+            (Treatment treatmnt) -> {
+                this.selectedUser.addTreatment(treatmnt);
+                updateTreatmentList();
+            }
+        );
+        
 
-        Optional<String> result = dialog.showAndWait();
-        if (result.isPresent() && !result.get().equals("")) {
-            this.selectedUser.addDisease(result.get());
-            updateDiseaseList();
-        }  
     }
             
     public void addDiseaseClicked(ActionEvent event) {
@@ -141,13 +194,14 @@ public class ViewEditController implements Initializable {
         if (result.isPresent() && !result.get().equals("")) {
             this.selectedUser.addDisease(result.get());
             updateDiseaseList();
-        }  
+        } 
     }
     
     public void userClickedListView(){
         
         try{
             this.selectedDisease = listView.getSelectionModel().getSelectedItem().toString();
+            
             if(!selectedDisease.isEmpty()){
                 deleteDiseaseBtn.setDisable(false);
             }
@@ -157,6 +211,23 @@ public class ViewEditController implements Initializable {
         }
         
     }
+    
+    public void userClickedTableView(){
+        
+        try{
+            this.selectedTreatment = (Treatment)tableView.getSelectionModel().getSelectedItem();
+            
+            if(selectedTreatment != null){
+                this.deleteTreatmentBtn.setDisable(false);
+            }
+            
+        } catch(NullPointerException e){
+            System.out.println("No treatment selected!");
+        }
+        
+    }
+    
+    
     
     
 }

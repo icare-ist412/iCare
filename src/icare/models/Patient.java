@@ -9,10 +9,9 @@ import java.util.ArrayList;
 public class Patient extends User {
     
     private long insuranceID;
-    private ArrayList<Immunization> immunizations;
     private ArrayList<Treatment> treatments;
     private ArrayList<String> diseases;
-
+    private ArrayList<Immunization> immunizations;
 
     /**
      * Default constructor for this class. 
@@ -23,11 +22,27 @@ public class Patient extends User {
      */
     public Patient(String firstName, String lastName, long insuranceID, String dobString, String gender) {
         super(firstName, lastName, dobString, gender);
-        this.diseases = new ArrayList();
-        this.treatments = new ArrayList();
-        this.immunizations = new ArrayList();
+        diseases = new ArrayList();
+        treatments = new ArrayList();
+        immunizations = new ArrayList();
         this.insuranceID = insuranceID;
+        
+       
     }
+
+    public void addTreatment(Treatment treatment){
+        this.treatments.add(treatment);
+    }
+    public void addTreatment(String instructions, String medication, int numOfWeeks){
+        this.treatments.add(new Treatment(instructions, medication, numOfWeeks));
+    }
+    public ArrayList<Treatment> getTreatments(){
+        return this.treatments;
+    }
+    public void removeTreatment(Treatment treatment){
+        this.treatments.remove(treatment);
+    }
+    
     
     public void addImmunization(Immunization immunization){
         if(this.immunizations == null){
@@ -42,15 +57,7 @@ public class Patient extends User {
         this.immunizations.remove(immunization);
     }
     
-    public void addTreatments(String instructions, String medication, int numOfWeeks){
-        this.treatments.add(new Treatment(instructions, medication, numOfWeeks));
-    }
-    public ArrayList<Treatment> getTreatments(){
-        return this.treatments;
-    }
-    public void removeTreatment(Treatment treatment){
-        this.treatments.remove(treatment);
-    }
+    
     
     public void addDisease(String disease){
         if(this.diseases == null){

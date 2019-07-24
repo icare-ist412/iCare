@@ -92,10 +92,6 @@ public class ViewPatientsController implements Initializable {
         this.users = storage.getPatients();
         Stream<List> reset = Stream.of(Arrays.asList("(reset)"));
 
-//        List<User> users = storage.getUserList();
-//        for(User u: users){
-//            System.out.println("User name " + u.getFirstName() + " " + u.getLastName());
-//        }
         tableView.getItems().setAll(users);
         byFnameCB.getItems().setAll(toSortedList(users.stream()
                 .map(User::getFirstName)));
@@ -201,8 +197,9 @@ public class ViewPatientsController implements Initializable {
     
     public void medicalBtnClicked(ActionEvent event) throws IOException {
         //uncomment for use-case-3
-        /*
-        System.out.println("View Medical Record: "+this.patientSelectedFromTable.getFullName());
+        String fname = this.patientSelectedFromTable.getFirstName().substring(0, 1).toUpperCase() + this.patientSelectedFromTable.getFirstName().substring(1);
+
+        //System.out.println("View Medical Record: "+this.patientSelectedFromTable.getFullName());
         
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/icare/views/ViewEditView.fxml"));
@@ -215,14 +212,14 @@ public class ViewPatientsController implements Initializable {
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(new Scene(root));
-        stage.setTitle(this.patientSelectedFromTable.getFirstName() + "'s Medical Record");
+        stage.setTitle(fname + "'s Medical Record");
         stage.resizableProperty().setValue(false);
         stage.showAndWait();
-        */
+        
     }
     
     public void userClickedTable(){
-        //viewMedicalBtn.setDisable(false); //uncomment for use-case-3
+        viewMedicalBtn.setDisable(false); //uncomment for use-case-3
         immunizationsBtn.setDisable(false);
         
         try{
