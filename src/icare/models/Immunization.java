@@ -25,6 +25,14 @@ public class Immunization implements Serializable {
         this.immunizationAbbreviation = immunizationAbbreviation;
         this.dateAdministered = dateAdministered;
     }
+    
+    public Immunization(String immunization, LocalDate dateAdministered, boolean isFollowUpRequired) {
+        this.immunization = immunization;
+        this.dateAdministered = dateAdministered;
+        this.isFollowUpRequired = isFollowUpRequired;
+        
+        //immunizationAbbreviation = createAbbreviation();
+    }
 
     /**
     * Gets this Immunization's name
@@ -74,6 +82,18 @@ public class Immunization implements Serializable {
         return immunizationAbbreviation;
     }
 
+    /*
+    public String createAbbreviation() {
+        String abbreviation = immunization.substring(0, 1);
+        
+        if(immunization.contains(" ")){
+            abbreviation += immunization.substring(immunization.indexOf(" ") + 1, immunization.indexOf(" ") + 2);
+        }else{
+            abbreviation += immunization.substring(0, 2);
+        }
+        
+        return abbreviation;
+    }*/
     
     
 }
