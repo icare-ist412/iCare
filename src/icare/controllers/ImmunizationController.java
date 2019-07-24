@@ -6,7 +6,6 @@ import icare.models.Storage;
 import icare.models.User;
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -16,7 +15,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -87,6 +89,8 @@ public class ImmunizationController implements Initializable {
     @FXML
     private DatePicker datePicker;
     
+    @FXML
+    private Label warningLbl;
     /**
      * Initializes the controller class.
      */
@@ -131,11 +135,23 @@ public class ImmunizationController implements Initializable {
     
     public void deleteButtonPressed(ActionEvent event) throws IOException{
         Immunization selected = immunizationTable.getSelectionModel().getSelectedItem();
-        this.selectedPatient.removeImmunization(selected);
-        immunizationTable.getItems().setAll(selectedPatient.getImmunizations());
+        
+        Alert alert = new Alert(AlertType.CONFIRMATION, "Are you sure you want to delete " + selected.getImmunization() + " ?", ButtonType.YES, ButtonType.NO);
+        alert.setHeaderText("Confirm deletion");
+        alert.setGraphic(null);
+        alert.showAndWait();
+
+        if (alert.getResult() == ButtonType.YES) {
+            this.selectedPatient.removeImmunization(selected);
+            immunizationTable.getItems().setAll(selectedPatient.getImmunizations());
+            storage.writeUserListFile();
+        }
+        
     }
     
     public void addButtonPressed(ActionEvent event) throws IOException{
+        immunizationNameField.setText("");
+        datePicker.setValue(null);
         backButton.setVisible(false);
         addButton.setVisible(false);
         deleteButton.setVisible(false);
@@ -150,16 +166,25 @@ public class ImmunizationController implements Initializable {
     public void createButtonPressed(ActionEvent event) throws IOException{
         boolean followUp = false;
         
-        if(immunizationNameField.getText() != null && !immunizationNameField.getText().equals("")){
+        if(immunizationNameField.getText() != null 
+                && !immunizationNameField.getText().equals("")
+                && datePicker.getValue() != null)
+        {
             
             if(followUpCheckbox.isSelected()){
                 followUp = true;
             }
             
+            warningLbl.setText("");
             selectedPatient.addImmunization(new Immunization(immunizationNameField.getText(), datePicker.getValue(), followUp));
+            
+            storage.writeUserListFile();
+            
+            refresh();
+        } else {
+            warningLbl.setText("Please fill out all fields.");
         }
         
-        refresh();
     }
     
     public void refresh(){

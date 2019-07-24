@@ -38,7 +38,7 @@
         <TableColumn prefWidth="160.0" text="Next visit" fx:id="nextVisitCol" />
       </columns>
     </TableView>
-    <Button fx:id="backButton" layoutX="791.0" layoutY="543.0" mnemonicParsing="false" onAction="#goToMainMenu" prefHeight="25.0" prefWidth="89.0" text="Back" />
+    <Button fx:id="backButton" layoutX="35.0" layoutY="541.0" mnemonicParsing="false" onAction="#goToMainMenu" prefHeight="25.0" prefWidth="89.0" text="Back" />
     <Button fx:id="viewMedicalBtn" disable="true" layoutX="207.0" layoutY="541.0" mnemonicParsing="false" onAction="#medicalBtnClicked" prefHeight="27.0" prefWidth="223.0" text="View Medical Record" />
     <Button id="viewMedicalBtn" fx:id="immunizationsBtn" disable="true" layoutX="449.0" layoutY="541.0" mnemonicParsing="false" onAction="#immunizationsBtnClicked" prefHeight="27.0" prefWidth="223.0" text="View Immunizations" />
   </children>
