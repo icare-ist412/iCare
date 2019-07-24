@@ -40,6 +40,7 @@ public class ImmunizationController implements Initializable {
     private User currentUser;
     private Patient selectedPatient;
     private String firstName;
+    private String userType;
     
     @FXML
     private TableView<Immunization> immunizationTable;
@@ -104,6 +105,13 @@ public class ImmunizationController implements Initializable {
         this.currentUser = currentUser;
         this.selectedPatient = selectedPatient;
         
+        this.userType = currentUser.getRoleType();
+        
+        if(userType.equals("Patient")){
+            this.deleteButton.setVisible(false);
+            this.addButton.setVisible(false);
+        }
+        
         firstName = this.selectedPatient.getFirstName().substring(0, 1).toUpperCase() + this.selectedPatient.getFirstName().substring(1);
 
         userNameLbl.setText(firstName+"'s Immunizations");
@@ -117,14 +125,27 @@ public class ImmunizationController implements Initializable {
     
     public void backBtnClicked(ActionEvent event) throws IOException{
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/icare/views/ViewPatients.fxml"));
-        Parent root = loader.load();
+        Scene scene = null;
         
-        Scene scene = new Scene(root);
+        if(userType.equals("Staff")){
+            loader.setLocation(getClass().getResource("/icare/views/ViewPatients.fxml"));
+            Parent root = loader.load();
         
-        //access the controller and call a method
-        ViewPatientsController controller = loader.getController();        
-        controller.initData(this.storage, this.currentUser);
+            scene = new Scene(root);
+
+            //access the controller and call a method
+            ViewPatientsController controller = loader.getController();        
+            controller.initData(this.storage, this.currentUser);
+        } else if(userType.equals("Patient")){
+            loader.setLocation(getClass().getResource("/icare/views/MainMenuView.fxml"));
+            Parent root = loader.load();
+
+            scene = new Scene(root);
+
+            //access the controller and call a method
+            MainMenuViewController controller = loader.getController();
+            controller.initData(this.storage, this.currentUser);
+        }
         
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 

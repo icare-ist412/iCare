@@ -197,7 +197,6 @@ public class ViewPatientsController implements Initializable {
 
         window.setScene(scene);
         window.show();
-
     }
     
     public void medicalBtnClicked(ActionEvent event) throws IOException {
