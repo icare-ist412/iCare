@@ -66,6 +66,7 @@ public class Storage implements Serializable {
             out.close();
         }
         catch(IOException ex){
+            //System.out.println("Error serializing");
             ex.printStackTrace();
         }
     }
@@ -76,6 +77,18 @@ public class Storage implements Serializable {
      */
     public ArrayList<User> getUserList() {
         return userList;
+    }
+    
+    public ArrayList<User> getPatients(){
+        ArrayList<User> tempList = new ArrayList();
+        
+        for(User u : this.userList){
+            if(u.getRoleType().equals("Patient")){
+                tempList.add(u);
+            }
+        }
+        
+        return tempList;
     }
     
     /**
@@ -162,7 +175,8 @@ public class Storage implements Serializable {
                                 String password = words[2];
                                 long insuranceID = Long.parseLong(words[3]);
                                 String dob = words[4];
-                                Patient tempPatient = new Patient(fname, lname, insuranceID, dob);
+                                String gender = words[5];
+                                Patient tempPatient = new Patient(fname, lname, insuranceID, dob, gender);
                                 tempPatient.updateCredential(password);
                                 users.add(tempPatient);
                                 break;
@@ -175,7 +189,8 @@ public class Storage implements Serializable {
                                 String password = words[2];
                                 String dept = words[3];
                                 String dob = words[4];
-                                Staff tempStaff = new Staff(fname, lname, dept, dob);
+                                String gender = words[5];
+                                Staff tempStaff = new Staff(fname, lname, dept, dob, gender);
                                 tempStaff.updateCredential(password);
                                 users.add(tempStaff);
                                 break;

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="585.0" prefWidth="900.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="icare.controllers.ImmunizationController">
+  <children>
+    <Rectangle fx:id="background" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="331.0" layoutX="36.0" layoutY="99.0" stroke="BLACK" strokeType="INSIDE" width="370.0" />
+    <Pane layoutX="14.0" layoutY="15.0" prefHeight="82.0" prefWidth="469.0">
+      <children>
+        <Label fx:id="userNameLbl" alignment="CENTER" layoutX="216.0" layoutY="12.0" prefHeight="48.0" prefWidth="469.0" text="[User]'s Immunizations">
+          <font>
+            <Font size="26.0" />
+          </font>
+        </Label>
+      </children>
+    </Pane>
+    <Pane layoutX="14.0" layoutY="501.0" prefHeight="70.0" prefWidth="469.0">
+      <children>
+        <Button fx:id="backButton" layoutX="21.0" layoutY="19.0" mnemonicParsing="false" onAction="#backBtnClicked" prefWidth="70.0" text="Back" />
+      </children>
+    </Pane>
+    <VBox layoutX="154.0" layoutY="97.0" />
+    <Button fx:id="deleteButton" layoutX="725.0" layoutY="520.0" mnemonicParsing="false" onAction="#deleteButtonPressed" prefWidth="70.0" style="-fx-background-color: red;" text="Delete" />
+    <Button fx:id="addButton" layoutX="809.0" layoutY="520.0" mnemonicParsing="false" onAction="#addButtonPressed" prefWidth="70.0" text="Add" />
+    <TextField fx:id="immunizationNameField" layoutX="71.0" layoutY="136.0" prefHeight="27.0" prefWidth="168.0" />
+    <Label fx:id="immunizationNameLabel" layoutX="71.0" layoutY="114.0" text="Immunization Name" />
+    <Label fx:id="dateLabel" layoutX="70.0" layoutY="199.0" prefHeight="17.0" prefWidth="33.0" text="Date" />
+    <Label fx:id="warningLbl" layoutX="70.0" layoutY="330.0" prefHeight="17.0" prefWidth="262.0" text="" textAlignment="CENTER" textFill="#c30e0e" />
+    <CheckBox fx:id="followUpCheckbox" layoutX="74.0" layoutY="284.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="157.0" text="Follow Up Required?" />
+    <Button fx:id="createButton" layoutX="318.0" layoutY="385.0" mnemonicParsing="false" onAction="#createButtonPressed" text="Create" />
+    <Button fx:id="cancelButton" layoutX="249.0" layoutY="385.0" mnemonicParsing="false" onAction="#cancelButtonPressed" text="Cancel" />
+    <DatePicker fx:id="datePicker" layoutX="70.0" layoutY="222.0" prefHeight="27.0" prefWidth="168.0" />
+    <TableView fx:id="immunizationTable" layoutX="14.0" layoutY="82.0" prefHeight="394.0" prefWidth="868.0">
+      <columns>
+        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="442.3336343765259" text="Immunization Name" fx:id="immunizationName" />
+        <TableColumn prefWidth="213.66629028320312" text="Date" fx:id="date" />
+        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="211.2532958984375" text="Follow Up?" fx:id="follow" />
+      </columns>
+    </TableView>
+  </children>
+</AnchorPane>

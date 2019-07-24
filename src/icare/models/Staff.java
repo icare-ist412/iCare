@@ -15,8 +15,8 @@ public class Staff extends User {
      * @param department Sets the User's department
      * @param dobString Sets the User's date of birth
      */
-    public Staff(String firstName, String lastName, String department, String dobString) {
-        super(firstName, lastName, dobString);
+    public Staff(String firstName, String lastName, String department, String dobString, String gender) {
+        super(firstName, lastName, dobString, gender);
         this.department = department;
     }
 

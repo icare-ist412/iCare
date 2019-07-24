@@ -1,51 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
 <?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="489.0" prefWidth="685.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="icare.controllers.MainMenuViewController">
-   <children>
-      <Label layoutX="26.0" layoutY="24.0" prefHeight="38.0" prefWidth="170.0" text="iCare">
-         <font>
-            <Font size="36.0" />
-         </font>
-      </Label>
-      <Pane layoutX="244.0" layoutY="94.0">
-         <children>
-            <Pane layoutX="55.0" layoutY="84.0" prefHeight="182.0" prefWidth="101.0">
-               <children>
-                  <Button disable="true" layoutY="152.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="Use Case 4" />
-                  <Pane fx:id="addUserPane">
-                     <children>
-                        <Button fx:id="addPatientBtn" mnemonicParsing="false" onAction="#addUserBtnClicked" prefHeight="30.0" prefWidth="100.0" text="Add User" />
-                     </children>
-                  </Pane>
-                  <Button disable="true" layoutY="51.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="Use Case 2" />
-                  <Button disable="true" layoutY="98.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="Use Case 3" />
-               </children>
+<AnchorPane id="AnchorPane" prefHeight="489.0" prefWidth="685.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="icare.controllers.MainMenuViewController">
+  <children>
+    <Label layoutX="26.0" layoutY="24.0" prefHeight="38.0" prefWidth="170.0" text="iCare">
+      <font>
+        <Font size="36.0" fx:id="x1" />
+      </font>
+    </Label>
+    <Pane layoutX="244.0" layoutY="94.0">
+      <children>
+        <Pane layoutX="55.0" layoutY="84.0" prefHeight="182.0" prefWidth="101.0">
+          <children>
+            <Pane fx:id="staffPane" layoutX="0.0" layoutY="0.0" prefHeight="200.0" prefWidth="101.0">
+              <children>
+                <Pane fx:id="addUserPane">
+                  <children>
+                    <Button fx:id="addPatientBtn" mnemonicParsing="false" onAction="#addUserBtnClicked" prefHeight="30.0" prefWidth="100.0" text="Add User" />
+                  </children>
+                </Pane>
+                <Button fx:id="viewPatientsBtn" layoutY="51.0" mnemonicParsing="false" onAction="#viewPatientsBtnClicked" prefHeight="30.0" prefWidth="100.0" text="Patients" />
+              </children>
             </Pane>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="44.0" prefWidth="210.0" text="Main Menu" textAlignment="CENTER">
-               <font>
-                  <Font size="36.0" />
-               </font>
-            </Label>
-         </children>
-      </Pane>
-      <Pane layoutX="26.0" layoutY="71.0">
-         <children>
-            <Label text="Welcome," />
-            <Label fx:id="fnameLabel" layoutX="65.0" prefHeight="17.0" prefWidth="258.0" text="[first name]" />
-         </children>
-      </Pane>
-      <Pane layoutX="579.0" layoutY="396.0">
-         <children>
-            <Button mnemonicParsing="false" onAction="#logoutButtonClicked" text="Log out" />
-            <Button layoutY="40.0" mnemonicParsing="false" onAction="#quitButtonClicked" prefHeight="27.0" prefWidth="65.0" text="Quit" />
-         </children>
-      </Pane>
-   </children>
+            <Pane id="staffPane" fx:id="patientPane" layoutX="-15.0" layoutY="-1.0" prefHeight="200.0" prefWidth="132.0" visible="false">
+              <children>
+                <Button id="addPatientBtn" mnemonicParsing="false" onAction="#myImmBtnClicked" prefHeight="30.0" prefWidth="130.0" text="My Immunizations" />
+              </children>
+            </Pane>
+          </children>
+        </Pane>
+        <Label alignment="CENTER" contentDisplay="CENTER" font="$x1" prefHeight="44.0" prefWidth="210.0" text="Main Menu" textAlignment="CENTER" />
+      </children>
+    </Pane>
+    <Pane layoutX="26.0" layoutY="71.0">
+      <children>
+        <Label fx:id="fnameLabel" layoutX="0.0" layoutY="0.0" prefHeight="17.0" prefWidth="321.0" text="Welcome, [first name]" />
+      </children>
+    </Pane>
+    <Pane layoutX="579.0" layoutY="396.0">
+      <children>
+        <Button mnemonicParsing="false" onAction="#logoutButtonClicked" prefHeight="25.0" prefWidth="65.0" text="Log out" />
+        <Button layoutY="40.0" mnemonicParsing="false" onAction="#quitButtonClicked" prefHeight="27.0" prefWidth="65.0" text="Quit" />
+      </children>
+    </Pane>
+  </children>
 </AnchorPane>

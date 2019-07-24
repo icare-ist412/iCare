@@ -7,8 +7,8 @@ import java.util.ArrayList;
  * @author jakebenedick
  */
 public class Hospital {
-    Address address;
-    ArrayList<Staff> staffList;
+    private Address address;
+    private ArrayList<Staff> staffList;
     
     /**
     * Default constructor for this class
