@@ -5,9 +5,9 @@ package icare.models;
  * @author jakebenedick
  */
 public class Treatment {
-    private String instructions;
-    private String medication;
-    private int numberOfWeeks;
+    String instructions;
+    String medication;
+    int numberOfWeeks;
 
     /**
     * Treatment constructor with instructions, medication, and numberOfWeeks parameters

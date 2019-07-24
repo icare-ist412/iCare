@@ -3,6 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/ortizde/Documents/Repos/iCare/src/icare/views/MainMenuView.fxml</file>
+            <file>file:/C:/Users/ortizde/Documents/Repos/iCare/src/icare/views/ViewPatients.fxml</file>
+            <file>file:/C:/Users/ortizde/Documents/Repos/iCare/src/icare/controllers/ImmunizationController.java</file>
+            <file>file:/C:/Users/ortizde/Documents/Repos/iCare/src/icare/controllers/MainMenuViewController.java</file>
+            <file>file:/C:/Users/ortizde/Documents/Repos/iCare/src/icare/models/Treatment.java</file>
+            <file>file:/C:/Users/ortizde/Documents/Repos/iCare/src/icare/controllers/ViewEditController.java</file>
+            <file>file:/C:/Users/ortizde/Documents/Repos/iCare/src/icare/models/Patient.java</file>
+            <file>file:/C:/Users/ortizde/Documents/Repos/iCare/src/icare/controllers/ViewPatientsController.java</file>
             <file>file:/C:/Users/ortizde/Documents/Repos/iCare/src/icare/ICare.java</file>
         </group>
     </open-files>
