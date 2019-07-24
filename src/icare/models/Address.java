@@ -5,10 +5,10 @@ package icare.models;
  * @author jakebenedick
  */
 public class Address {
-    String streetAddress;
-    String city;
-    String state;
-    int zipCode;
+    private String streetAddress;
+    private String city;
+    private String state;
+    private int zipCode;
 
     /**
     * Address constructor with streetAddress, city, state, and zipCode parameters
