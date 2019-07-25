@@ -3,6 +3,7 @@ package icare.controllers;
 import icare.models.Immunization;
 import icare.models.Patient;
 import icare.models.Storage;
+import icare.models.Treatment;
 import icare.models.User;
 import java.io.IOException;
 import java.net.URL;
@@ -32,7 +33,7 @@ import javafx.stage.Stage;
 /**
  * FXML Immunization Controller class
  *
- * @author Jake Benedick
+ * @author Jake Benedick, David Ortiz
  */
 public class ImmunizationController implements Initializable {
 
@@ -41,6 +42,7 @@ public class ImmunizationController implements Initializable {
     private Patient selectedPatient;
     private String firstName;
     private String userType;
+    private Immunization selectedImmunization;
     
     @FXML
     private TableView<Immunization> immunizationTable;
@@ -104,6 +106,7 @@ public class ImmunizationController implements Initializable {
         this.storage = storage;
         this.currentUser = currentUser;
         this.selectedPatient = selectedPatient;
+        this.deleteButton.setDisable(true);
         
         this.userType = currentUser.getRoleType();
         
@@ -155,15 +158,15 @@ public class ImmunizationController implements Initializable {
     }
     
     public void deleteButtonPressed(ActionEvent event) throws IOException{
-        Immunization selected = immunizationTable.getSelectionModel().getSelectedItem();
+        selectedImmunization = immunizationTable.getSelectionModel().getSelectedItem();
         
-        Alert alert = new Alert(AlertType.CONFIRMATION, "Are you sure you want to delete " + selected.getImmunization() + " ?", ButtonType.YES, ButtonType.NO);
+        Alert alert = new Alert(AlertType.CONFIRMATION, "Are you sure you want to delete " + selectedImmunization.getImmunization() + "?", ButtonType.YES, ButtonType.NO);
         alert.setHeaderText("Confirm deletion");
         alert.setGraphic(null);
         alert.showAndWait();
 
         if (alert.getResult() == ButtonType.YES) {
-            this.selectedPatient.removeImmunization(selected);
+            this.selectedPatient.removeImmunization(selectedImmunization);
             immunizationTable.getItems().setAll(selectedPatient.getImmunizations());
             storage.writeUserListFile();
         }
@@ -182,6 +185,24 @@ public class ImmunizationController implements Initializable {
     
     public void cancelButtonPressed(ActionEvent event) throws IOException{
         refresh();
+    }
+    
+    public void userClickedTableView(){
+        
+        if(this.userType.equals("Staff")){
+            
+            try{
+                this.selectedImmunization = (Immunization)immunizationTable.getSelectionModel().getSelectedItem();
+
+                if(selectedImmunization != null){
+                    this.deleteButton.setDisable(false);
+                }
+
+            } catch(NullPointerException e){
+                System.out.println("No immunization selected!");
+            }
+        }
+        
     }
     
     public void createButtonPressed(ActionEvent event) throws IOException{

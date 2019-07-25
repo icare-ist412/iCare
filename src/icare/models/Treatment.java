@@ -1,10 +1,12 @@
 package icare.models;
 
+import java.io.Serializable;
+
 /**
  *
  * @author jakebenedick
  */
-public class Treatment {
+public class Treatment implements Serializable{
     private String instructions;
     private String medication;
     private int numberOfWeeks;

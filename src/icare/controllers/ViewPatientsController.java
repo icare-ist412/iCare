@@ -24,7 +24,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
@@ -113,7 +112,23 @@ public class ViewPatientsController implements Initializable {
                 .stream()
                 .sorted()
                 .collect(Collectors.toList());
-} 
+    }
+    
+    public void resetBtnClicked(ActionEvent event){
+        selectFirstInChoiceBox(byFnameCB);
+        selectFirstInChoiceBox(byLnameCB);
+        selectFirstInChoiceBox(byDobCB);
+        selectFirstInChoiceBox(byGenderCB);
+        selectFirstInChoiceBox(byLastVisitCB);
+        selectFirstInChoiceBox(byNextVisitCB);
+        selectFirstInChoiceBox(byFnameCB);
+        
+        tableView.getItems().setAll(users);
+    }
+    
+    public void selectFirstInChoiceBox(ComboBox cb){
+        cb.valueProperty().set(null);
+    }
     
     public void goToMainMenu(ActionEvent event) throws IOException {
 
@@ -196,30 +211,25 @@ public class ViewPatientsController implements Initializable {
     }
     
     public void medicalBtnClicked(ActionEvent event) throws IOException {
-        //uncomment for use-case-3
-        String fname = this.patientSelectedFromTable.getFirstName().substring(0, 1).toUpperCase() + this.patientSelectedFromTable.getFirstName().substring(1);
-
-        //System.out.println("View Medical Record: "+this.patientSelectedFromTable.getFullName());
         
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/icare/views/ViewEditView.fxml"));
         Parent root = loader.load();
+        
+        Scene scene = new Scene(root);
 
         ViewEditController controller = loader.getController();        
-        controller.initData(this.currentUser, this.patientSelectedFromTable);
+        controller.initData(this.currentUser, this.patientSelectedFromTable, this.storage);
         
-        // Set the scene:
-        Stage stage = new Stage();
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setScene(new Scene(root));
-        stage.setTitle(fname + "'s Medical Record");
-        stage.resizableProperty().setValue(false);
-        stage.showAndWait();
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        window.setScene(scene);
+        window.show();
         
     }
     
     public void userClickedTable(){
-        viewMedicalBtn.setDisable(false); //uncomment for use-case-3
+        //viewMedicalBtn.setDisable(false); //uncomment for use-case-3
         immunizationsBtn.setDisable(false);
         
         try{

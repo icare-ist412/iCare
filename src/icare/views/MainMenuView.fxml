@@ -10,7 +10,7 @@
 <?import javafx.scene.text.*?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="489.0" prefWidth="685.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="icare.controllers.MainMenuViewController">
+<AnchorPane id="AnchorPane" prefHeight="489.0" prefWidth="685.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="icare.controllers.MainMenuViewController">
   <children>
     <Label layoutX="26.0" layoutY="24.0" prefHeight="38.0" prefWidth="170.0" text="iCare">
       <font>
@@ -21,7 +21,7 @@
       <children>
         <Pane layoutX="55.0" layoutY="84.0" prefHeight="182.0" prefWidth="101.0">
           <children>
-            <Pane fx:id="staffPane" layoutX="0.0" layoutY="0.0" prefHeight="200.0" prefWidth="101.0">
+            <Pane fx:id="staffPane" layoutX="0.0" layoutY="0.0" prefHeight="200.0" prefWidth="101.0" visible="false">
               <children>
                 <Pane fx:id="addUserPane">
                   <children>
@@ -31,9 +31,10 @@
                 <Button fx:id="viewPatientsBtn" layoutY="51.0" mnemonicParsing="false" onAction="#viewPatientsBtnClicked" prefHeight="30.0" prefWidth="100.0" text="Patients" />
               </children>
             </Pane>
-            <Pane id="staffPane" fx:id="patientPane" layoutX="-15.0" layoutY="-1.0" prefHeight="200.0" prefWidth="132.0" visible="false">
+            <Pane id="staffPane" fx:id="patientPane" layoutX="-17.0" layoutY="-1.0" prefHeight="200.0" prefWidth="132.0">
               <children>
-                <Button id="addPatientBtn" mnemonicParsing="false" onAction="#myImmBtnClicked" prefHeight="30.0" prefWidth="130.0" text="My Immunizations" />
+                <Button id="addPatientBtn" mnemonicParsing="false" onAction="#myImmBtnClicked" prefHeight="30.0" prefWidth="139.0" text="My Immunizations" />
+                        <Button id="addPatientBtn" fx:id="medRecordBtn" layoutY="49.0" mnemonicParsing="false" onAction="#myRecordBtnClicked" prefHeight="30.0" prefWidth="139.0" text="My Medical Record" />
               </children>
             </Pane>
           </children>

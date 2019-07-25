@@ -6,9 +6,12 @@
 package icare.controllers;
 
 import icare.models.Patient;
+import icare.models.Storage;
 import icare.models.Treatment;
 import icare.models.User;
+import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -17,9 +20,15 @@ import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
@@ -30,6 +39,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -41,6 +51,8 @@ public class ViewEditController implements Initializable {
     private User currentUser;
     private Patient selectedUser;
     private String selectedDisease;
+    private Storage storage;
+    private String userType;
     
     private Treatment selectedTreatment;
     @FXML
@@ -67,6 +79,21 @@ public class ViewEditController implements Initializable {
     private TableColumn<Treatment, String> weeksCol;
     
     @FXML
+    private TextField fnameLbl;
+    
+    @FXML
+    private TextField lnameLbl;
+            
+    @FXML
+    private Label genderLbl;
+    
+    @FXML
+    private TextField insuranceLbl;
+    
+    @FXML
+    private DatePicker dobPicker;
+    
+    @FXML
     private Button deleteDiseaseBtn;
     
     /**
@@ -79,11 +106,25 @@ public class ViewEditController implements Initializable {
         instructionsCol.setCellValueFactory(new PropertyValueFactory<>("instructions"));
         medicationCol.setCellValueFactory(new PropertyValueFactory<>("medication"));
         weeksCol.setCellValueFactory(new PropertyValueFactory<>("numberOfWeeks"));
+        
+        
     }    
     
-    public void initData(User currentUser, Patient selectedUser){
+    public void initData(User currentUser, Patient selectedUser, Storage storage){
         this.currentUser = currentUser;
         this.selectedUser = selectedUser;
+        this.storage = storage;
+        this.userType = currentUser.getRoleType();
+        
+        String fname = this.selectedUser.getFirstName().substring(0, 1).toUpperCase() + this.selectedUser.getFirstName().substring(1);
+        String lname = this.selectedUser.getLastName().substring(0, 1).toUpperCase() + this.selectedUser.getLastName().substring(1);
+
+        fnameLbl.setText(fname);
+        lnameLbl.setText(lname);
+        genderLbl.setText(selectedUser.getGender());
+        insuranceLbl.setText(String.valueOf(selectedUser.getInsuranceID()));
+        dobPicker.setValue(selectedUser.getBirthdate());
+        
         listView.itemsProperty().bind(listProperty);
         
         if(this.selectedUser.getTreatments() != null){
@@ -94,7 +135,6 @@ public class ViewEditController implements Initializable {
             listProperty.set(FXCollections.observableArrayList(this.selectedUser.getDiseases()));
         }
             
-        String fname = this.selectedUser.getFirstName().substring(0, 1).toUpperCase() + this.selectedUser.getFirstName().substring(1);
         this.userTitleLbl.setText(fname);
        
     }
@@ -114,13 +154,99 @@ public class ViewEditController implements Initializable {
         }    
     }
     
-    public void saveBtnClicked(ActionEvent event){
-        System.out.println("TODO - add serialization persistance");
+    public void saveBtnClicked(ActionEvent event) throws IOException{
+        
+        if(validateMedicalRecordInfo().equals("valid")){
+            this.selectedUser.setFirstName(this.fnameLbl.getText());
+            this.selectedUser.setLastName(this.lnameLbl.getText());
+            this.selectedUser.setBirthdate(this.dobPicker.getValue());
+            this.selectedUser.setInsuranceID(Long.valueOf(this.insuranceLbl.getText()));
+            
+            storage.writeUserListFile();
+            returnToViewPatients(event); 
+        } else {
+            this.warningLbl.setText(validateMedicalRecordInfo());
+        }
+        
+        
     }
     
-    public void cancelBtnClicked(ActionEvent event){
-        System.out.println("TODO - add no changes will be saved");
+    private String validateMedicalRecordInfo(){
+        String result = "";
+        
+        if(!this.fnameLbl.getText().isEmpty()
+                && !this.lnameLbl.getText().isEmpty() 
+                && this.dobPicker.getValue() != null 
+                && !this.insuranceLbl.getText().isEmpty() )
+        {
+            if(dobPicker.getValue().isBefore(LocalDate.now())){  
+                if(insuranceLbl.getText().matches("\\d*")){
+                    result = "valid";
+                } else {
+                    result = "Insurance IDs should only include integers.";
+
+                }
+
+            } else {
+                result = "Birthdate must be in the past.";
+            }
+            
+        } else {
+            result = "All fields must be filled out.";
+        }
+        
+        return result;
     }
+    
+    public void cancelBtnClicked(ActionEvent event) throws IOException{
+        
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to cancel? No changes will be saved.", ButtonType.YES, ButtonType.NO);
+        alert.setHeaderText("Confirm cancel");
+        alert.setGraphic(null);
+        alert.showAndWait();
+
+        if (alert.getResult() == ButtonType.YES) {
+            returnToViewPatients(event);
+        }
+    }
+    
+    
+    public void returnToViewPatients(ActionEvent event) throws IOException{
+        
+        FXMLLoader loader = new FXMLLoader();
+        Scene scene = null;
+        
+        if(userType.equals("Staff")){
+            
+            loader.setLocation(getClass().getResource("/icare/views/ViewPatients.fxml"));
+            Parent root = loader.load();
+
+            scene = new Scene(root);
+
+            //access the controller and call a method
+            ViewPatientsController controller = loader.getController();        
+            controller.initData(this.storage, this.currentUser);
+        
+        } else {
+            
+            loader.setLocation(getClass().getResource("/icare/views/MainMenuView.fxml"));
+            Parent root = loader.load();
+
+            scene = new Scene(root);
+
+            //access the controller and call a method
+            MainMenuViewController controller = loader.getController();
+            controller.initData(this.storage, this.currentUser);
+            
+        }
+        
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        window.setScene(scene);
+        window.show();
+        
+    }
+    
     
     public void deleteDiseaseBtnClicked(ActionEvent event){
         this.selectedUser.removeDisease(this.selectedDisease);
@@ -151,9 +277,9 @@ public class ViewEditController implements Initializable {
         medField.setPromptText("Medication");
         weeksField.setPromptText("# of weeks");
                 
-        dialogPane.setContent(new VBox(8, instrField, medField, weeksField));
+        dialogPane.setContent(new VBox(8, medField, instrField, weeksField));
         
-        Platform.runLater(instrField::requestFocus);
+        Platform.runLater(medField::requestFocus);
         
         dialog.setResultConverter((ButtonType button) -> {
             if (button == ButtonType.OK) {
