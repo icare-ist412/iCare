@@ -40,6 +40,20 @@ public class User implements Serializable {
 
     }
 
+    public void setFirstName(String firstName) {
+        this.firstName = firstName.toLowerCase();
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName.toLowerCase();
+    }
+
+    public void setBirthdate(LocalDate birthdate) {
+        this.birthdate = birthdate;
+    }
+    
+    
+
     /**
      * Gets the role of the current User
      *

@@ -27,8 +27,9 @@ public class Patient extends User {
         immunizations = new ArrayList();
         this.insuranceID = insuranceID;
         
-       
     }
+    
+    
 
     public void addTreatment(Treatment treatment){
         this.treatments.add(treatment);

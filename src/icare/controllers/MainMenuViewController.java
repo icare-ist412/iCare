@@ -40,7 +40,7 @@ public class MainMenuViewController implements Initializable {
     private Button viewPatientsBtn;
     
     @FXML
-    private Button myImmBtnClicked;
+    private Button medRecordBtn;
     
     
     @FXML
@@ -63,6 +63,8 @@ public class MainMenuViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         staffPane.setVisible(false);
         patientPane.setVisible(false);
+        
+        medRecordBtn.setDisable(true); //remove for use case 3
     }    
     
     /**
@@ -94,6 +96,22 @@ public class MainMenuViewController implements Initializable {
         System.exit(0);
     }
     
+    public void myRecordBtnClicked(ActionEvent event) throws IOException{
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/icare/views/ViewEditView.fxml"));
+        Parent root = loader.load();
+        
+        Scene scene = new Scene(root);
+
+        ViewEditController controller = loader.getController();        
+        controller.initData(this.currentUser, (Patient)this.currentUser, this.storage);
+        
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        window.setScene(scene);
+        window.show();
+    }
+
     public void myImmBtnClicked(ActionEvent event) throws IOException{
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/icare/views/ImmunizationView.fxml"));
