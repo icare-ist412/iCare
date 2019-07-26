@@ -128,8 +128,8 @@ public class stubsController {
 
     private static void addressTest() {
         print(HEADER + "Adress");
-        Address address = new Address("767 5th Ave","New York", "NY", 10153);  
-        print(address.getStreetAddress());
+        Address address = new Address("767","5th Ave","New York", "NY", "10153");  
+        print(address.getStreet());
         print(address.getCity());
         print(address.getState());
         print(address.getZipCode());
@@ -142,11 +142,9 @@ public class stubsController {
         Patient patient = new Patient("David", "Ortiz", 123456789, "1995-08-03", "M");
         Staff staff = new Staff("David", "Ortiz", "IT", "1995-08-03", "M");
         LocalDateTime aDate = LocalDateTime.now().plusDays(3).withHour(15).withMinute(15);
-        appointment.setAddress(new Address("767 5th Ave","New York", "NY", 10153));
         appointment.setDate(aDate);
         appointment.setPatient(patient);
         appointment.setStaff(staff);           
-        print(appointment.getAddress().toString());
         print(appointment.getDateAsString());
         print(appointment.getPatient().toString());
         print(appointment.getStaff().toString());
@@ -180,7 +178,7 @@ public class stubsController {
 
     private static void hospitalTest() {
         print(HEADER + "Hospital");
-        
+        /*
         Hospital hospital = new Hospital();
         hospital.setAddress("500 University DR", "Hershey", "PA", 17033);
         ArrayList<Staff> staffList = new ArrayList<>();
@@ -189,7 +187,7 @@ public class stubsController {
         
         print(hospital.getAddress().toString());
         print("StaffList: " + hospital.getStaffList().toString());
-        
+        */
         print(FOOTER);
     }
 

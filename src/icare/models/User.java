@@ -15,9 +15,7 @@ public class User implements Serializable {
     private Credential credential;
     private LocalDate birthdate;
     private String gender;
-    private LocalDate lastVisit;
-    private LocalDate nextVisit;
-
+    
     /**
      * Default constructor for this class
      *
@@ -34,9 +32,6 @@ public class User implements Serializable {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         birthdate = LocalDate.parse(dobString, dateTimeFormatter);
         
-        //ToDo replace with actual values
-        this.lastVisit = LocalDate.parse("2019-01-01", dateTimeFormatter);
-        this.nextVisit = LocalDate.parse("2019-12-31", dateTimeFormatter);
 
     }
 
@@ -90,17 +85,6 @@ public class User implements Serializable {
     public String getGender() { 
         return gender;
     }
-    
-    public String getLastVisit() { 
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        return dateTimeFormatter.format(lastVisit);
-    }
-    
-    public String getNextVisit() { 
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        return dateTimeFormatter.format(nextVisit);
-    }
-    
     
 
     /**

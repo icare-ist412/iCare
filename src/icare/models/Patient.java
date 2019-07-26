@@ -1,5 +1,8 @@
 package icare.models;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 /**
@@ -12,6 +15,14 @@ public class Patient extends User {
     private ArrayList<Treatment> treatments;
     private ArrayList<String> diseases;
     private ArrayList<Immunization> immunizations;
+    private ArrayList<Appointment> appointments;
+    
+    private LocalDateTime now;
+    private ArrayList<Appointment> upcomingAppointments;
+    private ArrayList<Appointment> pastAppointments;
+    
+    private String lastVisit;
+    private String nextVisit;
 
     /**
      * Default constructor for this class. 
@@ -25,9 +36,87 @@ public class Patient extends User {
         diseases = new ArrayList();
         treatments = new ArrayList();
         immunizations = new ArrayList();
+        appointments = new ArrayList();
+        
+        upcomingAppointments = new ArrayList();
+        pastAppointments = new ArrayList();
+        
         this.insuranceID = insuranceID;
         
+        this.now = LocalDateTime.now();
+        
+        if(this.pastAppointments.isEmpty()){
+            this.lastVisit = "None";
+        } else {
+            this.lastVisit = this.pastAppointments.get(0).getDay();
+        }
+        
+        if(this.upcomingAppointments.isEmpty()){
+            this.nextVisit = "None";
+        } else {
+            this.nextVisit = this.upcomingAppointments.get(0).getDay();
+        }
+        
     }
+    
+    public void setLastVisit(LocalDate date) { 
+        this.lastVisit = date.toString();
+    }
+    
+    public void setNextVisit(LocalDate date) { 
+        this.nextVisit = date.toString();
+    }
+    
+    public String getLastVisit() { 
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return lastVisit;
+    }
+    
+    public String getNextVisit() { 
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return nextVisit;
+    }
+    
+    public ArrayList<Appointment> getPastAppointments(){
+        
+        return pastAppointments;
+    }
+    
+    public ArrayList<Appointment> getUpcomingAppointments(){
+        
+        return upcomingAppointments;
+    }
+    
+    public void addAppointment(Appointment appointment){
+        if(this.appointments == null){
+            appointments = new ArrayList();
+        }
+        
+        if(this.upcomingAppointments == null){
+            upcomingAppointments = new ArrayList();
+        }
+        if(this.pastAppointments == null){
+            pastAppointments = new ArrayList();
+        }
+        
+        if(appointment.getDate().isAfter(this.now)){
+            upcomingAppointments.add(appointment);
+        }
+        if(appointment.getDate().isBefore(this.now)){
+            pastAppointments.add(appointment);
+        }
+        
+        this.appointments.add(appointment);
+    }
+    public ArrayList<Appointment> getAppointments(){
+        return this.appointments;
+    }
+    public void removeAppointment(Appointment appointment){
+        this.appointments.remove(appointment);
+    }
+    
+    
+    
     
     
 

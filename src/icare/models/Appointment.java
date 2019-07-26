@@ -10,17 +10,55 @@ import java.time.format.DateTimeFormatter;
 public class Appointment {
     
     private LocalDateTime date;
-    private Address address;
+    private Hospital hospital;
     private Patient patient;
     private Staff staff;
+    private String reason;
+    
+    private String day;
+    private String time;
+    private String location;
     
     /**
     * Default constructor for this class
     */
     public Appointment(){
     }
+
+    public Appointment(LocalDateTime date, Hospital hospital, Patient patient, String reason) {
+        this.date = date;
+        this.hospital = hospital;
+        this.location = this.hospital.getName();
+        this.day = this.date.getMonthValue() + "/" + this.date.getDayOfMonth() + "/"+ this.date.getYear();
+        
+        String min = String.valueOf(this.date.getMinute());
+        if(this.date.getMinute() < 10){
+            min = 0+""+this.date.getMinute();
+        }
+        
+        this.time = this.date.getHour() + ":" + min;
+        
+        this.patient = patient;
+        this.reason = reason;
+    }
+
+    public String getTime() {
+        return this.time;
+    }
+    public String getDay() {
+        return this.day;
+    }
     
+    public String getLocation(){
+        return this.location;
+    }
     
+    public String getReason(){
+        return this.reason;
+    }
+    public void setReason(String reason){
+        this.reason = reason;
+    }
     /**
     * Sets this Appointment's date and time
      * @param formattedDateString Date String formatted as yyyy-MM-dd
@@ -57,9 +95,6 @@ public class Appointment {
     * Gets this Appointment's day of the week
      * @return A String object representing this Appointment's day of the week
     */
-    public String getDay(){
-        return this.getDate().getDayOfWeek().toString();
-    }
     
     /**
     * Gets this Appointment's day of the month
@@ -86,30 +121,13 @@ public class Appointment {
     }
     
     /**
-    * Returns this Appointment's address
-     * @return An Address object representing the location of this Appointment
+    * Returns this Appointment's hospital
+     * @return An Hospital object representing the location of this Appointment
     */
-    public Address getAddress() {
-        return address;
+    public Hospital getHospital() {
+        return hospital;
     }
 
-    /**
-    * Sets this Appointment's address using Strings for street, city, state, and an int for zip.
-<<<<<<< HEAD
-     *  @param streetAddress sets the city
-     *  @param city sets the city
-     *  @param state sets the state
-     *  @param zipCode sets the zip code
-=======
-     *  @param String streetAddress
-     *  @param String city
-     *  @param String state
-     *  @param int zipCode
->>>>>>> master
-    */
-    public void setAddress(String streetAddress, String city, String state, int zipCode) {
-        setAddress(new Address(streetAddress, city, state, zipCode));
-    }
 
     /**
      * @return the patient
@@ -154,9 +172,9 @@ public class Appointment {
     }
 
     /**
-     * @param address the address to set
+     * @param hospital the hospital to set
      */
-    public void setAddress(Address address) {
-        this.address = address;
+    public void setHospital(Hospital hospital) {
+        this.hospital = hospital;
     }
 }

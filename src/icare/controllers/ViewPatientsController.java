@@ -34,7 +34,7 @@ public class ViewPatientsController implements Initializable {
 
     private Storage storage;
     private User currentUser;
-    private List<User> users;
+    private List<Patient> users;
     private Patient patientSelectedFromTable;
 
     @FXML
@@ -57,7 +57,9 @@ public class ViewPatientsController implements Initializable {
     private Button viewMedicalBtn;
     @FXML
     private Button immunizationsBtn;
-
+    @FXML
+    private Button appointmentsBtn;
+    
     @FXML
     private TableView tableView;
     @FXML
@@ -76,6 +78,10 @@ public class ViewPatientsController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        viewMedicalBtn.setDisable(true);
+        immunizationsBtn.setDisable(true);
+        appointmentsBtn.setDisable(true);
+        
         firstNameCol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         lastNameCol.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         dobCol.setCellValueFactory(new PropertyValueFactory<>("dob"));
@@ -93,17 +99,17 @@ public class ViewPatientsController implements Initializable {
 
         tableView.getItems().setAll(users);
         byFnameCB.getItems().setAll(toSortedList(users.stream()
-                .map(User::getFirstName)));
+                .map(Patient::getFirstName)));
         byLnameCB.getItems().setAll(toSortedList(users.stream()
-                .map(User::getLastName)));
+                .map(Patient::getLastName)));
         byDobCB.getItems().setAll(toSortedList(users.stream()
-                .map(User::getDob)));
+                .map(Patient::getDob)));
         byGenderCB.getItems().setAll(toSortedList(users.stream()
-                .map(User::getGender)));
+                .map(Patient::getGender)));
         byLastVisitCB.getItems().setAll(toSortedList(users.stream()
-                .map(User::getLastVisit)));
+                .map(Patient::getLastVisit)));
         byNextVisitCB.getItems().setAll(toSortedList(users.stream()
-                .map(User::getNextVisit)));
+                .map(Patient::getNextVisit)));
 
     }
 
@@ -228,8 +234,27 @@ public class ViewPatientsController implements Initializable {
         
     }
     
+    public void appointmentsBtnClicked(ActionEvent event) throws IOException {
+        
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/icare/views/AppointmentsView.fxml"));
+        Parent root = loader.load();
+        
+        Scene scene = new Scene(root);
+
+        AppointmentsViewController controller = loader.getController();        
+        controller.initData(this.storage, this.currentUser, this.patientSelectedFromTable);
+        
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        window.setScene(scene);
+        window.show();
+        
+    }
+    
     public void userClickedTable(){
         //viewMedicalBtn.setDisable(false); //uncomment for use-case-3
+        appointmentsBtn.setDisable(false); //comment for use-case-4
         immunizationsBtn.setDisable(false);
         
         try{
