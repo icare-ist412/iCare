@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="585.0" prefWidth="900.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="icare.controllers.AppointmentsViewController">
+<AnchorPane id="AnchorPane" prefHeight="585.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="icare.controllers.AppointmentsViewController">
   <children>
     <Label fx:id="nameLbl" layoutX="61.0" layoutY="25.0" prefWidth="409.0" text="[User]'s Appointments">
       <font>
@@ -22,10 +22,10 @@
     </HBox>
     <TableView fx:id="upcomingTableView" layoutX="61.0" layoutY="101.0" prefHeight="210.0" prefWidth="381.0">
       <columns>
-        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="64.0" text="Date" fx:id="dateCol" />
-        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="39.0" text="Time" fx:id="timeCol" />
-        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="121.0" text="Place" fx:id="placeCol" />
-        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="151.0" text="Reason" fx:id="reasonCol" />
+        <TableColumn fx:id="dateCol" maxWidth="5000.0" minWidth="10.0" prefWidth="72.0" text="Date" />
+        <TableColumn fx:id="timeCol" maxWidth="5000.0" minWidth="10.0" prefWidth="55.0" text="Time" />
+        <TableColumn fx:id="placeCol" maxWidth="5000.0" minWidth="10.0" prefWidth="117.0" text="Place" />
+        <TableColumn fx:id="reasonCol" maxWidth="5000.0" minWidth="10.0" prefWidth="131.0" text="Reason" />
       </columns>
     </TableView>
     <Label id="nameLbl" layoutX="505.0" layoutY="64.0" prefWidth="207.0" text="Patient Requests">
@@ -48,10 +48,10 @@
     </VBox>
     <TableView id="upcomingTableView" fx:id="pastTable" layoutX="61.0" layoutY="356.0" prefHeight="210.0" prefWidth="381.0">
       <columns>
-        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="64.0" text="Date" fx:id="pastDateCol" />
-        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="39.0" text="Time" fx:id="pastTimeCol" />
-        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="121.0" text="Place" fx:id="pastPlaceCol" />
-        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="151.0" text="Reason" fx:id="pastReasonCol" />
+        <TableColumn fx:id="pastDateCol" maxWidth="5000.0" minWidth="10.0" prefWidth="64.0" text="Date" />
+        <TableColumn fx:id="pastTimeCol" maxWidth="5000.0" minWidth="10.0" prefWidth="39.0" text="Time" />
+        <TableColumn fx:id="pastPlaceCol" maxWidth="5000.0" minWidth="10.0" prefWidth="121.0" text="Place" />
+        <TableColumn fx:id="pastReasonCol" maxWidth="5000.0" minWidth="10.0" prefWidth="151.0" text="Reason" />
       </columns>
     </TableView>
     <VBox id="VBox" fx:id="patientPane" alignment="CENTER" layoutX="505.0" layoutY="356.0" spacing="5.0" visible="false">
@@ -59,7 +59,7 @@
         <Button mnemonicParsing="false" prefHeight="44.0" prefWidth="305.0" text="Request New Appointment" />
       </children>
     </VBox>
-    <Label fx:id="warningLbl" alignment="CENTER" layoutX="505.0" layoutY="491.0" prefWidth="305.0" text="" textFill="RED">
+    <Label fx:id="warningLbl" alignment="CENTER" layoutX="454.0" layoutY="491.0" prefHeight="17.0" prefWidth="426.0" text="" textFill="RED">
       <font>
         <Font size="13.0" />
       </font>

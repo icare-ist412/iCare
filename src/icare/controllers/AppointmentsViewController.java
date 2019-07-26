@@ -12,7 +12,7 @@ import icare.models.User;
 import icare.models.Storage;
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
@@ -30,7 +30,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
@@ -138,7 +138,6 @@ public class AppointmentsViewController implements Initializable {
     
     public void newAppointmentClicked(ActionEvent event) throws IOException{
         warningLbl.setText("");
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         
         Dialog<Appointment> dialog = new Dialog<>();
         dialog.setTitle("New Appointment");
@@ -146,54 +145,36 @@ public class AppointmentsViewController implements Initializable {
         DialogPane dialogPane = dialog.getDialogPane();
         dialogPane.getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
         
-        //LocalDateTime date, Hospital hospital, Patient patient, String reason
-        
-        //TODO replace this with datepicker
-        TextField dateField = new TextField("2019-07-07");
-        String str = dateField.getText() + " 12:30";
-        
-        boolean validDate = true;
-        
+        DatePicker datePicker = new DatePicker();
         
         ChoiceBox hospitalDropdown = new ChoiceBox();
         hospitalDropdown.getItems().setAll(toSortedList(this.storage.getHospitals().stream().map(Hospital::getName)));
         
         TextField reasonField = new TextField();
         
-        dateField.setPromptText("Date");
-        //hospitalDropdown.("Hospital");
         reasonField.setPromptText("Reason");
                 
-        dialogPane.setContent(new VBox(8, dateField, hospitalDropdown, reasonField));
+        dialogPane.setContent(new VBox(8, datePicker, hospitalDropdown, reasonField));
         
-        Platform.runLater(dateField::requestFocus);
+        Platform.runLater(datePicker::requestFocus);
         
         dialog.setResultConverter((ButtonType button) -> {
-            LocalDateTime dateTime = null;
-            try{
-                dateTime = LocalDateTime.parse(str, formatter);
-
-            }catch (Exception e) {
-                
-                System.out.println("invalid date");
-            }
+            
             if (button == ButtonType.OK) {
                 
-                if( !dateField.getText().equals("") &&  
+            
+                if( datePicker.getValue() != null &&  
                         hospitalDropdown.getValue() != null &&
                         !reasonField.getText().equals("") ){
                     
-                    warningLbl.setText("here");
-                    //todo make this work
-                    return new Appointment( dateTime, storage.getHospital(hospitalDropdown.getValue().toString()),this.selectedPatient, reasonField.getText() );
-                    /*
-                    if(weeksField.getText().matches("\\d*")){
+                    if(datePicker.getValue().isAfter(LocalDate.now())){
+                        
                         warningLbl.setText("");
-                        return new Treatment( instrField.getText(), medField.getText(), Integer.parseInt(weeksField.getText()) );
+                        return new Appointment( datePicker.getValue().atStartOfDay(), storage.getHospital(hospitalDropdown.getValue().toString()),this.selectedPatient, reasonField.getText() );
                     } else {
-                        warningLbl.setText("Error adding treatment: number of weeks can only be a number.");
+                        warningLbl.setText("Error adding appointment: please enter a future date.");
                     }
-                    */
+                    
                 } else {
                     warningLbl.setText("Error adding appointment: please fill out all fields.");
                 }
