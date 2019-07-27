@@ -29,8 +29,12 @@
       </children>
     </Pane>
     <VBox layoutX="154.0" layoutY="97.0" />
-    <Button fx:id="deleteButton" layoutX="725.0" layoutY="520.0" mnemonicParsing="false" onAction="#deleteButtonPressed" prefWidth="70.0" style="-fx-background-color: red;" text="Delete" />
-    <Button fx:id="addButton" layoutX="809.0" layoutY="520.0" mnemonicParsing="false" onAction="#addButtonPressed" prefWidth="70.0" text="Add" />
+      <Pane layoutX="406.0" layoutY="444.0">
+         <children>
+          <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#deleteButtonPressed" prefWidth="70.0" style="-fx-background-color: red;" text="Delete" />
+          <Button fx:id="addButton" layoutX="84.0" mnemonicParsing="false" onAction="#addButtonPressed" prefWidth="70.0" text="Add" />
+         </children>
+      </Pane>
     <TextField fx:id="immunizationNameField" layoutX="71.0" layoutY="136.0" prefHeight="27.0" prefWidth="168.0" />
     <Label fx:id="immunizationNameLabel" layoutX="71.0" layoutY="114.0" text="Immunization Name" />
     <Label fx:id="dateLabel" layoutX="70.0" layoutY="199.0" prefHeight="17.0" prefWidth="33.0" text="Date" />
@@ -39,12 +43,23 @@
     <Button fx:id="createButton" layoutX="318.0" layoutY="385.0" mnemonicParsing="false" onAction="#createButtonPressed" text="Create" />
     <Button fx:id="cancelButton" layoutX="249.0" layoutY="385.0" mnemonicParsing="false" onAction="#cancelButtonPressed" text="Cancel" />
     <DatePicker fx:id="datePicker" layoutX="70.0" layoutY="222.0" prefHeight="27.0" prefWidth="168.0" />
-    <TableView fx:id="immunizationTable" layoutX="14.0" layoutY="82.0" onMouseClicked="#userClickedTableView" prefHeight="394.0" prefWidth="868.0">
+    <TableView fx:id="immunizationTable" layoutX="34.0" layoutY="98.0" onMouseClicked="#userClickedTableView" prefHeight="334.0" prefWidth="526.0">
       <columns>
-        <TableColumn fx:id="immunizationName" maxWidth="5000.0" minWidth="10.0" prefWidth="442.3336343765259" text="Immunization Name" />
-        <TableColumn fx:id="date" prefWidth="213.66629028320312" text="Date" />
-        <TableColumn fx:id="follow" maxWidth="5000.0" minWidth="10.0" prefWidth="211.2532958984375" text="Follow Up?" />
+        <TableColumn fx:id="immunizationName" maxWidth="5000.0" minWidth="10.0" prefWidth="207.0" text="Immunization Name" />
+        <TableColumn fx:id="date" prefWidth="162.0" text="Date" />
+        <TableColumn fx:id="follow" maxWidth="5000.0" minWidth="10.0" prefWidth="149.0" text="Follow Up?" />
       </columns>
     </TableView>
+      <Pane fx:id="warningsPane" layoutX="600.0" layoutY="88.0" prefHeight="396.0" prefWidth="253.0">
+         <children>
+            <Label layoutX="33.0" layoutY="12.0" text="Missing Immunizations" textFill="RED">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <ListView fx:id="warningsList" layoutY="45.0" prefHeight="298.0" prefWidth="253.0" />
+            <Button fx:id="schedAppBtn" layoutX="47.0" layoutY="355.0" mnemonicParsing="false" onAction="#schedAppClicked" text="Schedule Appointment?" />
+         </children>
+      </Pane>
   </children>
 </AnchorPane>

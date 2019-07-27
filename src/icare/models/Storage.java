@@ -19,6 +19,7 @@ public class Storage implements Serializable {
     
     private ArrayList<User> userList = new ArrayList<>();
     private ArrayList<Hospital> hospitalList = new ArrayList<>();
+    private ArrayList<String> requiredVaccines = new ArrayList<>();
     private String userFile = "Users.ser";
     //private String hospitalFile = "Hospitals.ser";
     
@@ -28,6 +29,7 @@ public class Storage implements Serializable {
      */
     public Storage() throws FileNotFoundException{
         this.hospitalList = this.fetchHospitalsFromFile();
+        this.requiredVaccines = this.fetchVaccinesFromFile();
         
         this.readUserListFile();
         if(userList.isEmpty() || userList == null){
@@ -40,6 +42,11 @@ public class Storage implements Serializable {
         displayLoginsForTesting();
         
     }
+    
+    public ArrayList<String> getRequiredVaccines(){
+        return this.requiredVaccines;
+    }
+    
     
     public ArrayList<Hospital> getHospitals(){
         return this.hospitalList;
@@ -119,6 +126,7 @@ public class Storage implements Serializable {
         
     }
     
+    
     /**
      * Determines if a User exists using the ID parameter. 
      * @param id Used to compare to User's ID to determine if User exists.
@@ -126,7 +134,7 @@ public class Storage implements Serializable {
      */
     public boolean doesUserExist(String id){
         for(User u : this.userList){
-            if(u.getUserID().equals(id)){
+            if(u.getUserID().toLowerCase().equals(id.toLowerCase())){
                 return true;
             }
             
@@ -181,6 +189,46 @@ public class Storage implements Serializable {
         System.out.println("----------------------------------------");
     }
     
+    private ArrayList<String> fetchVaccinesFromFile() throws FileNotFoundException{
+        String fileName = "vaccines.txt";
+        
+        ArrayList<String> vaccines = new ArrayList<>();
+         
+        String line = null;
+         
+        int index = 0;
+        
+        try {
+            FileReader fileReader = new FileReader(fileName);
+
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            
+            while((line = bufferedReader.readLine()) != null) {
+                
+                if(line != ""){
+                    
+                    
+                    vaccines.add(line);
+                       
+                }
+                    
+                index++;
+            } 
+                
+        
+            
+            bufferedReader.close(); 
+             
+        } catch(FileNotFoundException ex) {
+            System.out.println("Unable to open file '" + fileName + "'");                
+        } catch(IOException ex) {
+            System.out.println( "Error reading file '" + fileName + "'");   
+        }
+        return vaccines;
+         
+    } // end fetchVaccinesFromFile()
+    
+    
     private ArrayList<Hospital> fetchHospitalsFromFile() throws FileNotFoundException{
         String fileName = "hospitals.txt";
         
@@ -228,7 +276,7 @@ public class Storage implements Serializable {
         }
         return hospitals;
          
-    } // end fetchUsersFromFile()
+    } // end fetchHospitalsFromFile()
     
     private ArrayList<User> fetchUsersFromFile() throws FileNotFoundException{
         String fileName = "users.txt";

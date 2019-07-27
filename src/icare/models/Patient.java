@@ -55,6 +55,16 @@ public class Patient extends User {
         
     }
     
+    public ArrayList<String> getImmunizationNames(){
+        ArrayList<String> list = new ArrayList<>();
+        
+        this.immunizations.stream().forEach((i) -> {
+            list.add(i.getImmunization().toLowerCase());
+        });
+        
+        return list;
+    }
+    
     public void updateVisits(){
         
         if(this.pastAppointments.isEmpty()){
