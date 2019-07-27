@@ -7,13 +7,13 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" minWidth="-Infinity" prefHeight="458.0" prefWidth="331.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="icare.controllers.LoginViewController">
+<AnchorPane id="AnchorPane" minWidth="-Infinity" prefHeight="413.0" prefWidth="331.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="icare.controllers.LoginViewController">
     <children>
       <Pane layoutX="8.0" layoutY="110.0" prefHeight="159.0" prefWidth="306.0">
          <children>
-            <TextField fx:id="userIdField" layoutX="93.0" layoutY="32.0" onAction="#loginBtnClicked" onKeyReleased="#keyTyped" />
-            <Label layoutX="40.0" layoutY="68.0" text="Password:" />
-            <PasswordField fx:id="passwordField" layoutX="93.0" layoutY="86.0" onAction="#loginBtnClicked" onKeyReleased="#keyTyped" prefHeight="27.0" prefWidth="167.0">
+            <TextField fx:id="userIdField" layoutX="54.0" layoutY="30.0" onAction="#loginBtnClicked" onKeyReleased="#keyTyped" prefWidth="200.0" />
+            <Label layoutX="56.0" layoutY="71.0" text="Password:" />
+            <PasswordField fx:id="passwordField" layoutX="54.0" layoutY="88.0" onAction="#loginBtnClicked" onKeyReleased="#keyTyped" prefHeight="27.0" prefWidth="200.0">
                <font>
                   <Font size="9.0" />
                </font>
@@ -22,15 +22,15 @@
             <Label fx:id="statusLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="-19.0" layoutY="133.0" prefHeight="17.0" prefWidth="345.0" textAlignment="CENTER" textFill="#c30e0e" />
          </children>
       </Pane>
-      <Label layoutX="47.0" layoutY="50.0" text="Login to iCare">
+      <Label layoutX="47.0" layoutY="50.0" text="iCare Login">
          <font>
             <Font size="36.0" />
          </font>
       </Label>
-      <Pane layoutX="18.0" layoutY="269.0" prefHeight="166.0" prefWidth="296.0">
+      <Pane layoutX="18.0" layoutY="269.0" prefHeight="128.0" prefWidth="296.0">
          <children>
-            <Button fx:id="loginButton" layoutX="78.0" layoutY="14.0" mnemonicParsing="false" onAction="#loginBtnClicked" prefHeight="33.0" prefWidth="140.0" text="Login" />
-            <Button fx:id="quitButton" layoutX="78.0" layoutY="83.0" mnemonicParsing="false" onAction="#quitBtnClicked" prefHeight="33.0" prefWidth="140.0" text="Quit" />
+            <Button fx:id="loginButton" layoutX="42.0" layoutY="14.0" mnemonicParsing="false" onAction="#loginBtnClicked" prefHeight="33.0" prefWidth="200.0" text="Login" />
+            <Button fx:id="quitButton" layoutX="42.0" layoutY="67.0" mnemonicParsing="false" onAction="#quitBtnClicked" prefHeight="33.0" prefWidth="200.0" text="Quit" />
          </children>
       </Pane>
    </children>

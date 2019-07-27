@@ -108,6 +108,17 @@ public class Storage implements Serializable {
         return tempList;
     }
     
+    public void updateVisits(){
+        
+        for(User u : this.userList){
+            if(u.getRoleType().equals("Patient")){
+                ((Patient)u).updateVisits();
+                
+            }
+        }
+        
+    }
+    
     /**
      * Determines if a User exists using the ID parameter. 
      * @param id Used to compare to User's ID to determine if User exists.

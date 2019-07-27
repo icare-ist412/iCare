@@ -4,6 +4,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  *
@@ -47,18 +51,32 @@ public class Patient extends User {
         
         this.now = LocalDateTime.now();
         
+        this.updateVisits();
+        
+    }
+    
+    public void updateVisits(){
+        
         if(this.pastAppointments.isEmpty()){
             this.lastVisit = "None";
         } else {
+            pastAppointments.sort(Comparator.comparing(Appointment::getDate));
             this.lastVisit = this.pastAppointments.get(0).getDay();
         }
         
         if(this.upcomingAppointments.isEmpty()){
             this.nextVisit = "None";
         } else {
+            upcomingAppointments.sort(Comparator.comparing(Appointment::getDate));
             this.nextVisit = this.upcomingAppointments.get(0).getDay();
         }
-        
+    }
+    
+    private List<String> toSortedList(Stream<String> input){ 
+        return input.collect(Collectors.toSet())
+                .stream()
+                .sorted()
+                .collect(Collectors.toList());
     }
     
     public void setLastVisit(LocalDate date) { 

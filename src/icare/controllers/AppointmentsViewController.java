@@ -93,6 +93,9 @@ public class AppointmentsViewController implements Initializable {
     private Button approveBtn;
     
     @FXML
+    private Button staffCancelAppBtn;
+    
+    @FXML
     private Button denyBtn;
     
     @FXML
@@ -168,6 +171,8 @@ public class AppointmentsViewController implements Initializable {
         this.staffApproveDenyPane.setVisible(false);
         this.approveBtn.setDisable(true);
         this.denyBtn.setDisable(true);
+        this.staffCancelAppBtn.setDisable(true);
+        this.staffCancelAppBtn.setVisible(true);
     }    
     
     public void initData(Storage storage, User currentUser, Patient selectedPatient){
@@ -180,6 +185,8 @@ public class AppointmentsViewController implements Initializable {
         if(this.userType.equals("Staff")){
             this.staffPane.setVisible(true);
             this.staffApproveDenyPane.setVisible(true);
+            this.staffCancelAppBtn.setVisible(true);
+            
         }
         if(this.userType.equals("Patient")){
             this.patientPane.setVisible(true);
@@ -210,8 +217,13 @@ public class AppointmentsViewController implements Initializable {
         }
     }
     
-    public void newAppointmentClicked(ActionEvent event) throws IOException{
+    public void newAppointmentClicked(ActionEvent event){
         triggerNewAppointmentDialog("");
+    }
+    
+    public void cancelAppClicked(ActionEvent event){
+        this.selectedPatient.removeAppointment(this.selectedAppointment);
+        this.updateAppointmentsList();
     }
     
     public void triggerNewAppointmentDialog(String type){
@@ -318,6 +330,7 @@ public class AppointmentsViewController implements Initializable {
             if(this.selectedAppointment != null){
                 this.approveBtn.setDisable(true);
                 this.denyBtn.setDisable(true);
+                this.staffCancelAppBtn.setDisable(true);
                 parseAppointmentDetails();
             }
         } catch(NullPointerException e){
@@ -334,6 +347,7 @@ public class AppointmentsViewController implements Initializable {
             if(this.selectedAppointment != null){
                 this.approveBtn.setDisable(true);
                 this.denyBtn.setDisable(true);
+                this.staffCancelAppBtn.setDisable(false);
                 parseAppointmentDetails();
             }        
         } catch(NullPointerException e){
@@ -349,6 +363,7 @@ public class AppointmentsViewController implements Initializable {
             if(this.selectedAppointment != null){
                 this.approveBtn.setDisable(false);
                 this.denyBtn.setDisable(false);
+                this.staffCancelAppBtn.setDisable(true);
                 parseAppointmentDetails();
             }        
         } catch(NullPointerException e){
@@ -396,15 +411,16 @@ public class AppointmentsViewController implements Initializable {
     
     public void denyBtnClicked(ActionEvent event){
         
-        
-        
+        this.selectedPatient.denyRequestedAppointment(this.selectedAppointment);
+        this.updateRequestedAppointmentsList();
         
     }
     
     public void approveBtnClicked(ActionEvent event){
         
-        
-        
+        this.selectedPatient.approveRequestedAppointment(this.selectedAppointment);
+        this.updateRequestedAppointmentsList();
+        this.updateAppointmentsList();
         
     }
     

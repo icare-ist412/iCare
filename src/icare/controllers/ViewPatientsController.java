@@ -95,6 +95,9 @@ public class ViewPatientsController implements Initializable {
         this.storage = storage;
         this.currentUser = currentUser;
         this.users = storage.getPatients();
+        
+        this.storage.updateVisits();
+        
         Stream<List> reset = Stream.of(Arrays.asList("(reset)"));
 
         tableView.getItems().setAll(users);
@@ -156,7 +159,7 @@ public class ViewPatientsController implements Initializable {
     }
 
     public void performSearch(ActionEvent event) {
-        String s = searchField.getText();
+        String s = searchField.getText().toLowerCase();
         
         if (s.isEmpty()){
             byFnameCB.setValue(null);
@@ -172,10 +175,10 @@ public class ViewPatientsController implements Initializable {
                     .stream()
                     .filter(Objects::nonNull)
                     .filter(u -> ((u.getFullName().contains(s))
-                    || (u.getDob().contains(s))
-                    || (u.getGender().contains(s))
-                    || (u.getLastVisit().contains(s))
-                    || (u.getNextVisit().contains(s))))
+                    || (u.getDob().toLowerCase().contains(s))
+                    || (u.getGender().toLowerCase().contains(s))
+                    || (u.getLastVisit().toLowerCase().contains(s))
+                    || (u.getNextVisit().toLowerCase().contains(s))))
                     .collect(Collectors.toList())
             );
         }
@@ -254,7 +257,7 @@ public class ViewPatientsController implements Initializable {
     
     public void userClickedTable(){
         //viewMedicalBtn.setDisable(false); //uncomment for use-case-3
-        appointmentsBtn.setDisable(false); //comment for use-case-4
+        //appointmentsBtn.setDisable(false); //uncomment for use-case-4
         immunizationsBtn.setDisable(false);
         
         try{
