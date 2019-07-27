@@ -18,13 +18,16 @@ import java.util.ArrayList;
 public class Storage implements Serializable {
     
     private ArrayList<User> userList = new ArrayList<>();
+    private ArrayList<Hospital> hospitalList = new ArrayList<>();
     private String userFile = "Users.ser";
+    //private String hospitalFile = "Hospitals.ser";
     
     /**
      * Default constructor for this class. 
      * @throws java.io.FileNotFoundException Thrown when the user's text file is not found
      */
     public Storage() throws FileNotFoundException{
+        this.hospitalList = this.fetchHospitalsFromFile();
         
         this.readUserListFile();
         if(userList.isEmpty() || userList == null){
@@ -36,6 +39,20 @@ public class Storage implements Serializable {
         
         displayLoginsForTesting();
         
+    }
+    
+    public ArrayList<Hospital> getHospitals(){
+        return this.hospitalList;
+    }
+    
+    public Hospital getHospital(String name){
+        Hospital found = null;
+        for(Hospital h : this.hospitalList){
+            if(h.getName().equals(name)){
+                found = h;
+            }
+        }
+        return found;
     }
     
     public void readUserListFile(){
@@ -79,16 +96,27 @@ public class Storage implements Serializable {
         return userList;
     }
     
-    public ArrayList<User> getPatients(){
-        ArrayList<User> tempList = new ArrayList();
+    public ArrayList<Patient> getPatients(){
+        ArrayList<Patient> tempList = new ArrayList();
         
         for(User u : this.userList){
             if(u.getRoleType().equals("Patient")){
-                tempList.add(u);
+                tempList.add((Patient)u);
             }
         }
         
         return tempList;
+    }
+    
+    public void updateVisits(){
+        
+        for(User u : this.userList){
+            if(u.getRoleType().equals("Patient")){
+                ((Patient)u).updateVisits();
+                
+            }
+        }
+        
     }
     
     /**
@@ -135,6 +163,12 @@ public class Storage implements Serializable {
         this.writeUserListFile(); //update serialized file
     }
     
+    private void printHospitalsForTesting(){
+        for(Hospital h : this.hospitalList){
+            System.out.println(h.getName() + " = " + h.getAddress().toString() + " " + h.getPhone());
+        }
+    }
+    
     private void displayLoginsForTesting(){
         System.out.println("---------- Logins for testing ----------");
         for(User u : this.userList){
@@ -146,6 +180,55 @@ public class Storage implements Serializable {
         }
         System.out.println("----------------------------------------");
     }
+    
+    private ArrayList<Hospital> fetchHospitalsFromFile() throws FileNotFoundException{
+        String fileName = "hospitals.txt";
+        
+        ArrayList<Hospital> hospitals = new ArrayList<>();
+         
+        String line = null;
+         
+        int index = 0;
+        
+        try {
+            FileReader fileReader = new FileReader(fileName);
+
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            
+            while((line = bufferedReader.readLine()) != null) {
+                
+                if(line != ""){
+                    
+                    String[] words = line.split(";");
+                    String name = words[0];
+                    String number = words[1];
+                    String streetName = words[2];
+                    String city = words[3];
+                    String state = words[4];
+                    String zip = words[5];
+                    String phone = words[6];
+
+                    Address address = new Address(number, streetName, city, state, zip);
+                    Hospital hospital = new Hospital(name, address, phone);
+                    hospitals.add(hospital);
+                       
+                }
+                    
+                index++;
+            } 
+                
+        
+            
+            bufferedReader.close(); 
+             
+        } catch(FileNotFoundException ex) {
+            System.out.println("Unable to open file '" + fileName + "'");                
+        } catch(IOException ex) {
+            System.out.println( "Error reading file '" + fileName + "'");   
+        }
+        return hospitals;
+         
+    } // end fetchUsersFromFile()
     
     private ArrayList<User> fetchUsersFromFile() throws FileNotFoundException{
         String fileName = "users.txt";

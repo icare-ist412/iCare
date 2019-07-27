@@ -23,18 +23,19 @@
           <children>
             <Pane fx:id="staffPane" layoutX="0.0" layoutY="0.0" prefHeight="200.0" prefWidth="101.0" visible="false">
               <children>
-                <Pane fx:id="addUserPane">
+                <Pane fx:id="addUserPane" layoutX="0.0" layoutY="5.0">
                   <children>
                     <Button fx:id="addPatientBtn" mnemonicParsing="false" onAction="#addUserBtnClicked" prefHeight="30.0" prefWidth="100.0" text="Add User" />
                   </children>
                 </Pane>
-                <Button fx:id="viewPatientsBtn" layoutY="51.0" mnemonicParsing="false" onAction="#viewPatientsBtnClicked" prefHeight="30.0" prefWidth="100.0" text="Patients" />
+                <Button fx:id="viewPatientsBtn" layoutX="0.0" layoutY="56.0" mnemonicParsing="false" onAction="#viewPatientsBtnClicked" prefHeight="30.0" prefWidth="100.0" text="Patients" />
               </children>
             </Pane>
             <Pane id="staffPane" fx:id="patientPane" layoutX="-17.0" layoutY="-1.0" prefHeight="200.0" prefWidth="132.0">
               <children>
                 <Button id="addPatientBtn" mnemonicParsing="false" onAction="#myImmBtnClicked" prefHeight="30.0" prefWidth="139.0" text="My Immunizations" />
-                        <Button id="addPatientBtn" fx:id="medRecordBtn" layoutY="49.0" mnemonicParsing="false" onAction="#myRecordBtnClicked" prefHeight="30.0" prefWidth="139.0" text="My Medical Record" />
+                <Button id="addPatientBtn" fx:id="medRecordBtn" layoutY="49.0" mnemonicParsing="false" onAction="#myRecordBtnClicked" prefHeight="30.0" prefWidth="139.0" text="My Medical Record" />
+                <Button id="addPatientBtn" fx:id="myAppointmentsBtn" layoutX="0.0" layoutY="99.0" mnemonicParsing="false" onAction="#myAppointmentsBtnClicked" prefHeight="30.0" prefWidth="139.0" text="My Appointments" />
               </children>
             </Pane>
           </children>

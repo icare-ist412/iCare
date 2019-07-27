@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="585.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="icare.controllers.AppointmentsViewController">
+  <children>
+    <Label fx:id="nameLbl" layoutX="61.0" layoutY="25.0" prefWidth="409.0" text="[User]'s Appointments">
+      <font>
+        <Font size="24.0" />
+      </font>
+    </Label>
+    <HBox id="HBox" alignment="CENTER" layoutX="697.0" layoutY="532.0" spacing="5.0">
+      <children>
+        <Button fx:id="cancelBtn" mnemonicParsing="false" onAction="#cancelBtnClicked" prefWidth="69.0" text="Cancel" />
+        <Button fx:id="saveBtn" mnemonicParsing="false" onAction="#saveButtonClicked" prefWidth="69.0001220703125" text="Save" />
+      </children>
+    </HBox>
+    <TableView fx:id="upcomingTableView" layoutX="61.0" layoutY="101.0" onMouseClicked="#upcomingAppointmentTableClicked" prefHeight="173.0" prefWidth="381.0">
+      <columns>
+        <TableColumn fx:id="dateCol" maxWidth="5000.0" minWidth="10.0" prefWidth="72.0" text="Date" />
+        <TableColumn fx:id="timeCol" maxWidth="5000.0" minWidth="10.0" prefWidth="55.0" text="Time" />
+        <TableColumn fx:id="placeCol" maxWidth="5000.0" minWidth="10.0" prefWidth="117.0" text="Place" />
+        <TableColumn fx:id="reasonCol" maxWidth="5000.0" minWidth="10.0" prefWidth="131.0" text="Reason" />
+      </columns>
+    </TableView>
+    <Label id="nameLbl" layoutX="61.0" layoutY="325.0" prefWidth="207.0" text="Patient Requests">
+      <font>
+        <Font size="20.0" fx:id="x1" />
+      </font>
+    </Label>
+    <TableView fx:id="requestedAppTable" layoutX="61.0" layoutY="359.0" onMouseClicked="#reqAppointmentTableClicked" prefHeight="150.0" prefWidth="381.0">
+      <columns>
+            <TableColumn fx:id="reqDateCol" maxWidth="5000.0" minWidth="10.0" prefWidth="72.0" text="Date" />
+            <TableColumn fx:id="reqTimeCol" maxWidth="5000.0" minWidth="10.0" prefWidth="55.0" text="Time" />
+            <TableColumn fx:id="reqPlaceCol" maxWidth="5000.0" minWidth="10.0" prefWidth="117.0" text="Place" />
+            <TableColumn fx:id="reqReasonCol" maxWidth="5000.0" minWidth="10.0" prefWidth="131.0" text="Reason" />
+      </columns>
+    </TableView>
+    <Label id="nameLbl" font="$x1" layoutX="61.0" layoutY="69.0" prefWidth="127.0" text="Upcoming" />
+    <Label id="nameLbl" font="$x1" layoutX="460.0" layoutY="68.0" prefWidth="127.0" text="Past" />
+    <VBox id="VBox" fx:id="staffPane" alignment="CENTER" layoutX="461.0" layoutY="463.0" spacing="5.0">
+         <children>
+        <Button mnemonicParsing="false" onAction="#newAppointmentClicked" prefHeight="44.0" prefWidth="381.0" text="New Appointment" />
+         </children>
+    </VBox>
+    <TableView id="upcomingTableView" fx:id="pastTable" layoutX="460.0" layoutY="100.0" onMouseClicked="#pastAppointmentTableClicked" prefHeight="173.0" prefWidth="381.0">
+      <columns>
+        <TableColumn fx:id="pastDateCol" maxWidth="5000.0" minWidth="10.0" prefWidth="72.0" text="Date" />
+        <TableColumn fx:id="pastTimeCol" maxWidth="5000.0" minWidth="10.0" prefWidth="55.0" text="Time" />
+        <TableColumn fx:id="pastPlaceCol" maxWidth="5000.0" minWidth="10.0" prefWidth="117.0" text="Place" />
+        <TableColumn fx:id="pastReasonCol" maxWidth="5000.0" minWidth="10.0" prefWidth="131.0" text="Reason" />
+      </columns>
+    </TableView>
+    <VBox id="VBox" fx:id="patientPane" alignment="CENTER" layoutX="461.0" layoutY="462.0" prefHeight="44.0" prefWidth="381.0" spacing="5.0" visible="false">
+      <children>
+        <Button mnemonicParsing="false" onAction="#requestAppClicked" prefHeight="44.0" prefWidth="419.0" text="Request New Appointment" />
+      </children>
+    </VBox>
+    <Label fx:id="warningLbl" alignment="CENTER" layoutX="439.0" layoutY="511.0" prefHeight="17.0" prefWidth="426.0" text="" textFill="RED">
+      <font>
+        <Font size="13.0" />
+      </font>
+    </Label>
+      <Pane layoutX="460.0" layoutY="325.0">
+         <children>
+            <Label text="Appointment Details">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <VBox layoutY="34.0">
+               <children>
+                  <Label fx:id="hospitalLbl" layoutX="460.0" layoutY="359.0" prefHeight="17.0" prefWidth="381.0" text="Click an appointment above to see more details." />
+                  <Label fx:id="addressLbl" layoutX="10.0" layoutY="10.0" prefHeight="17.0" prefWidth="381.0" />
+                  <Label fx:id="phoneLbl" layoutX="10.0" layoutY="27.0" prefHeight="17.0" prefWidth="381.0" />
+                  <Label fx:id="dateTimeLbl" layoutX="10.0" layoutY="44.0" prefHeight="17.0" prefWidth="381.0" />
+                  <Label fx:id="reasonLbl" layoutX="10.0" layoutY="61.0" prefHeight="17.0" prefWidth="381.0" />
+               </children>
+            </VBox>
+         </children>
+      </Pane>
+      <Pane fx:id="staffApproveDenyPane" layoutX="136.0" layoutY="531.0">
+         <children>
+            <Button fx:id="approveBtn" layoutX="132.0" mnemonicParsing="false" onAction="#approveBtnClicked" prefHeight="27.0" prefWidth="87.0" text="Approve" />
+            <Button fx:id="denyBtn" layoutY="1.0" mnemonicParsing="false" onAction="#denyBtnClicked" prefHeight="27.0" prefWidth="87.0" text="Deny" />
+         </children>
+      </Pane>
+      <Button fx:id="staffCancelAppBtn" layoutX="180.0" layoutY="286.0" mnemonicParsing="false" onAction="#cancelAppClicked" text="Cancel Appointment" />
+  </children>
+</AnchorPane>

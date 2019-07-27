@@ -1,43 +1,47 @@
 package icare.models;
 
+import java.io.Serializable;
+
 /**
  *
  * @author jakebenedick
  */
-public class Address {
-    private String streetAddress;
+public class Address implements Serializable{
+    private String number;
+    private String street;
     private String city;
     private String state;
-    private int zipCode;
+    private String zipCode;
 
     /**
-    * Address constructor with streetAddress, city, state, and zipCode parameters
+    * Address constructor with street, city, state, and zipCode parameters
      * @param streetAddress sets the street
      * @param city sets the city
      * @param state sets the state
      * @param zipCode sets the Zip code
     */
-    public Address(String streetAddress, String city, String state, int zipCode) {
-        this.streetAddress = streetAddress;
+    public Address(String number, String streetAddress, String city, String state, String zipCode) {
+        this.number = number;
+        this.street = streetAddress;
         this.city = city;
         this.state = state;
         this.zipCode = zipCode;
     }
     
     /**
-    * Returns a String for the streetAddress
-     * @return String streetAddress
+    * Returns a String for the street
+     * @return String street
     */
-    public String getStreetAddress() {
-        return streetAddress;
+    public String getStreet() {
+        return street;
     }
 
     /**
-    * Sets the streetAddress for the address
-     *  @param streetAddress sets the street;
+    * Sets the street for the address
+     *  @param street sets the street;
     */
-    public void setStreetAddress(String streetAddress) {
-        this.streetAddress = streetAddress;
+    public void setStreet(String street) {
+        this.street = street;
     }
 
     /**
@@ -76,7 +80,7 @@ public class Address {
     * Returns an int for the zipCode
      * @return An int representing the zipCode 
     */
-    public int getZipCode() {
+    public String getZipCode() {
         return zipCode;
     }
 
@@ -84,13 +88,13 @@ public class Address {
     * Sets the zipCode for the address
      *  @param zipCode sets the zip code
     */
-    public void setZipCode(int zipCode) {
+    public void setZipCode(String zipCode) {
         this.zipCode = zipCode;
     }
     
     @Override
     public String toString(){
-        return getStreetAddress() + " " + getCity() + " "+ getState() + " " + getZipCode();
+        return this.number + " "+ this.street + ", " + this.city + ", "+ this.state + " " + this.zipCode+". ";
     }
     
     

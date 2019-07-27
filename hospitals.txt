@@ -1,0 +1,8 @@
+Cedar Crest;647;Main street;Jersey City;New Jersey;07080;(441) 294-6747
+Urgent Care;3453;Northwest Boulevard;West Orange;New Jersey;07052;(480) 643-8022
+ATZ Health General;4018;Pinchelone Street;Chesapeake;New Jersey;07052;(484) 463-8085
+Crossroads Hospital;670;Sycamore Road;Bernardsville;New Jersey;07924;(484) 483-7083
+Harmony Grove Medical Center;10;Paragon Dr;Montvale;New Jersey;07645;(501) 443-9205
+Grand Plains Clinic;108;Emerald Ave;Collingswood;New Jersey;08108;(503) 772-4558
+Hope Valley Medical Clinic;95;Walnut St;Penns Grove;New Jersey;08069;(505) 773-4673
+Blossomvale Medical Center;633;Franklin Ave;Nutley;New Jersey;07110;(508) 541-6515
