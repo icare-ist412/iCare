@@ -1,5 +1,6 @@
 package icare.models;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -7,7 +8,7 @@ import java.time.format.DateTimeFormatter;
  *
  * @author David Ortiz
  */
-public class Appointment {
+public class Appointment implements Serializable {
     
     private LocalDateTime date;
     private Hospital hospital;
@@ -88,7 +89,12 @@ public class Appointment {
     */
     public String getDateAsString(){
         //"Tuesday December 21st, 2019"
+        
         return this.getDate().getDayOfWeek() + " " + this.getDate().getMonth() + " "+this.getDate().getDayOfMonth() + ", "+ this.getDate().getYear();
+    }
+    
+    public String getDayTime(){
+        return this.day +", " + this.time;
     }
   
     /**

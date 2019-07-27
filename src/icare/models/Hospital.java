@@ -1,10 +1,12 @@
 package icare.models;
 
+import java.io.Serializable;
+
 /**
  *
  * @author jakebenedick
  */
-public class Hospital {
+public class Hospital implements Serializable{
     private String name;
     private Address address;
     private String phone;

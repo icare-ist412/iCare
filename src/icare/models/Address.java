@@ -1,10 +1,12 @@
 package icare.models;
 
+import java.io.Serializable;
+
 /**
  *
  * @author jakebenedick
  */
-public class Address {
+public class Address implements Serializable{
     private String number;
     private String street;
     private String city;

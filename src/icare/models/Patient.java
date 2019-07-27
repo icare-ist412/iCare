@@ -20,6 +20,7 @@ public class Patient extends User {
     private LocalDateTime now;
     private ArrayList<Appointment> upcomingAppointments;
     private ArrayList<Appointment> pastAppointments;
+    private ArrayList<Appointment> requestedAppointments;
     
     private String lastVisit;
     private String nextVisit;
@@ -37,6 +38,7 @@ public class Patient extends User {
         treatments = new ArrayList();
         immunizations = new ArrayList();
         appointments = new ArrayList();
+        requestedAppointments = new ArrayList();
         
         upcomingAppointments = new ArrayList();
         pastAppointments = new ArrayList();
@@ -113,11 +115,43 @@ public class Patient extends User {
     }
     public void removeAppointment(Appointment appointment){
         this.appointments.remove(appointment);
+        refreshAppointments();
+    }
+    public void refreshAppointments(){
+        this.now = LocalDateTime.now();
+        this.upcomingAppointments.clear();
+        this.pastAppointments.clear();
+        
+        for(Appointment a : this.appointments){
+            if(a.getDate().isAfter(now) || a.getDate().isEqual(now)){
+                this.upcomingAppointments.add(a);
+            }
+            if(a.getDate().isBefore(now)){
+                this.pastAppointments.add(a);
+            }
+        }
     }
     
-    
-    
-    
+    public void addRequestedAppointment(Appointment a){
+        if(this.requestedAppointments == null){
+            requestedAppointments = new ArrayList();
+        }
+        this.requestedAppointments.add(a);
+    }
+    public void removeRequestedAppointment(Appointment a){
+        this.requestedAppointments.remove(a);
+    }
+    public ArrayList<Appointment> getRequestedAppointments(){
+        return this.requestedAppointments;
+    }
+    public void approveRequestedAppointment(Appointment a){
+        this.addAppointment(a);
+        this.removeRequestedAppointment(a);
+        this.refreshAppointments();
+    }
+    public void denyRequestedAppointment(Appointment a){
+        this.removeRequestedAppointment(a);
+    }
     
 
     public void addTreatment(Treatment treatment){

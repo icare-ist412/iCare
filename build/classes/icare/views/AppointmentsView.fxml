@@ -14,13 +14,13 @@
         <Font size="24.0" />
       </font>
     </Label>
-    <HBox id="HBox" alignment="CENTER" layoutX="666.0" layoutY="545.0" spacing="5.0">
+    <HBox id="HBox" alignment="CENTER" layoutX="697.0" layoutY="532.0" spacing="5.0">
       <children>
-        <Button mnemonicParsing="false" onAction="#cancelBtnClicked" prefWidth="69.0" text="Cancel" />
-        <Button mnemonicParsing="false" prefWidth="69.0001220703125" text="Save" />
+        <Button fx:id="cancelBtn" mnemonicParsing="false" onAction="#cancelBtnClicked" prefWidth="69.0" text="Cancel" />
+        <Button fx:id="saveBtn" mnemonicParsing="false" onAction="#saveButtonClicked" prefWidth="69.0001220703125" text="Save" />
       </children>
     </HBox>
-    <TableView fx:id="upcomingTableView" layoutX="61.0" layoutY="101.0" prefHeight="210.0" prefWidth="381.0">
+    <TableView fx:id="upcomingTableView" layoutX="61.0" layoutY="101.0" onMouseClicked="#upcomingAppointmentTableClicked" prefHeight="210.0" prefWidth="381.0">
       <columns>
         <TableColumn fx:id="dateCol" maxWidth="5000.0" minWidth="10.0" prefWidth="72.0" text="Date" />
         <TableColumn fx:id="timeCol" maxWidth="5000.0" minWidth="10.0" prefWidth="55.0" text="Time" />
@@ -28,41 +28,67 @@
         <TableColumn fx:id="reasonCol" maxWidth="5000.0" minWidth="10.0" prefWidth="131.0" text="Reason" />
       </columns>
     </TableView>
-    <Label id="nameLbl" layoutX="505.0" layoutY="64.0" prefWidth="207.0" text="Patient Requests">
+    <Label id="nameLbl" layoutX="61.0" layoutY="325.0" prefWidth="207.0" text="Patient Requests">
       <font>
         <Font size="20.0" fx:id="x1" />
       </font>
     </Label>
-    <TableView layoutX="505.0" layoutY="98.0" prefHeight="200.0" prefWidth="305.0">
+    <TableView fx:id="requestedAppTable" layoutX="61.0" layoutY="359.0" onMouseClicked="#reqAppointmentTableClicked" prefHeight="150.0" prefWidth="381.0">
       <columns>
-        <TableColumn prefWidth="75.0" text="Column X" />
-        <TableColumn prefWidth="75.0" text="Column X" />
+            <TableColumn fx:id="reqDateCol" maxWidth="5000.0" minWidth="10.0" prefWidth="72.0" text="Date" />
+            <TableColumn fx:id="reqTimeCol" maxWidth="5000.0" minWidth="10.0" prefWidth="55.0" text="Time" />
+            <TableColumn fx:id="reqPlaceCol" maxWidth="5000.0" minWidth="10.0" prefWidth="117.0" text="Place" />
+            <TableColumn fx:id="reqReasonCol" maxWidth="5000.0" minWidth="10.0" prefWidth="131.0" text="Reason" />
       </columns>
     </TableView>
     <Label id="nameLbl" font="$x1" layoutX="61.0" layoutY="69.0" prefWidth="127.0" text="Upcoming" />
-    <Label id="nameLbl" font="$x1" layoutX="61.0" layoutY="324.0" prefWidth="127.0" text="Past" />
-    <VBox id="VBox" fx:id="staffPane" alignment="CENTER" layoutX="505.0" layoutY="356.0" spacing="5.0">
-      <children>
-        <Button mnemonicParsing="false" onAction="#newAppointmentClicked" prefHeight="44.0" prefWidth="305.0" text="New Appointment" />
-      </children>
+    <Label id="nameLbl" font="$x1" layoutX="460.0" layoutY="68.0" prefWidth="127.0" text="Past" />
+    <VBox id="VBox" fx:id="staffPane" alignment="CENTER" layoutX="461.0" layoutY="463.0" spacing="5.0">
+         <children>
+        <Button mnemonicParsing="false" onAction="#newAppointmentClicked" prefHeight="44.0" prefWidth="381.0" text="New Appointment" />
+         </children>
     </VBox>
-    <TableView id="upcomingTableView" fx:id="pastTable" layoutX="61.0" layoutY="356.0" prefHeight="210.0" prefWidth="381.0">
+    <TableView id="upcomingTableView" fx:id="pastTable" layoutX="460.0" layoutY="100.0" onMouseClicked="#pastAppointmentTableClicked" prefHeight="210.0" prefWidth="381.0">
       <columns>
-        <TableColumn fx:id="pastDateCol" maxWidth="5000.0" minWidth="10.0" prefWidth="64.0" text="Date" />
-        <TableColumn fx:id="pastTimeCol" maxWidth="5000.0" minWidth="10.0" prefWidth="39.0" text="Time" />
-        <TableColumn fx:id="pastPlaceCol" maxWidth="5000.0" minWidth="10.0" prefWidth="121.0" text="Place" />
-        <TableColumn fx:id="pastReasonCol" maxWidth="5000.0" minWidth="10.0" prefWidth="151.0" text="Reason" />
+        <TableColumn fx:id="pastDateCol" maxWidth="5000.0" minWidth="10.0" prefWidth="72.0" text="Date" />
+        <TableColumn fx:id="pastTimeCol" maxWidth="5000.0" minWidth="10.0" prefWidth="55.0" text="Time" />
+        <TableColumn fx:id="pastPlaceCol" maxWidth="5000.0" minWidth="10.0" prefWidth="117.0" text="Place" />
+        <TableColumn fx:id="pastReasonCol" maxWidth="5000.0" minWidth="10.0" prefWidth="131.0" text="Reason" />
       </columns>
     </TableView>
-    <VBox id="VBox" fx:id="patientPane" alignment="CENTER" layoutX="505.0" layoutY="356.0" spacing="5.0" visible="false">
+    <VBox id="VBox" fx:id="patientPane" alignment="CENTER" layoutX="461.0" layoutY="462.0" prefHeight="44.0" prefWidth="381.0" spacing="5.0" visible="false">
       <children>
-        <Button mnemonicParsing="false" prefHeight="44.0" prefWidth="305.0" text="Request New Appointment" />
+        <Button mnemonicParsing="false" onAction="#requestAppClicked" prefHeight="44.0" prefWidth="419.0" text="Request New Appointment" />
       </children>
     </VBox>
-    <Label fx:id="warningLbl" alignment="CENTER" layoutX="454.0" layoutY="491.0" prefHeight="17.0" prefWidth="426.0" text="" textFill="RED">
+    <Label fx:id="warningLbl" alignment="CENTER" layoutX="439.0" layoutY="511.0" prefHeight="17.0" prefWidth="426.0" text="" textFill="RED">
       <font>
         <Font size="13.0" />
       </font>
     </Label>
+      <Pane layoutX="460.0" layoutY="325.0">
+         <children>
+            <Label text="Appointment Details">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <VBox layoutY="34.0">
+               <children>
+                  <Label fx:id="hospitalLbl" layoutX="460.0" layoutY="359.0" prefHeight="17.0" prefWidth="381.0" text="Click an appointment above to see more details." />
+                  <Label fx:id="addressLbl" layoutX="10.0" layoutY="10.0" prefHeight="17.0" prefWidth="381.0" />
+                  <Label fx:id="phoneLbl" layoutX="10.0" layoutY="27.0" prefHeight="17.0" prefWidth="381.0" />
+                  <Label fx:id="dateTimeLbl" layoutX="10.0" layoutY="44.0" prefHeight="17.0" prefWidth="381.0" />
+                  <Label fx:id="reasonLbl" layoutX="10.0" layoutY="61.0" prefHeight="17.0" prefWidth="381.0" />
+               </children>
+            </VBox>
+         </children>
+      </Pane>
+      <Pane fx:id="staffApproveDenyPane" layoutX="136.0" layoutY="531.0">
+         <children>
+            <Button fx:id="approveBtn" layoutX="132.0" mnemonicParsing="false" onAction="#approveBtnClicked" prefHeight="27.0" prefWidth="87.0" text="Approve" />
+            <Button fx:id="denyBtn" layoutY="1.0" mnemonicParsing="false" onAction="#denyBtnClicked" prefHeight="27.0" prefWidth="87.0" text="Deny" />
+         </children>
+      </Pane>
   </children>
 </AnchorPane>

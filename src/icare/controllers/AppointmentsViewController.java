@@ -12,14 +12,16 @@ import icare.models.User;
 import icare.models.Storage;
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,6 +30,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
@@ -38,6 +41,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -52,6 +57,7 @@ public class AppointmentsViewController implements Initializable {
     private User currentUser;
     private Patient selectedPatient;
     private String userType;
+    private Appointment selectedAppointment;
     
     @FXML
     private Label nameLbl;
@@ -75,6 +81,33 @@ public class AppointmentsViewController implements Initializable {
     private TableView pastTable;
     
     @FXML
+    private TableView requestedAppTable;
+    
+    @FXML
+    private Button cancelBtn;
+    
+    @FXML
+    private Button saveBtn;
+    
+    @FXML
+    private Button approveBtn;
+    
+    @FXML
+    private Button denyBtn;
+    
+    @FXML
+    private TableColumn<Appointment, String> reqDateCol;
+    
+    @FXML
+    private TableColumn<Appointment, String> reqPlaceCol;
+    
+    @FXML
+    private TableColumn<Appointment, String> reqTimeCol;
+    
+    @FXML
+    private TableColumn<Appointment, String> reqReasonCol;
+    
+    @FXML
     private TableColumn<Appointment, String> pastDateCol;
     
     @FXML
@@ -93,7 +126,21 @@ public class AppointmentsViewController implements Initializable {
     private VBox patientPane;
     
     @FXML
+    private Pane staffApproveDenyPane;
+    
+    @FXML
     private Label warningLbl;
+    
+    @FXML
+    private Label hospitalLbl;
+    @FXML
+    private Label addressLbl;
+    @FXML
+    private Label phoneLbl;
+    @FXML
+    private Label dateTimeLbl;
+    @FXML
+    private Label reasonLbl;
     
 
     /**
@@ -110,6 +157,17 @@ public class AppointmentsViewController implements Initializable {
         pastTimeCol.setCellValueFactory(new PropertyValueFactory<>("time"));
         pastPlaceCol.setCellValueFactory(new PropertyValueFactory<>("location"));
         pastReasonCol.setCellValueFactory(new PropertyValueFactory<>("reason"));
+        
+        reqDateCol.setCellValueFactory(new PropertyValueFactory<>("day"));
+        reqTimeCol.setCellValueFactory(new PropertyValueFactory<>("time"));
+        reqPlaceCol.setCellValueFactory(new PropertyValueFactory<>("location"));
+        reqReasonCol.setCellValueFactory(new PropertyValueFactory<>("reason"));
+        
+        this.staffPane.setVisible(false);
+        this.patientPane.setVisible(false);
+        this.staffApproveDenyPane.setVisible(false);
+        this.approveBtn.setDisable(true);
+        this.denyBtn.setDisable(true);
     }    
     
     public void initData(Storage storage, User currentUser, Patient selectedPatient){
@@ -118,14 +176,26 @@ public class AppointmentsViewController implements Initializable {
         this.selectedPatient = selectedPatient;
         
         this.userType = currentUser.getRoleType();
+        
+        if(this.userType.equals("Staff")){
+            this.staffPane.setVisible(true);
+            this.staffApproveDenyPane.setVisible(true);
+        }
+        if(this.userType.equals("Patient")){
+            this.patientPane.setVisible(true);
+            this.cancelBtn.setVisible(false);
+            this.saveBtn.setText("Return");
+        }
+        
+        
         String fname = this.selectedPatient.getFirstName().substring(0, 1).toUpperCase() + this.selectedPatient.getFirstName().substring(1);
         nameLbl.setText(fname + "'s Appointments");
         
         upcomingTableView.setPlaceholder(new Label("No upcoming appointments"));
         pastTable.setPlaceholder(new Label("No past appointments"));
+        requestedAppTable.setPlaceholder(new Label("No appointments requested"));
         
-        //this.selectedPatient.addAppointment(new Appointment(LocalDateTime.now().minusDays(3), this.storage.getHospital("ATZ Health General"), this.selectedPatient ,"testing"));
-        //this.selectedPatient.addAppointment(new Appointment(LocalDateTime.now().plusDays(3), this.storage.getHospital("ATZ Health General"), this.selectedPatient ,"testing"));
+        this.selectedPatient.refreshAppointments();
         
         if(this.selectedPatient.getUpcomingAppointments() != null){
             this.upcomingTableView.getItems().setAll(this.selectedPatient.getUpcomingAppointments());
@@ -134,9 +204,18 @@ public class AppointmentsViewController implements Initializable {
         if(this.selectedPatient.getPastAppointments()!= null){
             this.pastTable.getItems().setAll(this.selectedPatient.getPastAppointments());
         }
+        
+        if(this.selectedPatient.getRequestedAppointments()!= null){
+            this.requestedAppTable.getItems().setAll(this.selectedPatient.getRequestedAppointments());
+        }
     }
     
     public void newAppointmentClicked(ActionEvent event) throws IOException{
+        triggerNewAppointmentDialog("");
+    }
+    
+    public void triggerNewAppointmentDialog(String type){
+        
         warningLbl.setText("");
         
         Dialog<Appointment> dialog = new Dialog<>();
@@ -150,11 +229,23 @@ public class AppointmentsViewController implements Initializable {
         ChoiceBox hospitalDropdown = new ChoiceBox();
         hospitalDropdown.getItems().setAll(toSortedList(this.storage.getHospitals().stream().map(Hospital::getName)));
         
+        
+        ChoiceBox hourDropdown = new ChoiceBox<>(FXCollections.observableList(this.generateTimes("hours")));
+        ChoiceBox minuteDropdown = new ChoiceBox<>(FXCollections.observableList(this.generateTimes("mins")));
+
         TextField reasonField = new TextField();
         
         reasonField.setPromptText("Reason");
                 
-        dialogPane.setContent(new VBox(8, datePicker, hospitalDropdown, reasonField));
+        dialogPane.setContent(
+            new VBox(8, 
+                new VBox(new Label("Select day"), datePicker), 
+                new VBox(new Label("Select time"), 
+                new HBox(hourDropdown, minuteDropdown)), 
+                new VBox(new Label("Select location"), hospitalDropdown), 
+                new VBox(new Label("Reason for visit"), reasonField)
+            )
+        );
         
         Platform.runLater(datePicker::requestFocus);
         
@@ -164,13 +255,21 @@ public class AppointmentsViewController implements Initializable {
                 
             
                 if( datePicker.getValue() != null &&  
-                        hospitalDropdown.getValue() != null &&
-                        !reasonField.getText().equals("") ){
+                    hospitalDropdown.getValue() != null &&
+                    !reasonField.getText().equals("") &&
+                    hourDropdown.getValue() != null && 
+                    minuteDropdown.getValue() != null   
+                )
+                {
                     
-                    if(datePicker.getValue().isAfter(LocalDate.now())){
+                    String time = datePicker.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + " "+hourDropdown.getValue() + ":" + minuteDropdown.getValue();
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+                    LocalDateTime dateTime = LocalDateTime.parse(time, formatter);
+                    
+                    if(dateTime.isAfter(LocalDateTime.now())){
                         
                         warningLbl.setText("");
-                        return new Appointment( datePicker.getValue().atStartOfDay(), storage.getHospital(hospitalDropdown.getValue().toString()),this.selectedPatient, reasonField.getText() );
+                        return new Appointment( dateTime, storage.getHospital(hospitalDropdown.getValue().toString()),this.selectedPatient, reasonField.getText() );
                     } else {
                         warningLbl.setText("Error adding appointment: please enter a future date.");
                     }
@@ -184,19 +283,104 @@ public class AppointmentsViewController implements Initializable {
         });
         
         Optional<Appointment> optionalResult = dialog.showAndWait();
+        
+        
         optionalResult.ifPresent(
                 
             (Appointment apt) -> {
-                this.selectedPatient.addAppointment(apt);
-                updateAppointmentsList();
+                if(type.equals("request")){
+                    this.selectedPatient.addRequestedAppointment(apt);
+                    updateRequestedAppointmentsList();
+                    
+                } else {
+                    this.selectedPatient.addAppointment(apt);
+                    updateAppointmentsList();
+                }
             }
                 
         );
+    }
+    
+    private void parseAppointmentDetails(){
+        hospitalLbl.setText(this.selectedAppointment.getHospital().getName());
+        addressLbl.setText(this.selectedAppointment.getHospital().getAddress().toString());
+        phoneLbl.setText(this.selectedAppointment.getHospital().getPhone());
+        dateTimeLbl.setText(this.selectedAppointment.getDayTime());
+        reasonLbl.setText("Reason: "+this.selectedAppointment.getReason());
+    }
+    
+    
+    
+    public void pastAppointmentTableClicked(){
+       
+        try{
+            this.selectedAppointment = (Appointment)this.pastTable.getSelectionModel().getSelectedItem();
+            if(this.selectedAppointment != null){
+                this.approveBtn.setDisable(true);
+                this.denyBtn.setDisable(true);
+                parseAppointmentDetails();
+            }
+        } catch(NullPointerException e){
+            System.out.println("No appointment selected!");
+        }
+       
         
+    }
+    
+    public void upcomingAppointmentTableClicked(){
+       
+        try{
+            this.selectedAppointment = (Appointment)this.upcomingTableView.getSelectionModel().getSelectedItem();
+            if(this.selectedAppointment != null){
+                this.approveBtn.setDisable(true);
+                this.denyBtn.setDisable(true);
+                parseAppointmentDetails();
+            }        
+        } catch(NullPointerException e){
+            System.out.println("No appointment selected!");
+        }
+        
+    }
+    
+    public void reqAppointmentTableClicked(){
+       
+        try{
+            this.selectedAppointment = (Appointment)this.requestedAppTable.getSelectionModel().getSelectedItem();
+            if(this.selectedAppointment != null){
+                this.approveBtn.setDisable(false);
+                this.denyBtn.setDisable(false);
+                parseAppointmentDetails();
+            }        
+        } catch(NullPointerException e){
+            System.out.println("No appointment selected!");
+        }
+        
+    }
+    
+    private ArrayList<String> generateTimes(String type){
+        ArrayList<String> temp = new ArrayList();
+        if(type.equals("hours")){
+            for(int i = 1; i<=23; i++){
+                temp.add(String.format("%02d" , i));
+            }
+        }
+        if(type.equals("mins")){
+            for(int i = 0; i<60; i+=5){
+                temp.add(String.format("%02d" , i));
+            }
+        }
+        if(type.equals("time")){
+            temp.add("AM");
+            temp.add("PM");
+        }
+        return temp;
     }
     
     private void updateAppointmentsList(){
         this.upcomingTableView.getItems().setAll(this.selectedPatient.getUpcomingAppointments());
+    }
+    private void updateRequestedAppointmentsList(){
+        this.requestedAppTable.getItems().setAll(this.selectedPatient.getRequestedAppointments());
     }
     
     private List<String> toSortedList(Stream<String> input){ 
@@ -204,6 +388,31 @@ public class AppointmentsViewController implements Initializable {
                 .stream()
                 .sorted()
                 .collect(Collectors.toList());
+    }
+    
+    public void requestAppClicked(ActionEvent event){
+        triggerNewAppointmentDialog("request");
+    }
+    
+    public void denyBtnClicked(ActionEvent event){
+        
+        
+        
+        
+    }
+    
+    public void approveBtnClicked(ActionEvent event){
+        
+        
+        
+        
+    }
+    
+    
+    public void saveButtonClicked(ActionEvent event) throws IOException{
+        storage.writeUserListFile();
+        returnToViewPatients(event);
+        
     }
     
     public void cancelBtnClicked(ActionEvent event) throws IOException{
@@ -216,8 +425,9 @@ public class AppointmentsViewController implements Initializable {
         if (alert.getResult() == ButtonType.YES) {
             returnToViewPatients(event);
         }
+        
     }
-    
+   
     public void returnToViewPatients(ActionEvent event) throws IOException{
         
         FXMLLoader loader = new FXMLLoader();

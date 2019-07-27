@@ -111,7 +111,23 @@ public class MainMenuViewController implements Initializable {
         window.setScene(scene);
         window.show();
     }
+    
+    public void myAppointmentsBtnClicked(ActionEvent event) throws IOException{
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/icare/views/AppointmentsView.fxml"));
+        Parent root = loader.load();
+        
+        Scene scene = new Scene(root);
 
+        AppointmentsViewController controller = loader.getController();        
+        controller.initData(this.storage, this.currentUser, (Patient)this.currentUser);
+        
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        window.setScene(scene);
+        window.show();
+    }
+            
     public void myImmBtnClicked(ActionEvent event) throws IOException{
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/icare/views/ImmunizationView.fxml"));
