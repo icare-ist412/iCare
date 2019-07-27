@@ -3,12 +3,15 @@ package icare.controllers;
 import icare.models.Immunization;
 import icare.models.Patient;
 import icare.models.Storage;
-import icare.models.Treatment;
 import icare.models.User;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleListProperty;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,10 +26,12 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
@@ -43,6 +48,10 @@ public class ImmunizationController implements Initializable {
     private String firstName;
     private String userType;
     private Immunization selectedImmunization;
+    protected ListProperty<String> listProperty = new SimpleListProperty<>();
+    
+    @FXML
+    private Pane warningsPane;
     
     @FXML
     private TableView<Immunization> immunizationTable;
@@ -94,12 +103,24 @@ public class ImmunizationController implements Initializable {
     
     @FXML
     private Label warningLbl;
+    
+    @FXML
+    private ListView warningsList;
+    
+    @FXML
+    private Button schedAppBtn;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        immunizationName.setCellValueFactory(new PropertyValueFactory<Immunization, String>("immunization"));
+        date.setCellValueFactory(new PropertyValueFactory<Immunization, Date>("dateAdministered"));
+        follow.setCellValueFactory(new PropertyValueFactory<Immunization, String>("isFollowUpRequired"));
         
+        this.warningsList.itemsProperty().bind(listProperty);
+        
+        schedAppBtn.setDisable(true); //remove for use case 4
     }    
     
     public void initData(Storage storage, User currentUser, Patient selectedPatient){
@@ -113,17 +134,35 @@ public class ImmunizationController implements Initializable {
         if(userType.equals("Patient")){
             this.deleteButton.setVisible(false);
             this.addButton.setVisible(false);
+        } else {
+            this.schedAppBtn.setVisible(false);
         }
         
+        warningsList.setPlaceholder(new Label("All caught up!"));
         firstName = this.selectedPatient.getFirstName().substring(0, 1).toUpperCase() + this.selectedPatient.getFirstName().substring(1);
 
         userNameLbl.setText(firstName+"'s Immunizations");
         
-        immunizationName.setCellValueFactory(new PropertyValueFactory<Immunization, String>("immunization"));
-        date.setCellValueFactory(new PropertyValueFactory<Immunization, Date>("dateAdministered"));
-        follow.setCellValueFactory(new PropertyValueFactory<Immunization, String>("isFollowUpRequired"));
-       
         immunizationTable.getItems().setAll(selectedPatient.getImmunizations());
+        
+        updateWarningsList();
+        
+    }
+    
+    private void updateWarningsList(){
+        listProperty.set(FXCollections.observableArrayList(getMissingVaccines()));
+    }
+    
+    private ArrayList<String> getMissingVaccines(){
+        ArrayList<String> list = new ArrayList<>();
+        
+        for(String s : this.storage.getRequiredVaccines()){
+            if( !this.selectedPatient.getImmunizationNames().contains(s.toLowerCase()) ){
+                list.add(s);
+            }
+        }
+   
+        return list;
     }
     
     public void backBtnClicked(ActionEvent event) throws IOException{
@@ -157,6 +196,26 @@ public class ImmunizationController implements Initializable {
         
     }
     
+    public void schedAppClicked(ActionEvent event) throws IOException{
+        
+        
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/icare/views/AppointmentsView.fxml"));
+        Parent root = loader.load();
+        
+        Scene scene = new Scene(root);
+
+        AppointmentsViewController controller = loader.getController();        
+        controller.initData(this.storage, this.currentUser, (Patient)this.currentUser);
+        
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        window.setScene(scene);
+        window.show();
+        
+        
+    }
+    
     public void deleteButtonPressed(ActionEvent event) throws IOException{
         selectedImmunization = immunizationTable.getSelectionModel().getSelectedItem();
         
@@ -181,6 +240,7 @@ public class ImmunizationController implements Initializable {
         deleteButton.setVisible(false);
         userNameLbl.setText("Add Immunization Record");
         immunizationTable.setVisible(false);
+        warningsPane.setVisible(false);
     }
     
     public void cancelButtonPressed(ActionEvent event) throws IOException{
@@ -219,7 +279,7 @@ public class ImmunizationController implements Initializable {
             
             warningLbl.setText("");
             selectedPatient.addImmunization(new Immunization(immunizationNameField.getText(), datePicker.getValue(), followUp));
-            
+            updateWarningsList();
             storage.writeUserListFile();
             
             refresh();
@@ -234,6 +294,7 @@ public class ImmunizationController implements Initializable {
         backButton.setVisible(true);
         addButton.setVisible(true);
         deleteButton.setVisible(true);
+        warningsPane.setVisible(true);
         immunizationTable.setVisible(true);
         immunizationTable.getItems().setAll(selectedPatient.getImmunizations());
     }

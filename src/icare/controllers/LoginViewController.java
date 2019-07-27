@@ -88,6 +88,7 @@ public class LoginViewController implements Initializable {
     
     private String performAuth(String userID, String password){
         String result;
+        userID = userID.toLowerCase();
         
         if(storage.doesUserExist(userID)){
                 
