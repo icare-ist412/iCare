@@ -12,7 +12,7 @@ There are two views: Staff and Patient (login info below) both
 offering separate experiences for the user, with Staff having
 more functionality. 
 
-The "View Medical Record" and "My Medical Record" buttons are 
+The "View Medical Record"/"My Medical Record" and "View Appointments"/"My Appointments" buttons are 
 both disabled purposely while under development for the next
 deliverable.
 
