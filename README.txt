@@ -39,11 +39,11 @@ Dmitry
  -
 
 Georgy
- -
+ - made sure that proper operands are used in Storage: FetchVaccines function replaced line!="" with !line.equals("")
  
- -
+ - deleted unused temp cariable to cleanup the code and elliminate potential error in Credential.java constructor
  
- -
+ - Optimized code in Storage by using functional operand in "doesUserExist" function of the Storage (in place of for loop with if statements and two return calls it is down to just one operation of search and return)
         
         
         
