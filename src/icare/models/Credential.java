@@ -14,9 +14,8 @@ class Credential implements Serializable{
     /**
      * Default constructor for class.
      */
-    public Credential(String firstName, String lastName, String newPassword) {
-        String temp = lastName +  firstName.substring(0, 2);
-           
+    public Credential(String firstName, String lastName, String newPassword) 
+    {
         userID = lastName +  firstName.substring(0, 2);
         password = newPassword;
     }
@@ -27,7 +26,8 @@ class Credential implements Serializable{
      * @param _userID Used to compare with the Credential's ID
      * @param _password Used to compare with the Credential's password
      */
-    public boolean verifyLogin(String _userID, String _password) {
+    public boolean verifyLogin(String _userID, String _password) 
+    {
         return this.userID.equals(_userID) && this.password.equals(_password);      
     }
     

@@ -15,8 +15,8 @@ import java.util.ArrayList;
  *
  * @author David Ortiz
  */
-public class Storage implements Serializable {
-    
+public class Storage implements Serializable 
+{
     private ArrayList<User> userList = new ArrayList<>();
     private ArrayList<Hospital> hospitalList = new ArrayList<>();
     private ArrayList<String> requiredVaccines = new ArrayList<>();
@@ -27,28 +27,29 @@ public class Storage implements Serializable {
      * Default constructor for this class. 
      * @throws java.io.FileNotFoundException Thrown when the user's text file is not found
      */
-    public Storage() throws FileNotFoundException{
+    public Storage() throws FileNotFoundException
+    {
         this.hospitalList = this.fetchHospitalsFromFile();
         this.requiredVaccines = this.fetchVaccinesFromFile();
         
         this.readUserListFile();
-        if(userList.isEmpty() || userList == null){
+        if(userList.isEmpty() || userList == null)
+        {
             this.userList = fetchUsersFromFile();
-            
             this.writeUserListFile();
             this.readUserListFile();
         }
-        
         displayLoginsForTesting();
-        
     }
     
-    public ArrayList<String> getRequiredVaccines(){
+    public ArrayList<String> getRequiredVaccines()
+    {
         return this.requiredVaccines;
     }
     
     
-    public ArrayList<Hospital> getHospitals(){
+    public ArrayList<Hospital> getHospitals()
+    {
         return this.hospitalList;
     }
     
@@ -132,15 +133,9 @@ public class Storage implements Serializable {
      * @param id Used to compare to User's ID to determine if User exists.
      * @return A boolean determining if User exists in UserList
      */
-    public boolean doesUserExist(String id){
-        for(User u : this.userList){
-            if(u.getUserID().toLowerCase().equals(id.toLowerCase())){
-                return true;
-            }
-            
-        } 
-        return false;
-        
+    public boolean doesUserExist(String id)
+    {
+        return this.userList.stream().anyMatch((u) -> (u.getUserID().equals(id)));    
     }
     
     /**
@@ -205,7 +200,7 @@ public class Storage implements Serializable {
             
             while((line = bufferedReader.readLine()) != null) {
                 
-                if(line != ""){
+                if(!line.equals("")){
                     
                     
                     vaccines.add(line);
