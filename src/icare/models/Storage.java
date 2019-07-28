@@ -200,7 +200,7 @@ public class Storage implements Serializable
             
             while((line = bufferedReader.readLine()) != null) {
                 
-                if(line != ""){
+                if(!line.equals("")){
                     
                     
                     vaccines.add(line);
