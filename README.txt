@@ -32,11 +32,21 @@ Jake
  -
 
 Dmitry
- -
+ - simplified Storage class (it was too complex) by separating the application 
+and the persistence layers.
+Added UserDao, HospitalDao, and RequiredVaccinesDao classes to handle the tasks,
+related to persistence issues of the respective objects. Also, I indroduced 
+CrudRepository interface, to standartize the methods used by Dao classes.
  
- -
+ - added application.properites file to store all application-related properties
+ in one place, such as names and locations of the files.
  
- -
+ - added RoleEnum class, which lists all user roles, supported by the system. 
+We used to have roles, which were equal to the name of the class
+(Patient or Staff). This link was not necessary and limited our ability to 
+introduce new complex roles (due to Java naming conventions).
+Also, Enum class helps to improve the integrity of the system 
+(otherwise, a typo would not be noticed). This way I eliminated switch statements.
 
 Georgy
  - made sure that proper operands are used in Storage: FetchVaccines function replaced line!="" with !line.equals("")

@@ -6,7 +6,7 @@ import java.io.Serializable;
  *
  * @author David Ortiz
  */
-class Credential implements Serializable{
+public class Credential implements Serializable{
     
     private String userID;
     private String password;

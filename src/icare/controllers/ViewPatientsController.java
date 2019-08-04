@@ -94,9 +94,9 @@ public class ViewPatientsController implements Initializable {
     public void initData(Storage storage, User currentUser) {
         this.storage = storage;
         this.currentUser = currentUser;
-        this.users = storage.getPatients();
+        this.users = storage.getUserDao().getAllPatients();
         
-        this.storage.updateVisits();
+        this.storage.getUserDao().updateVisits();
         
         Stream<List> reset = Stream.of(Arrays.asList("(reset)"));
 

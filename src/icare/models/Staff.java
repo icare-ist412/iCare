@@ -18,6 +18,7 @@ public class Staff extends User {
     public Staff(String firstName, String lastName, String department, String dobString, String gender) {
         super(firstName, lastName, dobString, gender);
         this.department = department;
+        this.role = RoleEnum.Staff;
     }
 
     /**

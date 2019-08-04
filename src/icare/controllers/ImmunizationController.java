@@ -2,6 +2,7 @@ package icare.controllers;
 
 import icare.models.Immunization;
 import icare.models.Patient;
+import icare.models.RoleEnum;
 import icare.models.Storage;
 import icare.models.User;
 import java.io.IOException;
@@ -46,7 +47,7 @@ public class ImmunizationController implements Initializable {
     private User currentUser;
     private Patient selectedPatient;
     private String firstName;
-    private String userType;
+    private RoleEnum userType;
     private Immunization selectedImmunization;
     protected ListProperty<String> listProperty = new SimpleListProperty<>();
     
@@ -131,7 +132,7 @@ public class ImmunizationController implements Initializable {
         
         this.userType = currentUser.getRoleType();
         
-        if(userType.equals("Patient")){
+        if(this.userType == RoleEnum.Patient){
             this.deleteButton.setVisible(false);
             this.addButton.setVisible(false);
         } else {
@@ -156,7 +157,7 @@ public class ImmunizationController implements Initializable {
     private ArrayList<String> getMissingVaccines(){
         ArrayList<String> list = new ArrayList<>();
         
-        for(String s : this.storage.getRequiredVaccines()){
+        for(String s : this.storage.getRequiredVaccinesDao().getAll()){
             if( !this.selectedPatient.getImmunizationNames().contains(s.toLowerCase()) ){
                 list.add(s);
             }
@@ -169,7 +170,7 @@ public class ImmunizationController implements Initializable {
         FXMLLoader loader = new FXMLLoader();
         Scene scene = null;
         
-        if(userType.equals("Staff")){
+        if(this.userType == RoleEnum.Staff){
             loader.setLocation(getClass().getResource("/icare/views/ViewPatients.fxml"));
             Parent root = loader.load();
         
@@ -178,7 +179,7 @@ public class ImmunizationController implements Initializable {
             //access the controller and call a method
             ViewPatientsController controller = loader.getController();        
             controller.initData(this.storage, this.currentUser);
-        } else if(userType.equals("Patient")){
+        } else if(userType == RoleEnum.Patient){
             loader.setLocation(getClass().getResource("/icare/views/MainMenuView.fxml"));
             Parent root = loader.load();
 
@@ -227,7 +228,7 @@ public class ImmunizationController implements Initializable {
         if (alert.getResult() == ButtonType.YES) {
             this.selectedPatient.removeImmunization(selectedImmunization);
             immunizationTable.getItems().setAll(selectedPatient.getImmunizations());
-            storage.writeUserListFile();
+            storage.getUserDao().writeUserListFile();
         }
         
     }
@@ -249,7 +250,7 @@ public class ImmunizationController implements Initializable {
     
     public void userClickedTableView(){
         
-        if(this.userType.equals("Staff")){
+        if(this.userType == RoleEnum.Staff){
             
             try{
                 this.selectedImmunization = (Immunization)immunizationTable.getSelectionModel().getSelectedItem();
@@ -280,7 +281,7 @@ public class ImmunizationController implements Initializable {
             warningLbl.setText("");
             selectedPatient.addImmunization(new Immunization(immunizationNameField.getText(), datePicker.getValue(), followUp));
             updateWarningsList();
-            storage.writeUserListFile();
+            storage.getUserDao().writeUserListFile();
             
             refresh();
         } else {

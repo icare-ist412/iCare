@@ -38,6 +38,7 @@ public class Patient extends User {
      */
     public Patient(String firstName, String lastName, long insuranceID, String dobString, String gender) {
         super(firstName, lastName, dobString, gender);
+        role = RoleEnum.Patient;
         diseases = new ArrayList();
         treatments = new ArrayList();
         immunizations = new ArrayList();

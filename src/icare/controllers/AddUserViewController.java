@@ -5,6 +5,7 @@
  */
 package icare.controllers;
 
+import icare.models.RoleEnum;
 import icare.models.Storage;
 import icare.models.User;
 import icare.models.UserFactory;
@@ -43,146 +44,144 @@ public class AddUserViewController implements Initializable {
     private User currentUser;
     private UserFactory userFactory;
     //private Patient newPatient;
-    private String selectedUserType;
-    
+    private RoleEnum selectedUserType;
+
     @FXML
     private TextField fnameLbl;
-    
+
     @FXML
     private TextField lnameLbl;
-    
+
     @FXML
     private TextField userIDLbl;
-    
+
     @FXML
     private TextField passwordLbl;
-    
+
     @FXML
     private DatePicker dobPicker;
-    
+
     @FXML
     private TextField insuranceLbl;
-    
-    @FXML 
+
+    @FXML
     private ChoiceBox departmentLbl;
-    
-    @FXML 
+
+    @FXML
     private ToggleGroup gender;
-    
-    @FXML 
+
+    @FXML
     private Label warningLbl;
-    
+
     @FXML
     private ToggleGroup userType;
-    
+
     @FXML
     private HBox insuranceBox;
-    
+
     @FXML
     private HBox departmentBox;
-    
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-    }    
-    
-    public void initData(Storage storage, User currentUser){
+    }
+
+    public void initData(Storage storage, User currentUser) {
         this.storage = storage;
         this.currentUser = currentUser;
         this.userFactory = new UserFactory();
         this.warningLbl.setText("");
         this.departmentBox.setVisible(false);
-        this.selectedUserType = ((RadioButton)userType.getSelectedToggle()).getText();
+
+        this.selectedUserType = getRole(((RadioButton) userType.getSelectedToggle()).getText());
+
         this.departmentLbl.setItems(FXCollections.observableArrayList(
-            "Radiology"
-            ,"Nursing"
-            ,"Patient Care" 
-            ,"Customer Service"
-            ,"Billing"
-            ,"IT"
-            ,"Emergency")
+                "Radiology",
+                "Nursing",
+                "Patient Care",
+                "Customer Service",
+                "Billing",
+                "IT",
+                "Emergency")
         );
     }
-    
-    public void goToMainMenu(ActionEvent event) throws IOException{
-        
+
+    public void goToMainMenu(ActionEvent event) throws IOException {
+
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/icare/views/MainMenuView.fxml"));
         Parent root = loader.load();
-        
+
         Scene scene = new Scene(root);
-        
+
         //access the controller and call a method
-        MainMenuViewController controller = loader.getController();        
+        MainMenuViewController controller = loader.getController();
         controller.initData(this.storage, this.currentUser);
-        
+
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         window.setScene(scene);
         window.show();
-        
+
     }
-    
-    public void userTypeSelected(ActionEvent event){
-        
-        this.selectedUserType = ((RadioButton)userType.getSelectedToggle()).getText();
-        switch (this.selectedUserType) {
-            case "Patient":
-                this.insuranceBox.setVisible(true);
-                this.departmentBox.setVisible(false);
-                break;
-            case "Staff":
-                this.insuranceBox.setVisible(false);
-                this.departmentBox.setVisible(true);
-                break;
-            default:
-                break;
+
+    public void userTypeSelected(ActionEvent event) {
+
+        this.selectedUserType = getRole(((RadioButton) userType.getSelectedToggle()).getText());
+
+        if (this.selectedUserType ==   RoleEnum.Patient) {
+            this.insuranceBox.setVisible(true);
+            this.departmentBox.setVisible(false);
         }
-        
+
+        if (this.selectedUserType ==   RoleEnum.Staff) {
+            this.insuranceBox.setVisible(false);
+            this.departmentBox.setVisible(true);
+        }
+
     }
-    
-    public void fnameEntered(KeyEvent keyEvent){
+
+    public void fnameEntered(KeyEvent keyEvent) {
         generateUserID();
     }
-    
-    public void lnameEntered(KeyEvent keyEvent){
+
+    public void lnameEntered(KeyEvent keyEvent) {
         generateUserID();
     }
-    
-    private void generateUserID(){
-        
+
+    private void generateUserID() {
+
         String lastNameTwoChars = "";
-        if(this.fnameLbl.getText().length()>=2){
+        if (this.fnameLbl.getText().length() >= 2) {
             lastNameTwoChars = this.fnameLbl.getText().substring(0, 2);
         }
-        
+
         this.userIDLbl.setText((this.lnameLbl.getText() + lastNameTwoChars).toLowerCase());
-        
+
     }
-    
-    public void generatePassword(ActionEvent event){
+
+    public void generatePassword(ActionEvent event) {
         String randomChars = "";
         Random random = new Random();
         int wordSize = 8;
-        
-        char[] word = new char[wordSize]; 
-        for(int i = 0; i < word.length; i++)
-        {
-            word[i] = (char)('a' + random.nextInt(26));
+
+        char[] word = new char[wordSize];
+        for (int i = 0; i < word.length; i++) {
+            word[i] = (char) ('a' + random.nextInt(26));
         }
         randomChars = new String(word);
-        
+
         passwordLbl.setText(randomChars);
     }
-    
-    public void saveBtnClicked(ActionEvent event) throws IOException{
-        
+
+    public void saveBtnClicked(ActionEvent event) throws IOException {
 
         String validateResult = validateUserInput();
-        
-        if(validateResult.equals("valid")){
+
+        if (validateResult.equals("valid")) {
             saveNewUser();
             goToMainMenu(event);
         } else {
@@ -190,48 +189,37 @@ public class AddUserViewController implements Initializable {
         }
 
     }
-    
-    private String validateUserInput(){
+
+    private String validateUserInput() {
         String result = "";
-        
-        if(fnameLbl.getText().isEmpty() 
-            || lnameLbl.getText().isEmpty() 
-            || dobPicker.getValue() == null 
-            || passwordLbl.getText().isEmpty())
-        {
+
+        if (fnameLbl.getText().isEmpty()
+                || lnameLbl.getText().isEmpty()
+                || dobPicker.getValue() == null
+                || passwordLbl.getText().isEmpty()) {
             result = "Please fill out all fields.";
-        } 
-        else 
-        {
-            if(!dobPicker.getValue().isBefore(LocalDate.now())){
+        } else {
+            if (!dobPicker.getValue().isBefore(LocalDate.now())) {
                 result = "Please select a date in the past.";
             } else {
-                switch (this.selectedUserType) {
-                    case "Staff":
-                        if(departmentLbl.getValue()!=(null)){
-                            result = "valid";
-                        } else {
-                            result = "Please fill out all fields.";
-                        }
-                        break;
-                    case "Patient":
-                        if(!insuranceLbl.getText().isEmpty() && insuranceLbl.getText().matches("\\d*")){
-                            result = "valid";
-                        } else {
-                            result = "Insurance IDs should only include integers.";
-                        }
-                        break;
-                    default:
-                        break;
-                } // end switch
+
+                if (this.selectedUserType == RoleEnum.Staff) {
+                    result = (departmentLbl.getValue() != (null)) ? "valid" : "Please fill out all fields.";
+                }
+
+                else if (this.selectedUserType == RoleEnum.Patient) {
+                    result = (!insuranceLbl.getText().isEmpty() && insuranceLbl.getText().matches("\\d*"))
+                            ? "valid" : "Insurance IDs should only include integers.";
+                }
+
             } // end nested ifelse 
         } // end ifelse
-        
+
         return result;
     }
-    
-    private void saveNewUser(){
-        
+
+    private void saveNewUser() {
+
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         User newUser = userFactory.createNewUser(
                 this.selectedUserType,
@@ -239,13 +227,24 @@ public class AddUserViewController implements Initializable {
                 lnameLbl.getText().toLowerCase(),
                 dateTimeFormatter.format(dobPicker.getValue()),
                 passwordLbl.getText(),
-                (String)departmentLbl.getValue(),
+                (String) departmentLbl.getValue(),
                 Long.parseLong(insuranceLbl.getText()),
-                ((RadioButton)gender.getSelectedToggle()).getText());
-               
-        this.storage.addToUserList(newUser);
+                ((RadioButton) gender.getSelectedToggle()).getText());
 
-       
+        this.storage.getUserDao().save(newUser);
+
     }
-    
+
+    private RoleEnum getRole(String role) {
+
+        //determine role the the user
+        if (((RadioButton) userType.getSelectedToggle()).getText().equalsIgnoreCase(RoleEnum.Patient.toString())) {
+            return RoleEnum.Patient;
+        } else if (((RadioButton) userType.getSelectedToggle()).getText().equalsIgnoreCase(RoleEnum.Staff.toString())) {
+            return RoleEnum.Staff;
+        } else {
+            return RoleEnum.Unknown;
+        }
+    }
+
 }
