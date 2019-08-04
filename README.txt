@@ -27,7 +27,10 @@ David
     More specifically, in the performAuth() method.
         
 Jake
- - Modified the level of access to member fields of Treatment, Hospital, and Address classes.  Member fields were changed from the    default "package / protected" State to "private".
+ - Modified the level of access to member fields of Treatment, Hospital, and Address classes.  
+   Member fields were changed from the default "package / protected" State to "private".
+ - Broke up long ActionEvent methods into smaller, more accessible, chunks that can be re-used
+   to manipulate the data similarly for other ActionEvents.
 
 Dmitry
  -
