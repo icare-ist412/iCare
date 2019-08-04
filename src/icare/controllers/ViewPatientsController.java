@@ -256,8 +256,8 @@ public class ViewPatientsController implements Initializable {
     }
     
     public void userClickedTable(){
-        //viewMedicalBtn.setDisable(false); //uncomment for use-case-3
-        //appointmentsBtn.setDisable(false); //uncomment for use-case-4
+        viewMedicalBtn.setDisable(false); 
+        appointmentsBtn.setDisable(false); 
         immunizationsBtn.setDisable(false);
         
         try{

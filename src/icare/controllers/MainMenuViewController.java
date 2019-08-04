@@ -64,8 +64,6 @@ public class MainMenuViewController implements Initializable {
         staffPane.setVisible(false);
         patientPane.setVisible(false);
         
-        medRecordBtn.setDisable(true); //remove for use case 3
-        myAppointmentsBtn.setDisable(true); //remove for use case 4
         
     }    
     
