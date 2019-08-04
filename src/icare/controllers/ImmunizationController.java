@@ -121,7 +121,6 @@ public class ImmunizationController implements Initializable {
         
         this.warningsList.itemsProperty().bind(listProperty);
         
-        schedAppBtn.setDisable(true); //remove for use case 4
     }    
     
     public void initData(Storage storage, User currentUser, Patient selectedPatient){

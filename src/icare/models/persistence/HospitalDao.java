@@ -2,8 +2,6 @@ package icare.models.persistence;
 
 import icare.models.Address;
 import icare.models.Hospital;
-import icare.models.Storage;
-import icare.models.User;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;

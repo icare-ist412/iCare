@@ -5,13 +5,9 @@
  */
 package icare.models.persistence;
 
-import icare.models.Hospital;
 import icare.models.Patient;
 import icare.models.RoleEnum;
 import icare.models.Staff;
-import icare.models.Storage;
-import icare.models.Credential;
-        
 import icare.models.User;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -22,7 +18,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
