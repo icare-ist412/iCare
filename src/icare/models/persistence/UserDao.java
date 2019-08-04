@@ -62,7 +62,7 @@ public class UserDao implements CrudRepository<User, String> {
             userList = (ArrayList) in.readObject();
             in.close();
         } catch (IOException ex) {
-            System.out.println(sourceFile + " not found, creating.");
+            System.out.println(serFile + " not found, creating.");
         } catch (ClassNotFoundException ex) {
             ex.printStackTrace();
         }
@@ -73,7 +73,7 @@ public class UserDao implements CrudRepository<User, String> {
         FileOutputStream fos = null;
         ObjectOutputStream out = null;
         try {
-            fos = new FileOutputStream(sourceFile);
+            fos = new FileOutputStream(serFile);
             out = new ObjectOutputStream(fos);
             out.writeObject(userList);
             out.close();
@@ -159,6 +159,7 @@ public class UserDao implements CrudRepository<User, String> {
         int index = 0;
 
         try {
+            System.out.println(sourceFile);
             FileReader fileReader = new FileReader(sourceFile);
 
             BufferedReader bufferedReader = new BufferedReader(fileReader);
