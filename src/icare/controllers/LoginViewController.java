@@ -90,9 +90,9 @@ public class LoginViewController implements Initializable {
         String result;
         userID = userID.toLowerCase();
         
-        if(storage.doesUserExist(userID)){
+        if(storage.getUserDao().doesUserExist(userID)){
                 
-            this.currentUser = storage.getUser(userID);
+            this.currentUser = storage.getUserDao().findById(userID);
 
             if (this.currentUser.authenticate(userID, password)) {
 

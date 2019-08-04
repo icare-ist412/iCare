@@ -15,6 +15,7 @@ public class User implements Serializable {
     private Credential credential;
     private LocalDate birthdate;
     private String gender;
+    protected RoleEnum role;
     
     /**
      * Default constructor for this class
@@ -28,6 +29,7 @@ public class User implements Serializable {
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
+        this.role = RoleEnum.Unknown;
 
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         birthdate = LocalDate.parse(dobString, dateTimeFormatter);
@@ -54,9 +56,9 @@ public class User implements Serializable {
      *
      * @return A String representing the User's role
      */
-    public String getRoleType() {
-        String className = this.getClass().getSimpleName();
-        return className;
+    public RoleEnum getRoleType() {
+        //String className = this.getClass().getSimpleName();
+        return role;
     }
 
     /**

@@ -6,6 +6,7 @@
 package icare.controllers;
 
 import icare.models.Patient;
+import icare.models.RoleEnum;
 import icare.models.Storage;
 import icare.models.Treatment;
 import icare.models.User;
@@ -52,7 +53,7 @@ public class ViewEditController implements Initializable {
     private Patient selectedUser;
     private String selectedDisease;
     private Storage storage;
-    private String userType;
+    private RoleEnum userType;
     
     private Treatment selectedTreatment;
     @FXML
@@ -162,7 +163,7 @@ public class ViewEditController implements Initializable {
             this.selectedUser.setBirthdate(this.dobPicker.getValue());
             this.selectedUser.setInsuranceID(Long.valueOf(this.insuranceLbl.getText()));
             
-            storage.writeUserListFile();
+            storage.getUserDao().writeUserListFile();
             returnToViewPatients(event); 
         } else {
             this.warningLbl.setText(validateMedicalRecordInfo());
@@ -216,7 +217,7 @@ public class ViewEditController implements Initializable {
         FXMLLoader loader = new FXMLLoader();
         Scene scene = null;
         
-        if(userType.equals("Staff")){
+        if(userType==RoleEnum.Staff){
             
             loader.setLocation(getClass().getResource("/icare/views/ViewPatients.fxml"));
             Parent root = loader.load();

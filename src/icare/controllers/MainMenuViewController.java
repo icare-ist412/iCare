@@ -6,6 +6,7 @@
 package icare.controllers;
 
 import icare.models.Patient;
+import icare.models.RoleEnum;
 import icare.models.Storage;
 import icare.models.User;
 import java.io.IOException;
@@ -75,7 +76,7 @@ public class MainMenuViewController implements Initializable {
         this.storage = storage;
         this.currentUser = currentUser;
         
-        if(this.currentUser.getRoleType().equals("Staff")){
+        if(this.currentUser.getRoleType() == RoleEnum.Staff){
             this.addPatientBtn.setDisable(false);
             this.viewPatientsBtn.setDisable(false);
             staffPane.setVisible(true);
